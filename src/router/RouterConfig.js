@@ -6,7 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 // 订单
-import OrderScreen from '../order/Order';
+import OrderScreen from '../order/Index';
 
 // 我的  --------------------
 import MyScreen from '../my/My';
