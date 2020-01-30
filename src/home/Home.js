@@ -12,7 +12,7 @@ export default class Intergral extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={{fontSize: 18, color: '#bfbfbf'}}>home</Text>
+                <Text style={{fontSize: 18, color: '#bfbfbf'}}>首页</Text>
             </View>
         );
     }
