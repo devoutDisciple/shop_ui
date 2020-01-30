@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator iPhone 8",
+    "iphone": "react-native run-ios --simulator iPhone 11",
     "start": "react-native start",
     "test": "jest",
+    "postinstall": "jetifier -r",
     "lint": "eslint ."
   },
   "dependencies": {
