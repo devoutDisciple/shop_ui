@@ -95,6 +95,15 @@ const TabNavigator = createBottomTabNavigator(
 
 const finnalApp = createStackNavigator(
     {
+        // 设置金额页面
+        GoodsScreen: {
+            screen: GoodsScreen,
+            navigationOptions: {
+                headerShown: false,
+                headerBackTitle: '返回',
+                headerBackAllowFontScaling: false,
+            },
+        },
         // 首页
         HomeScreen: {
             screen: TabNavigator,
@@ -107,15 +116,6 @@ const finnalApp = createStackNavigator(
         // 二维码扫描页面
         ScanCameraScreen: {
             screen: ScanCameraScreen,
-            navigationOptions: {
-                headerShown: false,
-                headerBackTitle: '返回',
-                headerBackAllowFontScaling: false,
-            },
-        },
-        // 设置金额页面
-        GoodsScreen: {
-            screen: GoodsScreen,
             navigationOptions: {
                 headerShown: false,
                 headerBackTitle: '返回',

@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 // import Dialog from '../util/Dialog';
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         height: 40,
-        marginTop: 20,
+        marginTop: Platform.OS === 'android' ? 0 : 20,
     },
     header_back: {
         width: 50,
