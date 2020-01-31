@@ -10,9 +10,7 @@ export default class AllOrder extends React.Component {
     componentDidMount() {}
 
     // 点击去支付
-    async payOrder() {
-        console.log(123);
-    }
+    async payOrder() {}
 
     render() {
         const {title, imgUrl, time, address, goods, money} = this.props;
@@ -135,11 +133,11 @@ const styles = StyleSheet.create({
         width: 60,
         padding: 5,
         borderWidth: 1,
-        borderColor: '#2fc1ae',
+        borderColor: '#fb9dd0',
         alignItems: 'center',
         borderRadius: 5,
     },
     order_pay_font: {
-        color: '#2fc1ae',
+        color: '#fb9dd0',
     },
 });

@@ -4,16 +4,20 @@ import {Text, View} from 'react-native';
 import ScrollableTabView, {
     DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
-import Allorder from './AllOrder';
-import WatingOrder from './WatingOrder';
-import ProcessOrder from './ProcessOrder';
-import EvaluateOrder from './EvaluateOrder';
+// 未取件订单
+import WaitPickup from './WaitPickup';
+// 未派送订单
+import WaitSend from './WaitSend';
+// 客户未取件订单
+import WaitPesonPickup from './WaitPesonPickup';
+// 已完成订单
+import Complete from './Complete';
 
 export default class OrderScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPageIndex: 2,
+            currentPageIndex: 1,
         };
     }
 
@@ -42,21 +46,21 @@ export default class OrderScreen extends React.Component {
                             backgroundColor: '#fb9dd0',
                             borderRadius: 3,
                         }}
-                        initialPage={1}
+                        initialPage={0}
                         onChangeTab={this.changeTab.bind(this)}
                         renderTabBar={() => (
                             <DefaultTabBar containerWidth={100} />
                         )}>
-                        <Text style={{height: 0}} tabLabel="已完成" />
                         <Text style={{height: 0}} tabLabel="待取件" />
                         <Text style={{height: 0}} tabLabel="待派送" />
                         <Text style={{height: 0}} tabLabel="客户未取件" />
+                        <Text style={{height: 0}} tabLabel="已完成" />
                     </ScrollableTabView>
                 </View>
-                {currentPageIndex === 1 && <Allorder />}
-                {currentPageIndex === 2 && <WatingOrder />}
-                {currentPageIndex === 3 && <ProcessOrder />}
-                {currentPageIndex === 4 && <EvaluateOrder />}
+                {currentPageIndex === 1 && <WaitPickup />}
+                {currentPageIndex === 2 && <WaitSend />}
+                {currentPageIndex === 3 && <WaitPesonPickup />}
+                {currentPageIndex === 4 && <Complete />}
             </View>
         );
     }
