@@ -5594,6 +5594,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
+react-native-camera@^3.16.0:
+  version "3.16.0"
+  resolved "https://registry.npm.taobao.org/react-native-camera/download/react-native-camera-3.16.0.tgz#3c98876a282793f6543cd93a7e368bdc05916e8a"
+  integrity sha1-PJiHaignk/ZUPNk6fjaL3AWRboo=
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-elements@^1.2.7:
   version "1.2.7"
   resolved "https://registry.npm.taobao.org/react-native-elements/download/react-native-elements-1.2.7.tgz#1eca2db715c41722aeb67aea62bd2a4621adb134"
@@ -5617,6 +5624,11 @@ react-native-gesture-handler@^1.5.3:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-image-picker@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npm.taobao.org/react-native-image-picker/download/react-native-image-picker-2.2.1.tgz?cache=0&sync_timestamp=1580193813739&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-image-picker%2Fdownload%2Freact-native-image-picker-2.2.1.tgz#0d8551e171338c1f79c0950112c82ced86c664a6"
+  integrity sha1-DYVR4XEzjB95wJUBEsgs7YbGZKY=
 
 react-native-picker@^4.3.7:
   version "4.3.7"

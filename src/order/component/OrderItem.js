@@ -10,7 +10,10 @@ export default class AllOrder extends React.Component {
     componentDidMount() {}
 
     // 点击去支付
-    async payOrder() {}
+    async payOrder() {
+        let {navigation} = this.props;
+        navigation.navigate('ScanCameraScreen');
+    }
 
     // 点击设置金额
     onSetMoney() {

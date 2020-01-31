@@ -3,9 +3,10 @@
 import React from 'react';
 import message from '../util/message';
 import {RNCamera} from 'react-native-camera';
+import CommonHeader from '../component/CommonHeader';
 import {StyleSheet, Text, View, Easing, Animated} from 'react-native';
 
-class ScanScreen extends React.Component {
+export default class ScanCameraScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,8 +41,10 @@ class ScanScreen extends React.Component {
     }
 
     render() {
+        const {navigation} = this.props;
         return (
             <View style={styles.container}>
+                <CommonHeader title="扫码开门" navigation={navigation} />
                 <RNCamera
                     ref={ref => {
                         this.camera = ref;
@@ -72,12 +75,10 @@ class ScanScreen extends React.Component {
     }
 }
 
-export default ScanScreen;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
     },
     preview: {
         flex: 1,

@@ -14,6 +14,9 @@ import MyScreen from '../my/My';
 // 设置商品金额页面
 import GoodsScreen from '../goods/Goods';
 
+// 二维码扫描页面
+import ScanCameraScreen from '../scanCamera/ScanCamera';
+
 import TabBarItem from './TabBarItem';
 
 // 订单页面
@@ -95,6 +98,15 @@ const finnalApp = createStackNavigator(
         // 首页
         HomeScreen: {
             screen: TabNavigator,
+            navigationOptions: {
+                headerShown: false,
+                headerBackTitle: '返回',
+                headerBackAllowFontScaling: false,
+            },
+        },
+        // 二维码扫描页面
+        ScanCameraScreen: {
+            screen: ScanCameraScreen,
             navigationOptions: {
                 headerShown: false,
                 headerBackTitle: '返回',
