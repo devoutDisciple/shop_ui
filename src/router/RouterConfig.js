@@ -34,6 +34,9 @@ const MyContainer = createStackNavigator(
     {
         MyScreen: {
             screen: MyScreen,
+            navigationOptions: {
+                headerShown: false,
+            },
         },
     },
     {

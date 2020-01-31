@@ -11,13 +11,13 @@ export default class AllOrder extends React.Component {
         this.state = {
             data: [
                 {
-                    id: 'hello',
+                    id: '1111',
                 },
                 {
-                    id: 'world',
+                    id: '2222',
                 },
                 {
-                    id: 'fuck',
+                    id: '3333',
                 },
             ],
             headerLoading: false, // 头部的loading是否显示
@@ -61,6 +61,7 @@ export default class AllOrder extends React.Component {
 
     render() {
         let {data, headerLoading, footerStatus} = this.state;
+        let {type} = this.props;
         return (
             <View style={styles.order_container}>
                 <FlatList
@@ -73,6 +74,7 @@ export default class AllOrder extends React.Component {
                     ListFooterComponent={<FooterScreen status={footerStatus} />}
                     renderItem={({item}) => (
                         <OrderItem
+                            type={type}
                             title={`西溪水岸北二门二号丰巢柜子 ${item.id}`}
                             imgUrl={require('../../img/public/3-express.jpg')}
                             address="西溪水岸北二门二号丰巢柜子西溪水岸北二门二号丰巢柜"

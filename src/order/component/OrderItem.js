@@ -13,7 +13,8 @@ export default class AllOrder extends React.Component {
     async payOrder() {}
 
     render() {
-        const {title, imgUrl, time, address, goods, money} = this.props;
+        const {title, imgUrl, time, address, goods, money, type} = this.props;
+        // type 1-代取件 2-待派送 3-客户未取件 4-已完成
         return (
             <View style={styles.order_item}>
                 <View style={styles.order_item_left}>
@@ -38,21 +39,58 @@ export default class AllOrder extends React.Component {
                             取货地点：{address}
                         </Text>
                     </View>
-                    <View style={styles.order_item_right_goods}>
-                        <View style={styles.order_item_right_goods_left}>
-                            <Text style={styles.font_desc_style}>{goods}</Text>
+                    {type === 3 || type === 4 ? (
+                        <View style={styles.order_item_right_goods}>
+                            <View style={styles.order_item_right_goods_left}>
+                                <Text style={styles.font_desc_style}>
+                                    {goods}
+                                </Text>
+                            </View>
+                            <View style={styles.order_item_right_goods_right}>
+                                <Text style={styles.font_desc_style}>
+                                    ￥ {money}
+                                </Text>
+                            </View>
                         </View>
-                        <View style={styles.order_item_right_goods_right}>
-                            <Text style={styles.font_desc_style}>
-                                ￥ {money}
-                            </Text>
-                        </View>
-                    </View>
+                    ) : (
+                        <View style={styles.order_item_right_goods} />
+                    )}
+
                     <View style={styles.order_item_right_bottom}>
+                        {/* 待取件 */}
+                        {type === 1 ? (
+                            <TouchableOpacity
+                                onPress={this.payOrder.bind(this)}
+                                style={styles.order_item_right_bottom_btn}>
+                                <Text style={styles.order_pay_font}>
+                                    扫码取件
+                                </Text>
+                            </TouchableOpacity>
+                        ) : null}
+                        {/* 待派送 */}
+                        {type === 2 ? (
+                            <TouchableOpacity
+                                onPress={this.payOrder.bind(this)}
+                                style={styles.order_item_right_bottom_btn}>
+                                <Text style={styles.order_pay_font}>
+                                    设置金额
+                                </Text>
+                            </TouchableOpacity>
+                        ) : null}
+                        {type === 2 ? (
+                            <TouchableOpacity
+                                onPress={this.payOrder.bind(this)}
+                                style={styles.order_item_right_bottom_btn}>
+                                <Text style={styles.order_pay_font}>
+                                    扫码开门
+                                </Text>
+                            </TouchableOpacity>
+                        ) : null}
+
                         <TouchableOpacity
                             onPress={this.payOrder.bind(this)}
                             style={styles.order_item_right_bottom_btn}>
-                            <Text style={styles.order_pay_font}>去支付</Text>
+                            <Text style={styles.order_pay_font}>联系客户</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -116,6 +154,7 @@ const styles = StyleSheet.create({
     },
     order_item_right_goods: {
         flexDirection: 'row',
+        height: 20,
     },
     order_item_right_goods_left: {
         flex: 1,
@@ -126,12 +165,14 @@ const styles = StyleSheet.create({
     },
     order_item_right_bottom: {
         height: 50,
+        flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
     },
     order_item_right_bottom_btn: {
-        width: 60,
+        width: 70,
         padding: 5,
+        marginLeft: 10,
         borderWidth: 1,
         borderColor: '#fb9dd0',
         alignItems: 'center',
