@@ -12,6 +12,12 @@ export default class AllOrder extends React.Component {
     // 点击去支付
     async payOrder() {}
 
+    // 点击设置金额
+    onSetMoney() {
+        let {navigation} = this.props;
+        navigation.navigate('GoodsScreen');
+    }
+
     render() {
         const {title, imgUrl, time, address, goods, money, type} = this.props;
         // type 1-代取件 2-待派送 3-客户未取件 4-已完成
@@ -70,7 +76,7 @@ export default class AllOrder extends React.Component {
                         {/* 待派送 */}
                         {type === 2 ? (
                             <TouchableOpacity
-                                onPress={this.payOrder.bind(this)}
+                                onPress={this.onSetMoney.bind(this)}
                                 style={styles.order_item_right_bottom_btn}>
                                 <Text style={styles.order_pay_font}>
                                     设置金额

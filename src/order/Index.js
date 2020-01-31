@@ -31,6 +31,7 @@ export default class OrderScreen extends React.Component {
     }
 
     render() {
+        const {navigation} = this.props;
         let {currentPageIndex} = this.state;
         return (
             <View style={{flex: 1}}>
@@ -57,10 +58,18 @@ export default class OrderScreen extends React.Component {
                         <Text style={{height: 0}} tabLabel="已完成" />
                     </ScrollableTabView>
                 </View>
-                {currentPageIndex === 1 && <WaitPickup type={1} />}
-                {currentPageIndex === 2 && <WaitSend type={2} />}
-                {currentPageIndex === 3 && <WaitPesonPickup type={3} />}
-                {currentPageIndex === 4 && <Complete type={4} />}
+                {currentPageIndex === 1 && (
+                    <WaitPickup navigation={navigation} type={1} />
+                )}
+                {currentPageIndex === 2 && (
+                    <WaitSend navigation={navigation} type={2} />
+                )}
+                {currentPageIndex === 3 && (
+                    <WaitPesonPickup navigation={navigation} type={3} />
+                )}
+                {currentPageIndex === 4 && (
+                    <Complete navigation={navigation} type={4} />
+                )}
             </View>
         );
     }

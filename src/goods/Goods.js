@@ -1,8 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import CommonHeader from '../component/CommonHeader';
 
-export default class Intergral extends React.Component {
+export default class Goods extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -10,9 +11,11 @@ export default class Intergral extends React.Component {
     componentDidMount() {}
 
     render() {
+        const {navigation} = this.props;
         return (
             <View style={styles.container}>
-                <Text style={{fontSize: 18, color: '#bfbfbf'}}>首页</Text>
+                <CommonHeader title="设置订单金额" navigation={navigation} />
+                <Text style={{fontSize: 18, color: '#bfbfbf'}}>商品页面</Text>
             </View>
         );
     }

@@ -28,37 +28,17 @@ export default class MyScreen extends React.Component {
                 </View>
                 <View style={styles.my_header_message}>
                     <View style={styles.my_header_message_name}>
-                        <View style={styles.my_header_message_name_left}>
-                            <Text
-                                style={styles.my_header_message_name_left_text}>
-                                张振
-                            </Text>
-                        </View>
-                        <View style={styles.my_header_message_name_right}>
-                            <TouchableOpacity
-                                onPress={this.editBtnClick.bind(this)}>
-                                <Icon
-                                    style={{
-                                        width: 20,
-                                        marginTop: 3,
-                                    }}
-                                    name="edit"
-                                    size={14}
-                                    color="#49bb6d"
-                                />
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={styles.my_header_message_name_left_text}>
+                            广州市洗衣店
+                        </Text>
                     </View>
                     <View style={styles.my_header_message_member}>
-                        <View style={styles.my_header_message_member_icon}>
-                            <Image
-                                style={{width: 20, height: 20}}
-                                source={require('../../img/public/member.png')}
-                            />
-                        </View>
-                        <View style={styles.my_header_message_member_text}>
-                            <Text style={{color: '#fff'}}>普通用户</Text>
-                        </View>
+                        <Text style={styles.my_header_message_member_text}>
+                            角色:{'  '}
+                        </Text>
+                        <Text style={styles.my_header_message_member_text}>
+                            店员
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -87,13 +67,8 @@ const styles = StyleSheet.create({
     my_header_message_name: {
         height: 40,
         paddingHorizontal: 20,
-        justifyContent: 'center',
         flexDirection: 'row',
-    },
-    my_header_message_name_left: {
-        minWidth: 20,
-        maxWidth: 200,
-        justifyContent: 'center',
+        alignItems: 'center',
     },
     my_header_message_name_left_text: {
         fontSize: 16,
@@ -106,19 +81,15 @@ const styles = StyleSheet.create({
     },
     my_header_message_member: {
         height: 30,
-        width: 110,
         paddingHorizontal: 9,
-        backgroundColor: '#49bb6d',
+        backgroundColor: '#fb9dd0',
         marginLeft: 11,
         flexDirection: 'row',
         borderRadius: 20,
-    },
-    my_header_message_member_icon: {
-        width: 30,
-        justifyContent: 'center',
+        alignItems: 'center',
     },
     my_header_message_member_text: {
-        width: 80,
-        justifyContent: 'center',
+        fontSize: 13,
+        color: '#fff',
     },
 });

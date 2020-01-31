@@ -61,7 +61,7 @@ export default class AllOrder extends React.Component {
 
     render() {
         let {data, headerLoading, footerStatus} = this.state;
-        let {type} = this.props;
+        let {type, navigation} = this.props;
         return (
             <View style={styles.order_container}>
                 <FlatList
@@ -75,6 +75,7 @@ export default class AllOrder extends React.Component {
                     renderItem={({item}) => (
                         <OrderItem
                             type={type}
+                            navigation={navigation}
                             title={`西溪水岸北二门二号丰巢柜子 ${item.id}`}
                             imgUrl={require('../../img/public/3-express.jpg')}
                             address="西溪水岸北二门二号丰巢柜子西溪水岸北二门二号丰巢柜"
