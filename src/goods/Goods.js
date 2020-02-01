@@ -3,11 +3,12 @@ import React from 'react';
 import {
     Text,
     View,
-    Image,
     StyleSheet,
     ScrollView,
+    TextInput,
     Dimensions,
 } from 'react-native';
+import GoodsItem from './GoodsItem';
 import CommonHeader from '../component/CommonHeader';
 
 const {width} = Dimensions.get('window');
@@ -16,11 +17,14 @@ export default class Goods extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 3, 1, 2, 3, 4],
+            data: [1],
+            value: '0',
         };
     }
 
     componentDidMount() {}
+
+    onChangeText() {}
 
     render() {
         const {navigation} = this.props;
@@ -36,40 +40,46 @@ export default class Goods extends React.Component {
                         {data &&
                             data.map((item, index) => {
                                 return (
-                                    <View
+                                    <GoodsItem
                                         key={index}
-                                        style={styles.content_clothing_item}>
-                                        <Image
-                                            style={
-                                                styles.content_clothing_item_img
-                                            }
-                                            source={require('../../img/lunbo/2.jpg')}
-                                        />
-                                        <View
-                                            style={
-                                                styles.content_clothing_item_title
-                                            }>
-                                            <Text
-                                                style={
-                                                    styles.content_clothing_item_title_text
-                                                }>
-                                                羽绒服羽绒服羽
-                                            </Text>
-                                        </View>
-                                        <View
-                                            style={
-                                                styles.content_clothing_item_money
-                                            }>
-                                            <Text
-                                                style={
-                                                    styles.content_clothing_item_money_text
-                                                }>
-                                                ￥ {index}
-                                            </Text>
-                                        </View>
-                                    </View>
+                                        num={8}
+                                        price={36}
+                                        name="羽绒服"
+                                        source={require('../../img/lunbo/3.jpg')}
+                                    />
                                 );
                             })}
+                    </View>
+                    <View style={styles.content_title}>
+                        <Text>运费设置</Text>
+                    </View>
+                    <View style={styles.content_input}>
+                        <TextInput
+                            style={styles.message_edit_input}
+                            onChangeText={this.onChangeText.bind(this)}
+                            defaultValue={this.state.value}
+                            autoComplete="off"
+                            selectionColor="#fb9bcd"
+                            keyboardType="numeric"
+                            maxLength={12}
+                            placeholder="请输入"
+                            placeholderTextColor="#bfbfbf"
+                        />
+                    </View>
+                    <View style={styles.content_title}>
+                        <Text>备注信息</Text>
+                    </View>
+                    <View style={styles.content_input}>
+                        <TextInput
+                            style={styles.message_edit_input}
+                            onChangeText={this.onChangeText.bind(this)}
+                            autoComplete="off"
+                            selectionColor="#fb9bcd"
+                            keyboardType="numeric"
+                            maxLength={12}
+                            placeholder="请输入"
+                            placeholderTextColor="#bfbfbf"
+                        />
                     </View>
                 </ScrollView>
                 <View style={styles.footer}>
@@ -82,7 +92,7 @@ export default class Goods extends React.Component {
 
                         <View style={styles.footer_right_content}>
                             <Text style={styles.footer_right_content_text}>
-                                200
+                                288
                             </Text>
                         </View>
                     </View>
@@ -106,54 +116,34 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     content_title: {
-        // backgroundColor: 'red',
         height: 20,
         justifyContent: 'center',
         paddingLeft: 10,
         borderLeftColor: '#fb9dd0',
         borderLeftWidth: 3,
     },
-
     content_clothing: {
-        // backgroundColor: 'red',
         marginTop: 10,
         flexDirection: 'row',
         flexWrap: 'wrap',
         borderColor: '#dbdbdb',
         borderLeftWidth: 0.5,
         borderTopWidth: 0.5,
+        marginBottom: 20,
     },
-    content_clothing_item: {
-        height: width / 3 + 50,
-        width: width / 3 - 7,
+    message_edit_input: {
+        height: 40,
+        width: width - 20,
+        fontSize: 16,
+        backgroundColor: '#fff',
+        paddingHorizontal: 10,
+        borderColor: '#cdcdcd',
         borderWidth: 0.5,
-        borderColor: '#dbdbdb',
-        borderLeftWidth: 0,
-        borderTopWidth: 0,
+        borderRadius: 5,
     },
-    content_clothing_item_img: {
-        width: width / 3 - 7,
-        height: width / 3 - 7,
+    content_input: {
+        marginVertical: 20,
     },
-    content_clothing_item_title: {
-        justifyContent: 'center',
-        // paddingLeft: 5,
-        margin: 5,
-    },
-    content_clothing_item_title_text: {
-        fontSize: 12,
-        color: '#333',
-    },
-    content_clothing_item_money: {
-        height: 20,
-        justifyContent: 'center',
-        paddingLeft: 5,
-    },
-    content_clothing_item_money_text: {
-        fontSize: 14,
-        color: '#8a8a8a',
-    },
-
     footer: {
         height: 50,
         flexDirection: 'row',
