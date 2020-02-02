@@ -50,20 +50,6 @@ const MyContainer = createStackNavigator(
 
 const TabNavigator = createBottomTabNavigator(
     {
-        My: {
-            screen: MyContainer,
-            navigationOptions: {
-                title: 'My',
-                tabBarLabel: '我的',
-                tabBarIcon: ({focused, tintColor}) => (
-                    <TabBarItem
-                        focused={focused}
-                        normalImage={require('../../img/tabbar/tabbar_mine.png')}
-                        selectedImage={require('../../img/tabbar/tabbar_mine_selected.png')}
-                    />
-                ),
-            },
-        },
         Order: {
             screen: OrderContainer,
             navigationOptions: {
@@ -78,9 +64,23 @@ const TabNavigator = createBottomTabNavigator(
                 ),
             },
         },
+        My: {
+            screen: MyContainer,
+            navigationOptions: {
+                title: 'My',
+                tabBarLabel: '我的',
+                tabBarIcon: ({focused, tintColor}) => (
+                    <TabBarItem
+                        focused={focused}
+                        normalImage={require('../../img/tabbar/tabbar_mine.png')}
+                        selectedImage={require('../../img/tabbar/tabbar_mine_selected.png')}
+                    />
+                ),
+            },
+        },
     },
     {
-        initialRouteName: 'Order', // 第一次加载tab bar时路由的routeName
+        initialRouteName: 'My', // 第一次加载tab bar时路由的routeName
         tabBarOptions: {
             activeTintColor: '#fb9dd0', //当前选中的tab bar的文本颜色和图标颜色
             inactiveTintColor: '#8a8a8a', // 当前未选中的tab bar的文本颜色和图标颜色

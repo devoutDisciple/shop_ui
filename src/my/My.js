@@ -10,9 +10,9 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
-    PushNotificationIOS,
+    Platform,
 } from 'react-native';
-// import NotifService from './NotifService';
+import NotifService from '../notifService/index';
 
 export default class MyScreen extends React.Component {
     static navigationOptions = ({navigation, navigationOptions}) => {
@@ -43,21 +43,7 @@ export default class MyScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        // this.notif = new NotifService(
-        //     this.onRegister.bind(this),
-        //     this.onNotif.bind(this),
-        // );
-    }
-
-    onRegister(token) {
-        Alert.alert('Registered !', JSON.stringify(token));
-        console.log(token);
-        this.setState({registerToken: token.token, gcmRegistered: true});
-    }
-
-    onNotif(notif) {
-        console.log(notif);
-        Alert.alert(notif.title, notif.message);
+        this.notif = new NotifService();
     }
 
     componentDidMount() {
@@ -78,16 +64,8 @@ export default class MyScreen extends React.Component {
     }
 
     // 点击销售统计
-    onMyAddressClick() {
-        // this.notif.localNotif();
-        PushNotificationIOS.presentLocalNotification({
-            alertBody: '您的会员已经到期',
-            alertAction: 'alertAction',
-            alertTitle: 'moving健身店',
-            soundName: 'soundName',
-            category: 'category',
-            applicationIconBadgeNumber: 1,
-        });
+    sendLocalMessage() {
+        this.notif.localNotif('moving洗衣店', '消息通知内容');
     }
 
     render() {
@@ -95,10 +73,11 @@ export default class MyScreen extends React.Component {
             <ScrollView style={styles.container}>
                 <My_Header navigation={this.props.navigation} />
                 <My_Wallert navigation={this.props.navigation} />
+                <ListItem iconName="creditcard" text="销售额统计" />
                 <ListItem
                     iconName="creditcard"
-                    text="销售额统计"
-                    onPress={this.onMyAddressClick.bind(this)}
+                    text="发送消息通知"
+                    onPress={this.sendLocalMessage.bind(this)}
                 />
                 <ListItem iconName="creditcard" text="销售量统计" />
                 <ListItem iconName="creditcard" text="会员消费报表" />
