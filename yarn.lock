@@ -1044,6 +1044,13 @@
   resolved "https://registry.npm.taobao.org/@react-native-community/masked-view/download/@react-native-community/masked-view-0.1.6.tgz#c7f2ac187c1f25aa8c30d11baa8f4398eca3bb84"
   integrity sha1-x/KsGHwfJaqMMNEbqo9DmOyju4Q=
 
+"@react-native-community/push-notification-ios@^1.0.1":
+  version "1.0.5"
+  resolved "https://registry.npm.taobao.org/@react-native-community/push-notification-ios/download/@react-native-community/push-notification-ios-1.0.5.tgz#3ad68ea6612875db5c3934dfdc865ebe51606ef3"
+  integrity sha1-OtaOpmEoddtcOTTf3IZevlFgbvM=
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/viewpager@^2.0.1":
   version "2.0.2"
   resolved "https://registry.npm.taobao.org/@react-native-community/viewpager/download/@react-native-community/viewpager-2.0.2.tgz#622b190294b1310c4825c98daeaee1c8443f7124"
@@ -1289,6 +1296,11 @@ acorn@^7.1.0:
   version "7.1.0"
   resolved "https://registry.npm.taobao.org/acorn/download/acorn-7.1.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Facorn%2Fdownload%2Facorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
   integrity sha1-lJ028sKSU12mAig1hsJHfFfrLWw=
+
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npm.taobao.org/add/download/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha1-JI8Kn25aUo7yKV2+7DBTITCuIjU=
 
 ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
   version "6.11.0"
@@ -5630,10 +5642,22 @@ react-native-image-picker@^2.2.1:
   resolved "https://registry.npm.taobao.org/react-native-image-picker/download/react-native-image-picker-2.2.1.tgz?cache=0&sync_timestamp=1580193813739&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-image-picker%2Fdownload%2Freact-native-image-picker-2.2.1.tgz#0d8551e171338c1f79c0950112c82ced86c664a6"
   integrity sha1-DYVR4XEzjB95wJUBEsgs7YbGZKY=
 
+react-native-maps@0.26.1:
+  version "0.26.1"
+  resolved "https://registry.npm.taobao.org/react-native-maps/download/react-native-maps-0.26.1.tgz#6ec316259b38d259c8974448d894bd7a23101da4"
+  integrity sha1-bsMWJZs40lnIl0RI2JS9eiMQHaQ=
+
 react-native-picker@^4.3.7:
   version "4.3.7"
   resolved "https://registry.npm.taobao.org/react-native-picker/download/react-native-picker-4.3.7.tgz#9842e8c62ff0d8b676e9514d9f9172413c0518a8"
   integrity sha1-mELoxi/w2LZ26VFNn5FyQTwFGKg=
+
+react-native-push-notification@^3.1.9:
+  version "3.1.9"
+  resolved "https://registry.npm.taobao.org/react-native-push-notification/download/react-native-push-notification-3.1.9.tgz#760ee06e743fef74fc9fcb672dac40794fdc4c47"
+  integrity sha1-dg7gbnQ/73T8n8tnLaxAeU/cTEc=
+  dependencies:
+    "@react-native-community/push-notification-ios" "^1.0.1"
 
 react-native-ratings@^6.3.0:
   version "6.5.0"
@@ -7364,3 +7388,8 @@ yargs@^9.0.0:
     which-module "^2.0.0"
     y18n "^3.2.1"
     yargs-parser "^7.0.0"
+
+yarn@^1.21.1:
+  version "1.21.1"
+  resolved "https://registry.npm.taobao.org/yarn/download/yarn-1.21.1.tgz#1d5da01a9a03492dc4a5957befc1fd12da83d89c"
+  integrity sha1-HV2gGpoDSS3EpZV778H9EtqD2Jw=

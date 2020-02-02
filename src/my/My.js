@@ -5,7 +5,14 @@ import My_Header from './Header';
 import My_Wallert from './Wallet';
 import ListItem from './ListItem';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {StyleSheet, TouchableOpacity, ScrollView, View} from 'react-native';
+import {
+    StyleSheet,
+    TouchableOpacity,
+    ScrollView,
+    Alert,
+    PushNotificationIOS,
+} from 'react-native';
+// import NotifService from './NotifService';
 
 export default class MyScreen extends React.Component {
     static navigationOptions = ({navigation, navigationOptions}) => {
@@ -36,6 +43,21 @@ export default class MyScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        // this.notif = new NotifService(
+        //     this.onRegister.bind(this),
+        //     this.onNotif.bind(this),
+        // );
+    }
+
+    onRegister(token) {
+        Alert.alert('Registered !', JSON.stringify(token));
+        console.log(token);
+        this.setState({registerToken: token.token, gcmRegistered: true});
+    }
+
+    onNotif(notif) {
+        console.log(notif);
+        Alert.alert(notif.title, notif.message);
     }
 
     componentDidMount() {
@@ -55,14 +77,17 @@ export default class MyScreen extends React.Component {
         this.props.navigation.navigate('LoginScreen');
     }
 
-    // 点击注册
-    onRegister() {
-        this.props.navigation.navigate('ResgisterScreen');
-    }
-
-    // 点击我的地址
+    // 点击销售统计
     onMyAddressClick() {
-        this.props.navigation.navigate('AddressScreen');
+        // this.notif.localNotif();
+        PushNotificationIOS.presentLocalNotification({
+            alertBody: '您的会员已经到期',
+            alertAction: 'alertAction',
+            alertTitle: 'moving健身店',
+            soundName: 'soundName',
+            category: 'category',
+            applicationIconBadgeNumber: 1,
+        });
     }
 
     render() {

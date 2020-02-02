@@ -95,18 +95,18 @@ const TabNavigator = createBottomTabNavigator(
 
 const finnalApp = createStackNavigator(
     {
-        // 设置金额页面
-        GoodsScreen: {
-            screen: GoodsScreen,
+        // 首页
+        HomeScreen: {
+            screen: TabNavigator,
             navigationOptions: {
                 headerShown: false,
                 headerBackTitle: '返回',
                 headerBackAllowFontScaling: false,
             },
         },
-        // 首页
-        HomeScreen: {
-            screen: TabNavigator,
+        // 设置金额页面
+        GoodsScreen: {
+            screen: GoodsScreen,
             navigationOptions: {
                 headerShown: false,
                 headerBackTitle: '返回',
