@@ -1,6 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+    Text,
+    View,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    Linking,
+} from 'react-native';
+import Message from '../../util/message';
 
 export default class AllOrder extends React.Component {
     constructor(props) {
@@ -19,6 +27,20 @@ export default class AllOrder extends React.Component {
     onSetMoney() {
         let {navigation} = this.props;
         navigation.navigate('GoodsScreen');
+    }
+
+    // 点击联系客户
+    onConcatUser() {
+        let tel = 'tel:1008611'; // 目标电话
+        Linking.canOpenURL(tel)
+            .then(supported => {
+                if (!supported) {
+                    Message.warning('用户手机号', '110');
+                } else {
+                    return Linking.openURL(tel);
+                }
+            })
+            .catch(error => console.log('tel error', error));
     }
 
     render() {
@@ -97,7 +119,7 @@ export default class AllOrder extends React.Component {
                         ) : null}
 
                         <TouchableOpacity
-                            onPress={this.payOrder.bind(this)}
+                            onPress={this.onConcatUser.bind(this)}
                             style={styles.order_item_right_bottom_btn}>
                             <Text style={styles.order_pay_font}>联系客户</Text>
                         </TouchableOpacity>
