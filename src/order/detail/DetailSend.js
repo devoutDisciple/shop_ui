@@ -48,6 +48,22 @@ export default class OrderScreen extends React.Component {
                             182110110110
                         </Text>
                     </View>
+                    <View style={styles.detail_send_content_item}>
+                        <Text style={styles.detail_send_content_item_label}>
+                            店铺名称:{' '}
+                        </Text>
+                        <Text style={styles.detail_send_content_item_text}>
+                            moving洗衣店
+                        </Text>
+                    </View>
+                    <View style={styles.detail_send_content_item}>
+                        <Text style={styles.detail_send_content_item_label}>
+                            店铺地址:{' '}
+                        </Text>
+                        <Text style={styles.detail_send_content_item_text}>
+                            广州市中山区405国道
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
