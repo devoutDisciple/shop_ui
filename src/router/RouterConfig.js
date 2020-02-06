@@ -20,6 +20,9 @@ import ScanCameraScreen from '../scanCamera/ScanCamera';
 // 订单详情页面
 import OrderDetailScreen from '../order/detail/Detail';
 
+// 选择柜子界面
+import CabinetScreen from '../order/Cabinet/Cabinet';
+
 import TabBarItem from './TabBarItem';
 
 // 订单页面
@@ -98,9 +101,9 @@ const TabNavigator = createBottomTabNavigator(
 
 const finnalApp = createStackNavigator(
     {
-        // 订单详情页面
-        OrderDetailScreen: {
-            screen: OrderDetailScreen,
+        // 选择快递柜子页面
+        CabinetScreen: {
+            screen: CabinetScreen,
             navigationOptions: {
                 headerShown: false,
                 headerBackTitle: '返回',
@@ -110,6 +113,15 @@ const finnalApp = createStackNavigator(
         // 首页
         HomeScreen: {
             screen: TabNavigator,
+            navigationOptions: {
+                headerShown: false,
+                headerBackTitle: '返回',
+                headerBackAllowFontScaling: false,
+            },
+        },
+        // 订单详情页面
+        OrderDetailScreen: {
+            screen: OrderDetailScreen,
             navigationOptions: {
                 headerShown: false,
                 headerBackTitle: '返回',
