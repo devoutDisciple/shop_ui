@@ -78,6 +78,27 @@ export default class OrderScreen extends React.Component {
                             })}
                         </View>
                     </View>
+                    <View style={styles.cabinet_item}>
+                        <View style={styles.detail_common_title}>
+                            <Text>幸福家园北门二号柜</Text>
+                        </View>
+                        <View style={styles.cabinet_item_content}>
+                            {expressList.map((item, index) => {
+                                return (
+                                    <CabinetItem
+                                        key={index}
+                                        id={item.id}
+                                        onPress={this.onPress.bind(this)}
+                                        title={item.title}
+                                        active={active === item.id}
+                                        source={item.normalImg}
+                                        acitveSource={item.activeImg}
+                                        desc={item.desc}
+                                    />
+                                );
+                            })}
+                        </View>
+                    </View>
                 </ScrollView>
                 <View style={styles.cabinet_item_bottom}>
                     <Text style={styles.cabinet_item_bottom_text}>
@@ -108,6 +129,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 0.5,
         borderColor: '#dbdbdb',
+        marginBottom: 10,
     },
     cabinet_item_content: {
         flexDirection: 'row',
