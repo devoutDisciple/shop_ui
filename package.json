@@ -9,7 +9,8 @@
     "start": "react-native start",
     "test": "jest",
     "postinstall": "jetifier -r",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output shop_release_ios/main.jsbundle --assets-dest shop_release_ios/"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.6",
@@ -33,8 +34,7 @@
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.1.0",
     "react-navigation-stack": "^1.10.3",
-    "react-navigation-tabs": "^2.6.0",
-    "yarn": "^1.21.1"
+    "react-navigation-tabs": "^2.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
@@ -45,7 +45,8 @@
     "jest": "^25.1.0",
     "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "^0.58.0",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "16.9.0",
+    "yarn": "^1.21.1"
   },
   "jest": {
     "preset": "react-native"

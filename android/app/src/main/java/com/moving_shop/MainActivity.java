@@ -1,4 +1,4 @@
-package com.moving_shop;
+package com.moving.dry.shop.cleaner;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

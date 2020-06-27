@@ -1,4 +1,4 @@
-package com.moving_shop;
+package com.moving.dry.shop.cleaner;
 
 import android.app.Application;
 import android.content.Context;

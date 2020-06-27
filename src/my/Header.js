@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, Image} from 'react-native';
 
 export default class MyScreen extends React.Component {
     constructor(props) {

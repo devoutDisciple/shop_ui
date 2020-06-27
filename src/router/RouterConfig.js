@@ -5,17 +5,20 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
+// 首页
+import HomeScreen from '../home/index';
+
 // 订单
 import OrderScreen from '../order/Index';
 
 // 我的  --------------------
 import MyScreen from '../my/My';
 
-// 设置商品金额页面
-import GoodsScreen from '../goods/Goods';
-
 // 二维码扫描页面
 import ScanCameraScreen from '../scanCamera/ScanCamera';
+
+// 设置商品金额页面
+import GoodsScreen from '../goods/Goods';
 
 // 订单详情页面
 import OrderDetailScreen from '../order/detail/Detail';
@@ -103,6 +106,16 @@ const finnalApp = createStackNavigator(
     {
         // 首页
         HomeScreen: {
+            screen: HomeScreen,
+            navigationOptions: {
+                headerShown: false,
+                headerBackTitle: '返回',
+                headerBackAllowFontScaling: false,
+            },
+        },
+
+        // 订单页面
+        OrderScreen: {
             screen: TabNavigator,
             navigationOptions: {
                 headerShown: false,

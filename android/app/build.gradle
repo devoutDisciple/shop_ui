@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.moving_shop"
+        applicationId "com.moving.dry.shop.cleaner"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line

@@ -5,13 +5,7 @@ import My_Header from './Header';
 import My_Wallert from './Wallet';
 import ListItem from './ListItem';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {
-    StyleSheet,
-    TouchableOpacity,
-    ScrollView,
-    Alert,
-    Platform,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import NotifService from '../notifService/index';
 
 export default class MyScreen extends React.Component {
@@ -65,6 +59,7 @@ export default class MyScreen extends React.Component {
 
     // 点击销售统计
     sendLocalMessage() {
+        console.log(12311);
         this.notif.localNotif('moving洗衣店', '消息通知内容');
     }
 
