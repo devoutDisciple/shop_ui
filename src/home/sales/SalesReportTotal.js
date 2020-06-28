@@ -13,6 +13,7 @@ export default class MyScreen extends React.Component {
 	async componentDidMount() {}
 
 	render() {
+		let { orderTotalNum, orderTotalMoney } = this.props;
 		return (
 			<View style={styles.module_chunk}>
 				<View style={styles.detail_common_title}>
@@ -24,7 +25,7 @@ export default class MyScreen extends React.Component {
 							<Text style={styles.sales_chunk_title_text}>总销售额(元)</Text>
 						</View>
 						<View style={styles.sales_chunk_num}>
-							<Text style={styles.sales_chunk_num_text}>4000</Text>
+							<Text style={styles.sales_chunk_num_text}>{orderTotalMoney}</Text>
 						</View>
 					</View>
 					<View style={styles.sales_chunk2}>
@@ -32,7 +33,7 @@ export default class MyScreen extends React.Component {
 							<Text style={styles.sales_chunk_title_text}>总订单量(单)</Text>
 						</View>
 						<View style={styles.sales_chunk_num}>
-							<Text style={styles.sales_chunk_num_text}>20</Text>
+							<Text style={styles.sales_chunk_num_text}>{orderTotalNum}</Text>
 						</View>
 					</View>
 				</View>

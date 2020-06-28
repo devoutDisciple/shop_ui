@@ -16,38 +16,62 @@ export default class MyScreen extends React.Component {
 		this.state = {
 			loadingVisible: false,
 			shopDetail: {},
+			orderTotalNum: 0, // 订单总数量
+			orderTotalMoney: 0, // 订单总金额
 		};
 		this.onJudgeUserLogin = this.onJudgeUserLogin.bind(this);
 		this.getShopMessage = this.getShopMessage.bind(this);
+		this.onSearchShopSalesNum = this.onSearchShopSalesNum.bind(this);
+		this.onSearch = this.onSearch.bind(this);
 	}
 
 	async componentDidMount() {
+		this.onSearch();
+	}
+
+	// 查询数据
+	async onSearch() {
+		await this.setState({ loadingVisible: true });
 		// 判断用户是否登录
 		await this.onJudgeUserLogin();
 		// 更新商店信息
 		await this.getShopMessage();
+		// 查询商铺销售量信息
+		await this.onSearchShopSalesNum();
+		await this.setState({ loadingVisible: false });
+	}
+
+	// 判断用户是否登录
+	async onJudgeUserLogin() {
+		// 判断用户是否登录
+		let user = await StorageUtil.get('user');
+		if (!user) {
+			return this.props.navigation.navigate('LoginScreen');
+		}
 	}
 
 	// 获取商店信息
 	async getShopMessage() {
 		let user = await StorageUtil.get('user');
 		let shop = await Request.get('/shop/getShopDetailById', { shopid: user.shopid });
-		console.log(shop);
 		if (shop && shop.code === 200) {
-			this.setState({ shopDetail: shop.data });
+			await this.setState({ shopDetail: shop.data });
 			return StorageUtil.set('shop', shop.data);
 		}
 		this.props.navigation.navigate('LoginScreen');
 	}
 
-	// 判断用户是否登录
-	async onJudgeUserLogin() {
-		this.setState({ loadingVisible: true });
-		// 判断用户是否登录
-		let user = await StorageUtil.get('user');
-		this.setState({ loadingVisible: false });
-		if (!user) {
-			return this.props.navigation.navigate('LoginScreen');
+	// 查询店铺总销量
+	async onSearchShopSalesNum() {
+		let { shopDetail } = this.state;
+		let res = await Request.get('/order/getAllSalesNum', { shopid: shopDetail.id });
+		console.log(res, 899);
+		let { data, code, success } = res;
+		if (success && code === 200 && data) {
+			this.setState({
+				orderTotalNum: data.orderTotalNum || 0,
+				orderTotalMoney: data.orderTotalMoney || 0,
+			});
 		}
 	}
 
@@ -64,7 +88,7 @@ export default class MyScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props,
-			{ loadingVisible, shopDetail } = this.state;
+			{ loadingVisible, shopDetail, orderTotalNum, orderTotalMoney } = this.state;
 		return (
 			<View style={styles.container}>
 				<CommonHeader title={`${shopDetail.name || 'MOVING'}后台管理系统`} navigation={navigation} />
@@ -75,7 +99,7 @@ export default class MyScreen extends React.Component {
 					<Text>清除storage</Text>
 				</TouchableOpacity> */}
 				<ScrollView style={styles.view_container}>
-					<SalesReportTotal />
+					<SalesReportTotal orderTotalNum={orderTotalNum} orderTotalMoney={orderTotalMoney} />
 					<Order />
 					<Shop />
 				</ScrollView>
