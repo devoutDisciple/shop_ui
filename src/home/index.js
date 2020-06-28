@@ -4,15 +4,21 @@ import React from 'react';
 import { StyleSheet, Text, ScrollView, View, Dimensions } from 'react-native';
 import CommonHeader from '../component/CommonHeaderNoBack';
 import CommonSylte from '../style/common';
+import StorageUtil from '../util/Storage';
 const { width } = Dimensions.get('window');
 
 export default class MyScreen extends React.Component {
+	async componentDidMount() {
+		// 判断用户是否登录
+		let user = await StorageUtil.get('user');
+		console.log(user, 111);
+	}
 	render() {
 		const { navigation } = this.props;
 
 		return (
 			<View style={styles.container}>
-				<CommonHeader title="MOVING洗衣" navigation={navigation} />
+				<CommonHeader title="锐动洗衣店后台管理系统" navigation={navigation} />
 				<ScrollView style={styles.view_container}>
 					<View style={styles.detail_common_title}>
 						<Text style={{ fontSize: 16, color: '#333' }}>订单数据</Text>
