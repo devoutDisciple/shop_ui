@@ -1,7 +1,7 @@
-let flag = true; // true - 线上环境
-// let flag = false; //  false-线下环境
+// let flag = true; // true - 线上环境
+let flag = false; //  false-线下环境
 export default {
-	baseUrl: flag ? 'http://47.107.43.166:3001' : 'http://127.0.01:3001',
+	baseUrl: flag ? 'http://47.107.43.166:3002' : 'http://127.0.01:3002',
 	AppStoreId: '1518058596',
 	currentVersion: '2.0.0', // 目前版本
 	sercurity_code_time: 60, //验证码的过期时间

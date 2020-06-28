@@ -118,7 +118,7 @@ const finnalApp = createStackNavigator(
 		},
 
 		LoginScreen: {
-			screen: HomeScreen,
+			screen: LoginScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',

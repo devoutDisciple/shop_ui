@@ -19,7 +19,7 @@ Axios.defaults = Object.assign(Axios.defaults, {
 		},
 	],
 	// `headers` 是即将被发送的自定义请求头
-	// headers: {'X-Requested-With': 'XMLHttpRequest'},
+	headers: { platform: 'moving_app' },
 	// `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
 	// 如果请求话费了超过 `timeout` 的时间，请求将被中断
 	timeout: 30000,
@@ -38,8 +38,9 @@ Axios.interceptors.response.use(
 		}
 		let data = JSON.parse(res.data);
 		// 自定义的错误
-		if (data.code === 500) {
-			message.warning(data.message || "'网络异常, 请稍后重试1");
+		if (data.code !== 200) {
+			message.warning(data.message || "'网络异常, 请稍后重试2");
+			return Promise.reject('系统错误');
 		}
 		return Promise.resolve(data);
 	},
@@ -62,30 +63,20 @@ export default {
 				method: 'get',
 				url: url,
 				params: params,
-			})
-				.then(res => {
-					resolve(res);
-				})
-				.catch(err => {
-					message.warning('网络异常, 请稍后重试2');
-					reject(err);
-				});
+			}).then(res => {
+				resolve(res);
+			});
 		});
 	},
 	post: (url = '', params = {}) => {
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			Axios({
 				method: 'post',
 				url: url,
 				data: params,
-			})
-				.then(res => {
-					resolve(res);
-				})
-				.catch(err => {
-					message.warning('网络异常, 请稍后重试3');
-					reject(err);
-				});
+			}).then(res => {
+				resolve(res);
+			});
 		});
 	},
 	put: (url = '', params = {}) => {
