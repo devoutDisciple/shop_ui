@@ -8,6 +8,11 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 // 首页
 import HomeScreen from '../home/index';
 
+// 商店管理
+import ShopDetailScreen from '../shopDetail/index';
+
+// ===================
+
 // 订单
 import OrderScreen from '../order/Index';
 
@@ -110,6 +115,16 @@ const finnalApp = createStackNavigator(
 		// 首页
 		HomeScreen: {
 			screen: HomeScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 商店管理
+		ShopDetailScreen: {
+			screen: ShopDetailScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',

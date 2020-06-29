@@ -12,12 +12,12 @@ export default class MyScreen extends React.Component {
 	async componentDidMount() {}
 
 	render() {
-		let { title } = this.props;
+		let { title, iconName } = this.props;
 		return (
-			<TouchableOpacity style={styles.chunk}>
+			<TouchableOpacity style={styles.chunk} onPress={() => this.props.onPress()}>
 				<View style={styles[this.props.className]}>
 					<View style={styles.sales_chunk_icon}>
-						<Icon name="areachart" size={28} color="#e6f7fe" />
+						<Icon name={iconName} size={28} color="#e6f7fe" />
 					</View>
 					<View style={styles.sales_chunk_title}>
 						<Text style={styles.sales_chunk_title_text}>{title}</Text>

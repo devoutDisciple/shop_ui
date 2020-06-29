@@ -13,16 +13,19 @@ export default class MyScreen extends React.Component {
 	async componentDidMount() {}
 
 	render() {
+		let { orderTypeNum } = this.props;
 		return (
 			<View style={styles.module_chunk}>
 				<View style={styles.detail_common_title}>
 					<Text style={{ fontSize: 16, color: '#333' }}>订单链路</Text>
 				</View>
 				<View style={styles.sales}>
-					<Chunk className="sales_chunk1" title="全部订单" num={100} />
-					<Chunk className="sales_chunk2" title="待处理订单" num={200} />
-					<Chunk className="sales_chunk3" title="待派送订单" num={300} />
-					<Chunk className="sales_chunk4" title="已完成订单" num={400} />
+					<Chunk className="sales_chunk1" title="店铺待收取订单" num={orderTypeNum.orderType1} />
+					<Chunk className="sales_chunk2" title="清洗中订单" num={orderTypeNum.orderType2} />
+					<Chunk className="sales_chunk3" title="待付款订单" num={orderTypeNum.orderType3} />
+					<Chunk className="sales_chunk4" title="用户未收取订单" num={orderTypeNum.orderType4} />
+					<Chunk className="sales_chunk5" title="上门取衣订单" num={orderTypeNum.orderType6} />
+					<Chunk className="sales_chunk6" title="积分兑换订单" num={orderTypeNum.orderType7} />
 				</View>
 			</View>
 		);

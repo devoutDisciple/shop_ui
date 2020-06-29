@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 	header_title_four_text: {
 		flex: 1,
-		paddingLeft: width / 2 - 81,
+		paddingLeft: width / 2 - 90,
 		justifyContent: 'center',
 	},
 	header_title_six_text: {

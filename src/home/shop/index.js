@@ -12,6 +12,11 @@ export default class MyScreen extends React.Component {
 
 	async componentDidMount() {}
 
+	onGoShopDetail() {
+		let { navigation } = this.props;
+		navigation.navigate('ShopDetailScreen');
+	}
+
 	render() {
 		return (
 			<View style={styles.module_chunk}>
@@ -19,10 +24,18 @@ export default class MyScreen extends React.Component {
 					<Text style={{ fontSize: 16, color: '#333' }}>店铺管理</Text>
 				</View>
 				<View style={styles.sales}>
-					<Chunk className="sales_chunk1" title="店铺信息录入" num={100} />
-					<Chunk className="sales_chunk2" title="打印机录入" num={200} />
-					<Chunk className="sales_chunk3" title="店铺logo" num={300} />
-					<Chunk className="sales_chunk4" title="店铺评价" num={400} />
+					<Chunk
+						title="店铺设置"
+						iconName="setting"
+						className="sales_chunk1"
+						onPress={this.onGoShopDetail.bind(this)}
+					/>
+					<Chunk
+						title="洗衣柜管理"
+						iconName="layout"
+						className="sales_chunk2"
+						onPress={this.onGoShopDetail.bind(this)}
+					/>
 				</View>
 			</View>
 		);

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
 import CommonHeader from '../component/CommonHeaderNoBack';
 import StorageUtil from '../util/Storage';
 import Loading from '../component/Loading';
@@ -15,30 +15,52 @@ export default class MyScreen extends React.Component {
 		super(props);
 		this.state = {
 			loadingVisible: false,
+			refreshLoadingVisible: false,
 			shopDetail: {},
 			orderTotalNum: 0, // 订单总数量
 			orderTotalMoney: 0, // 订单总金额
+			orderTypeNum: {
+				orderType1: 0,
+				orderType2: 0,
+				orderType3: 0,
+				orderType4: 0,
+				orderType5: 0,
+				orderType6: 0,
+				orderType7: 0,
+			},
 		};
-		this.onJudgeUserLogin = this.onJudgeUserLogin.bind(this);
-		this.getShopMessage = this.getShopMessage.bind(this);
-		this.onSearchShopSalesNum = this.onSearchShopSalesNum.bind(this);
 		this.onSearch = this.onSearch.bind(this);
+		this.getShopMessage = this.getShopMessage.bind(this);
+		this.onJudgeUserLogin = this.onJudgeUserLogin.bind(this);
+		this.onSearchShopSalesNum = this.onSearchShopSalesNum.bind(this);
+		this.onSearchOrderTypeNum = this.onSearchOrderTypeNum.bind(this);
 	}
 
 	async componentDidMount() {
-		this.onSearch();
+		// eslint-disable-next-line react/no-did-mount-set-state
+		await this.setState({ loadingVisible: true });
+		await this.onSearch();
+		// eslint-disable-next-line react/no-did-mount-set-state
+		await this.setState({ loadingVisible: false });
+	}
+
+	// 下拉刷新
+	async onRefresh() {
+		this.setState({ refreshLoadingVisible: true });
+		await this.onSearch();
+		this.setState({ refreshLoadingVisible: false });
 	}
 
 	// 查询数据
 	async onSearch() {
-		await this.setState({ loadingVisible: true });
 		// 判断用户是否登录
 		await this.onJudgeUserLogin();
 		// 更新商店信息
 		await this.getShopMessage();
 		// 查询商铺销售量信息
 		await this.onSearchShopSalesNum();
-		await this.setState({ loadingVisible: false });
+		// 查询订单分类数量
+		await this.onSearchOrderTypeNum();
 	}
 
 	// 判断用户是否登录
@@ -65,13 +87,23 @@ export default class MyScreen extends React.Component {
 	async onSearchShopSalesNum() {
 		let { shopDetail } = this.state;
 		let res = await Request.get('/order/getAllSalesNum', { shopid: shopDetail.id });
-		console.log(res, 899);
 		let { data, code, success } = res;
 		if (success && code === 200 && data) {
 			this.setState({
 				orderTotalNum: data.orderTotalNum || 0,
 				orderTotalMoney: data.orderTotalMoney || 0,
 			});
+		}
+	}
+
+	// 查询订单分类数量
+	async onSearchOrderTypeNum() {
+		let { shopDetail } = this.state;
+		let res = await Request.get('/order/getAllOrderNumByType', { shopid: shopDetail.id });
+		let { data, code, success } = res;
+		if (success && code === 200 && data) {
+			console.log(data, 999);
+			this.setState({ orderTypeNum: data });
 		}
 	}
 
@@ -88,7 +120,14 @@ export default class MyScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props,
-			{ loadingVisible, shopDetail, orderTotalNum, orderTotalMoney } = this.state;
+			{
+				loadingVisible,
+				shopDetail,
+				orderTotalNum,
+				orderTotalMoney,
+				orderTypeNum,
+				refreshLoadingVisible,
+			} = this.state;
 		return (
 			<View style={styles.container}>
 				<CommonHeader title={`${shopDetail.name || 'MOVING'}后台管理系统`} navigation={navigation} />
@@ -98,10 +137,15 @@ export default class MyScreen extends React.Component {
 				<TouchableOpacity onPress={this.onClearStorage.bind(this)}>
 					<Text>清除storage</Text>
 				</TouchableOpacity> */}
-				<ScrollView style={styles.view_container}>
+				<ScrollView
+					style={styles.view_container}
+					refreshControl={
+						<RefreshControl refreshing={refreshLoadingVisible} onRefresh={this.onRefresh.bind(this)} />
+					}
+				>
 					<SalesReportTotal orderTotalNum={orderTotalNum} orderTotalMoney={orderTotalMoney} />
-					<Order />
-					<Shop />
+					<Order orderTypeNum={orderTypeNum} navigation={navigation} />
+					<Shop navigation={navigation} />
 				</ScrollView>
 				<Loading visible={loadingVisible} />
 			</View>

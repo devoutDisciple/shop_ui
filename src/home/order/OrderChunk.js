@@ -62,6 +62,14 @@ const styles = StyleSheet.create({
 		...sales_chunk,
 		backgroundColor: '#595959',
 	},
+	sales_chunk5: {
+		...sales_chunk,
+		backgroundColor: '#52c41b',
+	},
+	sales_chunk6: {
+		...sales_chunk,
+		backgroundColor: '#fa85c0',
+	},
 	sales_chunk_title: {
 		height: 50,
 		justifyContent: 'center',
