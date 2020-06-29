@@ -25,10 +25,11 @@ export default class OrderScreen extends React.Component {
 	}
 
 	async onSearchCabinet() {
+		this.setState({ loadingVisible: true });
 		let shop = await Storage.get('shop');
 		let shopid = shop.id;
 		let res = await Request.get('/cabinet/getAllByShopId', { shopid });
-		this.setState({ cabinetDetail: res.data || [] });
+		this.setState({ cabinetDetail: res.data || [], loadingVisible: false });
 	}
 
 	render() {

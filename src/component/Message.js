@@ -14,6 +14,15 @@ export default {
 			{ cancelable: false },
 		);
 	},
+	confirm: (title, message, callBack) => {
+		Alert.alert(title, message, [
+			{ text: '取消' },
+			{
+				text: '确定',
+				onPress: callBack ? callBack : () => {},
+			},
+		]);
+	},
 	forceUpdateVersion: (title, message) => {
 		Alert.alert(
 			title,

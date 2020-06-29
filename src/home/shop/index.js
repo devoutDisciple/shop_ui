@@ -21,7 +21,7 @@ export default class MyScreen extends React.Component {
 			return navigation.navigate('CabinetScreen');
 		}
 		if (type === 3) {
-			return navigation.navigate('ShopDetailScreen');
+			return navigation.navigate('ClothingScreen');
 		}
 	}
 

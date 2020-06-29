@@ -14,6 +14,12 @@ import ShopDetailScreen from '../shopDetail/index';
 // 洗衣柜管理
 import CabinetScreen from '../cabinet/index';
 
+// 衣物管理页面
+import ClothingScreen from '../clothing/index';
+
+// 增加衣物页面
+import AddClothingScreen from '../clothing/AddClothing';
+
 // ===================
 
 // 订单
@@ -135,6 +141,26 @@ const finnalApp = createStackNavigator(
 		// 洗衣柜页面 CabinetScreen
 		CabinetScreen: {
 			screen: CabinetScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 衣物管理页面
+		ClothingScreen: {
+			screen: ClothingScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 增加衣物页面
+		AddClothingScreen: {
+			screen: AddClothingScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',
