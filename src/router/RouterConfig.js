@@ -11,6 +11,9 @@ import HomeScreen from '../home/index';
 // 商店管理
 import ShopDetailScreen from '../shopDetail/index';
 
+// 洗衣柜管理
+import CabinetScreen from '../cabinet/index';
+
 // ===================
 
 // 订单
@@ -27,9 +30,6 @@ import GoodsScreen from '../goods/Goods';
 
 // 订单详情页面
 import OrderDetailScreen from '../order/detail/Detail';
-
-// 选择柜子界面
-import CabinetScreen from '../order/Cabinet/Cabinet';
 
 // 登录页面
 import LoginScreen from '../login/Login';
@@ -132,6 +132,16 @@ const finnalApp = createStackNavigator(
 			},
 		},
 
+		// 洗衣柜页面 CabinetScreen
+		CabinetScreen: {
+			screen: CabinetScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
 		LoginScreen: {
 			screen: LoginScreen,
 			navigationOptions: {
@@ -150,15 +160,7 @@ const finnalApp = createStackNavigator(
 				headerBackAllowFontScaling: false,
 			},
 		},
-		// 选择快递柜子页面
-		CabinetScreen: {
-			screen: CabinetScreen,
-			navigationOptions: {
-				headerShown: false,
-				headerBackTitle: '返回',
-				headerBackAllowFontScaling: false,
-			},
-		},
+
 		// 订单详情页面
 		OrderDetailScreen: {
 			screen: OrderDetailScreen,

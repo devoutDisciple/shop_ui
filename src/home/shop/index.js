@@ -12,9 +12,17 @@ export default class MyScreen extends React.Component {
 
 	async componentDidMount() {}
 
-	onGoShopDetail() {
+	onGoShopDetail(type) {
 		let { navigation } = this.props;
-		navigation.navigate('ShopDetailScreen');
+		if (type === 1) {
+			return navigation.navigate('ShopDetailScreen');
+		}
+		if (type === 2) {
+			return navigation.navigate('CabinetScreen');
+		}
+		if (type === 3) {
+			return navigation.navigate('ShopDetailScreen');
+		}
 	}
 
 	render() {
@@ -28,13 +36,19 @@ export default class MyScreen extends React.Component {
 						title="店铺设置"
 						iconName="setting"
 						className="sales_chunk1"
-						onPress={this.onGoShopDetail.bind(this)}
+						onPress={this.onGoShopDetail.bind(this, 1)}
 					/>
 					<Chunk
 						title="洗衣柜管理"
 						iconName="layout"
 						className="sales_chunk2"
-						onPress={this.onGoShopDetail.bind(this)}
+						onPress={this.onGoShopDetail.bind(this, 2)}
+					/>
+					<Chunk
+						title="衣物管理"
+						iconName="tagso"
+						className="sales_chunk3"
+						onPress={this.onGoShopDetail.bind(this, 3)}
 					/>
 				</View>
 			</View>

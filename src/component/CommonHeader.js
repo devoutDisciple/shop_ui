@@ -29,6 +29,9 @@ export default class Member extends React.Component {
 			case 4:
 				titleStyle = styles.header_title_four_text;
 				break;
+			case 5:
+				titleStyle = styles.header_title_five_text;
+				break;
 			case 6:
 				titleStyle = styles.header_title_six_text;
 				break;
@@ -68,6 +71,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	header_title_four_text: {
+		flex: 1,
+		paddingLeft: width / 2 - 90,
+		justifyContent: 'center',
+	},
+	header_title_five_text: {
 		flex: 1,
 		paddingLeft: width / 2 - 90,
 		justifyContent: 'center',
