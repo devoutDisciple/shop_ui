@@ -15,7 +15,6 @@ export default class OrderScreen extends React.Component {
 
 	render() {
 		let { data } = this.props;
-		console.log(data, 11);
 		return (
 			<View>
 				<View style={styles.detail_common_title}>

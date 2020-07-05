@@ -102,7 +102,6 @@ export default class MyScreen extends React.Component {
 		let res = await Request.get('/order/getAllOrderNumByType', { shopid: shopDetail.id });
 		let { data, code, success } = res;
 		if (success && code === 200 && data) {
-			console.log(data, 999);
 			this.setState({ orderTypeNum: data });
 		}
 	}

@@ -30,7 +30,6 @@ export default class OrderScreen extends React.Component {
 		const { navigation } = this.props;
 		let id = navigation.getParam('id');
 		let order = await Request.get('/order/getOrderById', { id });
-		console.log(order.data, 999);
 		this.setState({ orderDetail: order.data || {}, loadingVisible: false, type: order.data.order_type });
 	}
 
