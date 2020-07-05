@@ -17,15 +17,16 @@ export default {
 		}
 		return data;
 	},
+
 	// 订单
 	filterOrderStatus: function(status) {
 		let data = '';
 		switch (Number(status)) {
 			case 1:
-				data = '待店员取货';
+				data = '待收取订单';
 				break;
 			case 2:
-				data = '清洗中';
+				data = '清洗中订单';
 				break;
 			case 3:
 				data = '待付款';

@@ -118,9 +118,29 @@ const TabNavigator = createBottomTabNavigator(
 
 const finnalApp = createStackNavigator(
 	{
+		// // 订单页面
+		// OrderScreen: {
+		// 	screen: TabNavigator,
+		// 	navigationOptions: {
+		// 		headerShown: false,
+		// 		headerBackTitle: '返回',
+		// 		headerBackAllowFontScaling: false,
+		// 	},
+		// },
+
 		// 首页
 		HomeScreen: {
 			screen: HomeScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 订单管理
+		OrdersScreen: {
+			screen: OrderScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',

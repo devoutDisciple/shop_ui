@@ -11,10 +11,15 @@ export default class MyScreen extends React.Component {
 
 	async componentDidMount() {}
 
+	goOrder() {
+		let { status, navigation } = this.props;
+		navigation.navigate('OrdersScreen', { status: status });
+	}
+
 	render() {
 		let { title, num } = this.props;
 		return (
-			<TouchableOpacity style={styles.chunk}>
+			<TouchableOpacity style={styles.chunk} onPress={this.goOrder.bind(this)}>
 				<View style={styles[this.props.className]}>
 					<View style={styles.sales_chunk_title}>
 						<Text style={styles.sales_chunk_title_text}>{title}</Text>
