@@ -18,8 +18,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* moving_shopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* moving_shopTests.m */; };
 		511DE0316EB8F2FE93547059 /* libPods-moving_shopTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B40E2DF5869B3F6A1496158 /* libPods-moving_shopTests.a */; };
 		546A8C2AD77BDE43628E5B2B /* libPods-moving_shop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFCBCE3064DA36D0513893F /* libPods-moving_shop.a */; };
-		C14FFF6524A75F9300AADA08 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C14FFF6324A75F9300AADA08 /* main.jsbundle */; };
-		C14FFF6624A75F9300AADA08 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C14FFF6424A75F9300AADA08 /* assets */; };
+		C1432AF724B31EE40029D7D5 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C1432AF524B31EE40029D7D5 /* assets */; };
+		C1432AF824B31EE40029D7D5 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C1432AF624B31EE40029D7D5 /* main.jsbundle */; };
 		C1A43B2E23E45DEE0060752E /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1A43B1E23E45DEE0060752E /* Fontisto.ttf */; };
 		C1A43B2F23E45DEE0060752E /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1A43B1E23E45DEE0060752E /* Fontisto.ttf */; };
 		C1A43B3023E45DEE0060752E /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1A43B1E23E45DEE0060752E /* Fontisto.ttf */; };
@@ -130,8 +130,8 @@
 		83C91C2C026AB311BF8643D3 /* Pods-moving_shop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moving_shop.debug.xcconfig"; path = "Target Support Files/Pods-moving_shop/Pods-moving_shop.debug.xcconfig"; sourceTree = "<group>"; };
 		90639CEDB965ED8914D3F935 /* Pods-moving_shop-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moving_shop-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-moving_shop-tvOSTests/Pods-moving_shop-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AFDDD831C56F3000A1CFDEAA /* libPods-moving_shop-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-moving_shop-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C14FFF6324A75F9300AADA08 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../shop_release_ios/main.jsbundle; sourceTree = "<group>"; };
-		C14FFF6424A75F9300AADA08 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../shop_release_ios/assets; sourceTree = "<group>"; };
+		C1432AF524B31EE40029D7D5 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../shop_release_ios/assets; sourceTree = "<group>"; };
+		C1432AF624B31EE40029D7D5 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../shop_release_ios/main.jsbundle; sourceTree = "<group>"; };
 		C1A43B1E23E45DEE0060752E /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		C1A43B1F23E45DEE0060752E /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		C1A43B2023E45DEE0060752E /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -243,8 +243,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				C14FFF6424A75F9300AADA08 /* assets */,
-				C14FFF6324A75F9300AADA08 /* main.jsbundle */,
+				C1432AF524B31EE40029D7D5 /* assets */,
+				C1432AF624B31EE40029D7D5 /* main.jsbundle */,
 				C1A43B1D23E45DEE0060752E /* Fonts */,
 				13B07FAE1A68108700A75B9A /* moving_shop */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -468,19 +468,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C14FFF6524A75F9300AADA08 /* main.jsbundle in Resources */,
 				C1A43B2E23E45DEE0060752E /* Fontisto.ttf in Resources */,
 				C1A43B5A23E45DEE0060752E /* FontAwesome.ttf in Resources */,
 				C1A43B4A23E45DEE0060752E /* Foundation.ttf in Resources */,
 				C1A43B5623E45DEE0060752E /* FontAwesome5_Regular.ttf in Resources */,
-				C14FFF6624A75F9300AADA08 /* assets in Resources */,
 				C1A43B4E23E45DEE0060752E /* Ionicons.ttf in Resources */,
 				C1A43B6223E45DEE0060752E /* EvilIcons.ttf in Resources */,
 				C1A43B3A23E45DEE0060752E /* Entypo.ttf in Resources */,
+				C1432AF824B31EE40029D7D5 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C1A43B5E23E45DEE0060752E /* Zocial.ttf in Resources */,
 				C1A43B6623E45DEE0060752E /* SimpleLineIcons.ttf in Resources */,
 				C1A43B3623E45DEE0060752E /* Feather.ttf in Resources */,
+				C1432AF724B31EE40029D7D5 /* assets in Resources */,
 				C1A43B3223E45DEE0060752E /* Octicons.ttf in Resources */,
 				C1A43B3E23E45DEE0060752E /* FontAwesome5_Brands.ttf in Resources */,
 				C1A43B4623E45DEE0060752E /* AntDesign.ttf in Resources */,
@@ -843,12 +843,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 202006271906;
+				CURRENT_PROJECT_VERSION = 202007061714;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = W46MECA4RF;
 				INFOPLIST_FILE = moving_shop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -869,11 +869,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 202006271906;
+				CURRENT_PROJECT_VERSION = 202007061714;
 				DEVELOPMENT_TEAM = W46MECA4RF;
 				INFOPLIST_FILE = moving_shop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
