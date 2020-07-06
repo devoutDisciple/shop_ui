@@ -11,56 +11,35 @@ export default class AllOrder extends React.Component {
 	constructor(props) {
 		super(props);
 		this.renderBtn = this.renderBtn.bind(this);
-		this.updateOrderStatus = this.updateOrderStatus.bind(this);
 	}
 
 	componentDidMount() {}
 
-	// 点击去支付
-	async payOrder() {}
-
+	// 更新衣物状态
 	async updateOrderStatus() {
-		// let { id } = this.props.detail;
-		// let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: 4 });
-		// if (orderStatus.data === 'success') {
-		// 	return this.props.onSearch();
-		// }
-		// return;
+		let { id } = this.props.detail;
+		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: 2 });
+		if (orderStatus.data === 'success') {
+			return this.props.onSearch();
+		}
+		return;
 	}
 
-	// 打开柜子
-	async onOpenCabinet() {
-		Message.confirm('是否打开格口', '请确认在柜子旁', async () => {
-			try {
-				let { id } = this.props.detail;
-				this.props.setLoading(true);
-				let result = await Request.post('/order/openCellById', { orderId: id, status: 2 });
-				if (result.data === 'success') {
-					Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
-					return this.props.onSearch();
-				}
-				return Message.warning('网络错误', '请稍后重试！');
-			} finally {
-				this.props.setLoading(false);
-			}
-		});
-	}
-
-	// 联系我们
+	// 联系用户
 	async onConnectUs() {
-		// let { shopid } = this.props.detail;
-		// let shop = await Request.get('/shop/getShopById', { shopid });
-		// let phone = shop && shop.data ? shop.data.phone : '18210619398';
-		// let tel = `tel:${phone}`; // 目标电话
-		// Linking.canOpenURL(tel)
-		// 	.then(supported => {
-		// 		if (!supported) {
-		// 			Message.warning('商家电话', '18210619398');
-		// 		} else {
-		// 			return Linking.openURL(tel);
-		// 		}
-		// 	})
-		// 	.catch(error => console.log('tel error', error));
+		let { detail } = this.props;
+		let res = await Request.get('/order/getOrderById', { id: detail.id });
+		let phone = res.data && res.data.userDetail ? res.data.userDetail.phone : '18210619398';
+		let tel = `tel:${phone}`; // 目标电话
+		Linking.canOpenURL(tel)
+			.then(supported => {
+				if (!supported) {
+					Message.warning('用户电话', phone);
+				} else {
+					return Linking.openURL(tel);
+				}
+			})
+			.catch(error => Message.warning('用户电话', phone));
 	}
 
 	// 点击查看详情页面
@@ -71,50 +50,45 @@ export default class AllOrder extends React.Component {
 		});
 	}
 
+	// 已取到衣物
+	getClothing() {
+		Message.confirm('确认已取到衣物', '确认后衣物将归类于清洗中订单', async () => {
+			this.props.setLoading(true);
+			await this.updateOrderStatus();
+			this.props.setLoading(false);
+			Toast.success('已取到衣物');
+			this.props.onSearch();
+		});
+	}
+
 	renderBtn() {
 		let actionBtn = [];
-		let { status } = this.props.detail;
-		const payBtn = (
-			<TouchableOpacity
-				key="payBtn"
-				onPress={this.payOrder.bind(this)}
-				style={styles.order_item_right_bottom_btn}
-			>
-				<Text style={styles.order_pay_font}>去支付</Text>
-			</TouchableOpacity>
-		);
+		// 联系用户
 		const connectBtn = (
 			<TouchableOpacity
 				key="connectBtn"
 				onPress={this.onConnectUs.bind(this)}
 				style={styles.order_item_right_bottom_btn}
 			>
-				<Text style={styles.order_pay_font}>联系我们</Text>
+				<Text style={styles.order_pay_font}>联系用户</Text>
 			</TouchableOpacity>
 		);
-		const openBoxBtn = (
+		// 存放衣物
+		const saveClothingBtn = (
 			<TouchableOpacity
-				key="openBoxBtn"
-				onPress={this.onOpenCabinet.bind(this)}
+				key="saveClothingBtn"
 				style={styles.order_item_right_bottom_btn}
+				onPress={this.getClothing.bind(this)}
 			>
-				<Text style={styles.order_pay_font}>打开柜子</Text>
+				<Text style={styles.order_pay_font}>确认取到衣物</Text>
 			</TouchableOpacity>
 		);
-		if (status === 1 || status === 2 || status === 5 || status === 6) {
-			actionBtn = [connectBtn];
-		}
-		if (status === 3) {
-			actionBtn = [payBtn, connectBtn];
-		}
-		if (status === 4) {
-			actionBtn = [openBoxBtn, connectBtn];
-		}
+		actionBtn = [connectBtn, saveClothingBtn];
 		return actionBtn;
 	}
 
 	render() {
-		const { id, shopName, create_time, home_address, status, home_username, code, home_time } = this.props.detail;
+		const { id, create_time, status, code, home_time } = this.props.detail;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>

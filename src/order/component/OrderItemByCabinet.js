@@ -10,19 +10,6 @@ export default class AllOrder extends React.Component {
 	constructor(props) {
 		super(props);
 		this.renderBtn = this.renderBtn.bind(this);
-		this.updateOrderStatus = this.updateOrderStatus.bind(this);
-	}
-
-	componentDidMount() {}
-
-	// 更新衣物状态
-	async updateOrderStatus() {
-		let { id } = this.props.detail;
-		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: 4 });
-		if (orderStatus.data === 'success') {
-			return this.props.onSearch();
-		}
-		return;
 	}
 
 	// 打开柜子
@@ -69,8 +56,9 @@ export default class AllOrder extends React.Component {
 	}
 
 	renderBtn() {
-		let actionBtn = [];
-		let { status } = this.props.detail;
+		let actionBtn = [],
+			detail = this.props.detail || {};
+		let { status, id, is_sure } = detail;
 
 		// 联系用户
 		const connectBtn = (
@@ -93,14 +81,25 @@ export default class AllOrder extends React.Component {
 			</TouchableOpacity>
 		);
 
-		// 完成清洗
+		// 设置金额
 		const clearSucessBtn = (
 			<TouchableOpacity
 				key="clearSucessBtn"
 				style={styles.order_item_right_bottom_btn}
-				onPress={() => this.props.navigation.navigate('GoodsScreen')}
+				onPress={() => this.props.navigation.navigate('GoodsScreen', { orderId: id })}
 			>
-				<Text style={styles.order_pay_font}>完成清洗</Text>
+				<Text style={styles.order_pay_font}>设置金额</Text>
+			</TouchableOpacity>
+		);
+
+		// 存放衣物
+		const saveClothingBtn = (
+			<TouchableOpacity
+				key="saveClothingBtn"
+				style={styles.order_item_right_bottom_btn}
+				onPress={() => this.props.navigation.navigate('CabinetScreen', { orderId: id, showCabinetBtn: true })}
+			>
+				<Text style={styles.order_pay_font}>存放衣物</Text>
 			</TouchableOpacity>
 		);
 
@@ -109,6 +108,10 @@ export default class AllOrder extends React.Component {
 		}
 		if (status === 2) {
 			actionBtn = [connectBtn, clearSucessBtn];
+			is_sure === 2 && actionBtn.push(saveClothingBtn);
+		}
+		if (status === 3 || status === 4) {
+			actionBtn = [connectBtn];
 		}
 		return actionBtn;
 	}

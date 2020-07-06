@@ -18,7 +18,7 @@ export default class MyScreen extends React.Component {
 			return navigation.navigate('ShopDetailScreen');
 		}
 		if (type === 2) {
-			return navigation.navigate('CabinetScreen');
+			return navigation.navigate('CabinetScreen', { showCabinetBtn: false });
 		}
 		if (type === 3) {
 			return navigation.navigate('ClothingScreen');
@@ -39,7 +39,7 @@ export default class MyScreen extends React.Component {
 						onPress={this.onGoShopDetail.bind(this, 1)}
 					/>
 					<Chunk
-						title="洗衣柜管理"
+						title="洗衣柜状态"
 						iconName="layout"
 						className="sales_chunk2"
 						onPress={this.onGoShopDetail.bind(this, 2)}

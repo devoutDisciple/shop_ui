@@ -14,46 +14,31 @@ export default class AllOrder extends React.Component {
 		this.updateOrderStatus = this.updateOrderStatus.bind(this);
 	}
 
-	componentDidMount() {}
-
-	// 点击去支付
-	async payOrder() {}
-
+	// 更新衣物状态
 	async updateOrderStatus() {
 		let { id } = this.props.detail;
-		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: 4 });
+		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: 5 });
 		if (orderStatus.data === 'success') {
 			return this.props.onSearch();
 		}
 		return;
 	}
 
-	// 打开柜子
-	async onOpenCabinet() {
-		let { id } = this.props.detail;
-		let result = await Request.post('/order/openCellById', { orderId: id });
-		if (result.data === 'success') {
-			Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
-			return this.props.onSearch();
-		}
-		return Message.warning('网络错误', '请稍后重试！');
-	}
-
-	// 联系我们
+	// 联系用户
 	async onConnectUs() {
-		let { shopid } = this.props.detail;
-		let shop = await Request.get('/shop/getShopById', { shopid });
-		let phone = shop && shop.data ? shop.data.phone : '18210619398';
+		let { detail } = this.props;
+		let res = await Request.get('/order/getOrderById', { id: detail.id });
+		let phone = res.data && res.data.userDetail ? res.data.userDetail.phone : '18210619398';
 		let tel = `tel:${phone}`; // 目标电话
 		Linking.canOpenURL(tel)
 			.then(supported => {
 				if (!supported) {
-					Message.warning('商家电话', '18210619398');
+					Message.warning('用户电话', phone);
 				} else {
 					return Linking.openURL(tel);
 				}
 			})
-			.catch(error => console.log('tel error', error));
+			.catch(error => Message.warning('用户电话', phone));
 	}
 
 	// 点击查看详情页面
@@ -64,45 +49,40 @@ export default class AllOrder extends React.Component {
 		});
 	}
 
+	// 完成兑换
+	finishOrder() {
+		Message.confirm('请确认', '兑换商品已送到用户', async () => {
+			this.props.setLoading(true);
+			await this.updateOrderStatus();
+			this.props.setLoading(false);
+			Toast.success('已完成兑换');
+			this.props.onSearch();
+		});
+	}
+
 	renderBtn() {
 		let actionBtn = [];
-		let { status } = this.props.detail;
-		const payBtn = (
-			<TouchableOpacity
-				key="payBtn"
-				onPress={this.payOrder.bind(this)}
-				style={styles.order_item_right_bottom_btn}
-			>
-				<Text style={styles.order_pay_font}>去支付</Text>
-			</TouchableOpacity>
-		);
+		// 联系用户
 		const connectBtn = (
 			<TouchableOpacity
 				key="connectBtn"
 				onPress={this.onConnectUs.bind(this)}
 				style={styles.order_item_right_bottom_btn}
 			>
-				<Text style={styles.order_pay_font}>联系我们</Text>
+				<Text style={styles.order_pay_font}>联系用户</Text>
 			</TouchableOpacity>
 		);
-		const openBoxBtn = (
+		// 已完成
+		const saveClothingBtn = (
 			<TouchableOpacity
-				key="openBoxBtn"
-				onPress={this.onOpenCabinet.bind(this)}
+				key="saveClothingBtn"
 				style={styles.order_item_right_bottom_btn}
+				onPress={this.finishOrder.bind(this)}
 			>
-				<Text style={styles.order_pay_font}>打开柜子</Text>
+				<Text style={styles.order_pay_font}>已兑换</Text>
 			</TouchableOpacity>
 		);
-		if (status === 1 || status === 2 || status === 5 || 6 || 7) {
-			actionBtn = [connectBtn];
-		}
-		if (status === 3) {
-			actionBtn = [payBtn, connectBtn];
-		}
-		if (status === 4) {
-			actionBtn = [openBoxBtn, connectBtn];
-		}
+		actionBtn = [connectBtn, saveClothingBtn];
 		return actionBtn;
 	}
 

@@ -1,22 +1,52 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
 import CommonStyle from '../style/common';
-import { Text, View, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import FastImage from '../component/FastImage';
 import config from '../config/config';
-
-const { width } = Dimensions.get('window');
+import { Badge } from 'react-native-elements';
+import Request from '../util/Request';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Message from '../component/Message';
 
 export default class OrderScreen extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
+	componentDidMount() {
+		console.log(this.props.data, 2222);
+	}
+
+	async openCell(type) {
+		try {
+			this.props.setLoading(true);
+			let { navigation, data } = this.props;
+			let orderId = navigation.getParam('orderId');
+			let cabinetId = data.id;
+			let res = await Request.post('/order/openCellByRandomByCabinetId', {
+				orderId: orderId,
+				cabinetId: cabinetId,
+				type: type,
+				status: 3,
+			});
+			if (res.data === 'success') {
+				this.props.onSearch();
+				this.props.setLoading(false);
+				Message.success('格口已打开', '请存放衣物，并随手关闭格口', () => {
+					navigation.navigate('HomeScreen');
+				});
+			}
+		} finally {
+			this.props.setLoading(false);
+		}
+	}
+
 	render() {
-		let { data } = this.props;
+		let { data, navigation } = this.props;
+		let showCabinetBtn = navigation.getParam('showCabinetBtn');
 		return (
-			<View>
+			<View style={styles.container}>
 				<View style={styles.detail_common_title}>
 					<Text style={{ fontSize: 16, color: '#333' }}>{data.name}</Text>
 				</View>
@@ -34,26 +64,22 @@ export default class OrderScreen extends React.Component {
 						<View style={styles.cabinet_detail_address}>
 							<Text style={styles.cabinet_detail_address_text}>位置: {data.address}</Text>
 							<Text style={styles.cabinet_detail_address_text}>boxId: {data.boxid}</Text>
-						</View>
-					</View>
-					<View style={styles.cabinet_chunk}>
-						<View style={styles.cabinet_chunk_left}>
-							<View style={styles.cabinet_chunk_title}>
-								<Text style={styles.cabinet_chunk_title_text}>使用中</Text>
-							</View>
-							<View style={styles.cabinet_chunk_num}>
-								<Text style={styles.cabinet_chunk_num_text}>{data.usedNum || 0}</Text>
-							</View>
-						</View>
-						<View style={styles.cabinet_chunk_right}>
-							<View style={styles.cabinet_chunk_title}>
-								<Text style={styles.cabinet_chunk_title_text}>空闲中</Text>
-							</View>
-							<View style={styles.cabinet_chunk_num}>
-								<Text style={styles.cabinet_chunk_num_text}>{data.abledNum || 0}</Text>
+							<View style={{ flexDirection: 'row' }}>
+								<Badge status="success" value={`可用格口：${data.abledNum || 0}`} options="left" />
+								<Badge status="warning" value={`使用中：${data.usedNum || 0}`} options="left" />
 							</View>
 						</View>
 					</View>
+					{showCabinetBtn && (
+						<View style={styles.cabinet_bottom}>
+							<TouchableOpacity style={styles.bottom_btn} onPress={this.openCell.bind(this, 'smallBox')}>
+								<Text style={{ color: '#fb9dd0' }}>存放衣物(叠柜)</Text>
+							</TouchableOpacity>
+							<TouchableOpacity style={styles.bottom_btn} onPress={this.openCell.bind(this, 'bigBox')}>
+								<Text style={{ color: '#fb9dd0' }}>存放衣物(挂柜)</Text>
+							</TouchableOpacity>
+						</View>
+					)}
 				</View>
 			</View>
 		);
@@ -62,8 +88,11 @@ export default class OrderScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	detail_common_title: CommonStyle.detail_common_title,
+	container: {
+		marginBottom: 10,
+	},
 	cabinet: {
-		height: 170,
+		height: 135,
 		borderWidth: 0.5,
 		borderColor: '#dbdbdb',
 		padding: 10,
@@ -89,37 +118,19 @@ const styles = StyleSheet.create({
 		height: 80,
 		width: 80,
 	},
-	cabinet_chunk: {
-		marginTop: 10,
-		height: 50,
-		borderWidth: 0.5,
-		borderColor: '#dbdbdb',
+	cabinet_bottom: {
+		height: 30,
 		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		alignItems: 'flex-end',
 	},
-	cabinet_chunk_left: {
-		width: '50%',
-		backgroundColor: '#52c41b',
-	},
-	cabinet_chunk_right: {
-		width: '50%',
-		backgroundColor: '#40a9ff',
-	},
-	cabinet_chunk_title: {
-		height: 20,
+	bottom_btn: {
+		padding: 5,
+		width: 110,
+		borderWidth: 0.5,
+		borderColor: '#fb9dd0',
 		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	cabinet_chunk_title_text: {
-		color: '#fff',
-		fontSize: 16,
-	},
-	cabinet_chunk_num: {
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	cabinet_chunk_num_text: {
-		color: '#fff',
-		fontSize: 24,
-		fontWeight: '600',
+		borderRadius: 5,
+		marginHorizontal: 5,
 	},
 });

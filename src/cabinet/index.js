@@ -5,10 +5,8 @@ import CommonSylte from '../style/common';
 import CommonHeader from '../component/CommonHeader';
 import CabinetItem from './CabinetItem';
 import Storage from '../util/Storage';
-import { Text, View, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Loading from '../component/Loading';
-
-const { width } = Dimensions.get('window');
 
 export default class OrderScreen extends React.Component {
 	constructor(props) {
@@ -44,7 +42,15 @@ export default class OrderScreen extends React.Component {
 				/>
 				<ScrollView style={styles.cabinet}>
 					{cabinetDetail.map((item, index) => {
-						return <CabinetItem key={index} data={item} />;
+						return (
+							<CabinetItem
+								key={index}
+								data={item}
+								navigation={navigation}
+								onSearch={this.onSearchCabinet.bind(this)}
+								setLoading={flag => this.setState({ loadingVisible: flag })}
+							/>
+						);
 					})}
 				</ScrollView>
 				<Loading visible={loadingVisible} />
@@ -53,7 +59,6 @@ export default class OrderScreen extends React.Component {
 	}
 }
 
-let itemHeight = (width - 60) / 2 + 20;
 const styles = StyleSheet.create({
 	cabinet: {
 		flex: 1,

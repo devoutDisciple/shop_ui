@@ -33,13 +33,25 @@ export default class Goods extends React.Component {
 				this.props.navigation.navigate('LoginScreen');
 				return Toast.warning('请登录!');
 			}
-			Request.get('/clothing/getAllByShopid', { shopid: shop.id }).then(res => {
-				let data = res.data || [];
-				if (Array.isArray(data) && data.length !== 0) {
-					data.forEach(item => (item.num = 0));
-				}
-				this.setState({ data: data || [] });
-			});
+			let { navigation } = this.props;
+			let orderId = navigation.getParam('orderId');
+			// 获取订单衣物
+			let result = await Request.get('/order/getOrderById', { id: orderId });
+			let goods = result.data && result.data.goods ? result.data.goods : '[]';
+			goods = JSON.parse(goods);
+			let money = result.data.money;
+			let res = await Request.get('/clothing/getAllByShopid', { shopid: shop.id });
+			let data = res.data || [];
+			if (Array.isArray(data) && data.length !== 0) {
+				data.forEach(item => {
+					let currentSelectGoods = goods.filter(good => good.id === item.id);
+					if (currentSelectGoods && currentSelectGoods.length) {
+						return (item.num = currentSelectGoods[0].num);
+					}
+					item.num = 0;
+				});
+			}
+			this.setState({ data: data || [], totalPrice: money });
 		} finally {
 			this.setState({ loadingVisible: false });
 		}
@@ -48,6 +60,8 @@ export default class Goods extends React.Component {
 	// 点击确定的时候
 	onSureClothing() {
 		let { totalPrice = 0, data } = this.state;
+		let { navigation } = this.props;
+		let orderId = navigation.getParam('orderId');
 		let selectGoods = data.filter(item => item.num !== 0);
 		Alert.alert(
 			'提示',
@@ -55,11 +69,17 @@ export default class Goods extends React.Component {
 			[
 				{
 					text: '确定',
-					onPress: () => {
-						this.props.navigation.navigate('CabinetScreen', {
+					onPress: async () => {
+						this.setState({ loadingVisible: true });
+						let result = await Request.post('/order/sureOrder', {
+							orderId: orderId,
 							goods: selectGoods,
-							totalPrice: totalPrice,
+							totalPrice,
 						});
+						this.setState({ loadingVisible: false });
+						if (result || result.data === 'success') {
+							return Toast.success('更改成功');
+						}
 					},
 				},
 			],
