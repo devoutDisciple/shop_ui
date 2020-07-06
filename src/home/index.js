@@ -123,16 +123,16 @@ export default class MyScreen extends React.Component {
 		}
 	}
 
-	// 获取storage
-	async onGetStorage() {
-		let keys = await StorageUtil.getAllKeys();
-		let res = await StorageUtil.multiGet(keys);
-		console.log('StorageUtil: ', res);
-	}
+	// // 获取storage
+	// async onGetStorage() {
+	// 	let keys = await StorageUtil.getAllKeys();
+	// 	let res = await StorageUtil.multiGet(keys);
+	// 	console.log('StorageUtil: ', res);
+	// }
 
-	onClearStorage() {
-		StorageUtil.clear();
-	}
+	// onClearStorage() {
+	// 	StorageUtil.clear();
+	// }
 
 	render() {
 		const { navigation } = this.props,
@@ -147,12 +147,12 @@ export default class MyScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<CommonHeader title={`${shopDetail.name || 'MOVING'}后台管理系统`} navigation={navigation} />
-				<TouchableOpacity onPress={this.onGetStorage.bind(this)}>
+				{/* <TouchableOpacity onPress={this.onGetStorage.bind(this)}>
 					<Text>获取storage</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={this.onClearStorage.bind(this)}>
 					<Text>清除storage</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 				<ScrollView
 					style={styles.view_container}
 					refreshControl={
