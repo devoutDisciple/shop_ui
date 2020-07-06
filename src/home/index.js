@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React from 'react';
-import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
 import CommonHeader from '../component/CommonHeaderNoBack';
 import StorageUtil from '../util/Storage';
 import Loading from '../component/Loading';
@@ -9,6 +8,8 @@ import Request from '../util/Request';
 import Order from './order/index';
 import Shop from './shop/index';
 import SalesReportTotal from './sales/SalesReportTotal';
+import { NavigationActions, StackActions } from 'react-navigation';
+import { StyleSheet, ScrollView, View, RefreshControl, TouchableOpacity, Text } from 'react-native';
 
 export default class MyScreen extends React.Component {
 	constructor(props) {
@@ -37,10 +38,12 @@ export default class MyScreen extends React.Component {
 	}
 
 	async componentDidMount() {
-		// eslint-disable-next-line react/no-did-mount-set-state
+		await this.initSearch();
+	}
+
+	async initSearch() {
 		await this.setState({ loadingVisible: true });
 		await this.onSearch();
-		// eslint-disable-next-line react/no-did-mount-set-state
 		await this.setState({ loadingVisible: false });
 	}
 
@@ -54,33 +57,47 @@ export default class MyScreen extends React.Component {
 	// 查询数据
 	async onSearch() {
 		// 判断用户是否登录
-		await this.onJudgeUserLogin();
-		// 更新商店信息
-		await this.getShopMessage();
-		// 查询商铺销售量信息
-		await this.onSearchShopSalesNum();
-		// 查询订单分类数量
-		await this.onSearchOrderTypeNum();
+		let flag = await this.onJudgeUserLogin();
+		if (flag === 'success') {
+			// 更新商店信息
+			await this.getShopMessage();
+			// 查询商铺销售量信息
+			await this.onSearchShopSalesNum();
+			// 查询订单分类数量
+			await this.onSearchOrderTypeNum();
+		}
 	}
 
 	// 判断用户是否登录
 	async onJudgeUserLogin() {
 		// 判断用户是否登录
 		let user = await StorageUtil.get('user');
+		let { navigation } = this.props;
 		if (!user) {
-			return this.props.navigation.navigate('LoginScreen');
+			const resetAction = StackActions.reset({
+				index: 0,
+				actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
+			});
+			navigation.dispatch(resetAction);
+			return 'error';
 		}
+		return 'success';
 	}
 
 	// 获取商店信息
 	async getShopMessage() {
-		let user = await StorageUtil.get('user');
+		let user = await StorageUtil.get('user'),
+			{ navigation } = this.props;
 		let shop = await Request.get('/shop/getShopDetailById', { shopid: user.shopid });
 		if (shop && shop.code === 200) {
 			await this.setState({ shopDetail: shop.data });
 			return StorageUtil.set('shop', shop.data);
 		}
-		this.props.navigation.navigate('LoginScreen');
+		const resetAction = StackActions.reset({
+			index: 0,
+			actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
+		});
+		navigation.dispatch(resetAction);
 	}
 
 	// 查询店铺总销量
@@ -106,16 +123,16 @@ export default class MyScreen extends React.Component {
 		}
 	}
 
-	// // 获取storage
-	// async onGetStorage() {
-	// 	let keys = await StorageUtil.getAllKeys();
-	// 	let res = await StorageUtil.multiGet(keys);
-	// 	console.log('StorageUtil: ', res);
-	// }
+	// 获取storage
+	async onGetStorage() {
+		let keys = await StorageUtil.getAllKeys();
+		let res = await StorageUtil.multiGet(keys);
+		console.log('StorageUtil: ', res);
+	}
 
-	// onClearStorage() {
-	// 	StorageUtil.clear();
-	// }
+	onClearStorage() {
+		StorageUtil.clear();
+	}
 
 	render() {
 		const { navigation } = this.props,
@@ -130,12 +147,12 @@ export default class MyScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<CommonHeader title={`${shopDetail.name || 'MOVING'}后台管理系统`} navigation={navigation} />
-				{/* <TouchableOpacity onPress={this.onGetStorage.bind(this)}>
+				<TouchableOpacity onPress={this.onGetStorage.bind(this)}>
 					<Text>获取storage</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={this.onClearStorage.bind(this)}>
 					<Text>清除storage</Text>
-				</TouchableOpacity> */}
+				</TouchableOpacity>
 				<ScrollView
 					style={styles.view_container}
 					refreshControl={
