@@ -7,6 +7,7 @@ import storageUtil from '../util/Storage';
 import Toast from '../component/Toast';
 import Request from '../util/Request';
 import Loading from '../component/Loading';
+import SafeViewComponent from '../component/SafeViewComponent';
 
 const { width } = Dimensions.get('window');
 
@@ -120,45 +121,47 @@ export default class Goods extends React.Component {
 		const { navigation } = this.props;
 		let { data, totalPrice, loadingVisible } = this.state;
 		return (
-			<View style={styles.container}>
-				<CommonHeader title="确认衣物价格" navigation={navigation} />
-				<ScrollView style={styles.content}>
-					<View style={styles.content_title}>
-						<Text>洗衣费用价格计算</Text>
-					</View>
-					<View style={styles.content_clothing}>
-						{data &&
-							data.map((item, index) => {
-								return (
-									<GoodsItem
-										key={index}
-										id={item.id}
-										num={item.num}
-										name={item.name}
-										source={item.url}
-										price={item.price}
-										onSubCloth={this.onSubCloth.bind(this)}
-										onAddCloth={this.onAddCloth.bind(this)}
-									/>
-								);
-							})}
-					</View>
-				</ScrollView>
-				<View style={styles.footer}>
-					<View style={styles.footer_left}>
-						<View style={styles.footer_left_content}>
-							<Text style={styles.footer_left_content_text}>洗衣费用: ￥</Text>
+			<SafeViewComponent>
+				<View style={styles.container}>
+					<CommonHeader title="确认衣物价格" navigation={navigation} />
+					<ScrollView style={styles.content}>
+						<View style={styles.content_title}>
+							<Text>洗衣费用价格计算</Text>
 						</View>
-						<View style={styles.footer_right_content}>
-							<Text style={styles.footer_right_content_text}>{totalPrice}</Text>
+						<View style={styles.content_clothing}>
+							{data &&
+								data.map((item, index) => {
+									return (
+										<GoodsItem
+											key={index}
+											id={item.id}
+											num={item.num}
+											name={item.name}
+											source={item.url}
+											price={item.price}
+											onSubCloth={this.onSubCloth.bind(this)}
+											onAddCloth={this.onAddCloth.bind(this)}
+										/>
+									);
+								})}
 						</View>
+					</ScrollView>
+					<View style={styles.footer}>
+						<View style={styles.footer_left}>
+							<View style={styles.footer_left_content}>
+								<Text style={styles.footer_left_content_text}>洗衣费用: ￥</Text>
+							</View>
+							<View style={styles.footer_right_content}>
+								<Text style={styles.footer_right_content_text}>{totalPrice}</Text>
+							</View>
+						</View>
+						<TouchableOpacity style={styles.footer_right} onPress={this.onSureClothing.bind(this)}>
+							<Text style={styles.footer_right_text}>确定</Text>
+						</TouchableOpacity>
 					</View>
-					<TouchableOpacity style={styles.footer_right} onPress={this.onSureClothing.bind(this)}>
-						<Text style={styles.footer_right_text}>确定</Text>
-					</TouchableOpacity>
+					<Loading visible={loadingVisible} />
 				</View>
-				<Loading visible={loadingVisible} />
-			</View>
+			</SafeViewComponent>
 		);
 	}
 }

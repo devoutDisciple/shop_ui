@@ -9,6 +9,7 @@ import Dialog from '../component/Dialog';
 import Loading from '../component/Loading';
 import Message from '../component/Message';
 import CommonHeader from '../component/CommonHeader';
+import SafeViewComponent from '../component/SafeViewComponent';
 
 export default class SettingScreen extends React.Component {
 	constructor(props) {
@@ -67,83 +68,88 @@ export default class SettingScreen extends React.Component {
 		const { navigation } = this.props,
 			{ visible, shopDetail, changeKey, title, defalutValue, loadingVisible } = this.state;
 		return (
-			<View style={styles.container}>
-				<CommonHeader title="店铺设置" navigation={navigation} />
-				<ScrollView style={styles.setting_content}>
-					<MessageItem
-						showIcon
-						label="店铺名称"
-						value={shopDetail.name}
-						onPress={() => {
-							this.setState(
-								{ changeKey: 'name', title: '店铺名称', defalutValue: shopDetail.name },
-								() => {
-									this.setState({ visible: true });
-								},
-							);
-						}}
-					/>
-					<MessageItem
-						showIcon
-						label="店铺经理"
-						value={shopDetail.manager}
-						onPress={() => {
-							this.setState(
-								{ changeKey: 'manager', title: '店铺经理名称', defalutValue: shopDetail.manager },
-								() => {
-									this.setState({ visible: true });
-								},
-							);
-						}}
-					/>
-					<MessageItem
-						showIcon
-						label="联系方式"
-						value={shopDetail.phone}
-						onPress={() => {
-							this.setState(
-								{ changeKey: 'phone', title: '联系方式', defalutValue: shopDetail.phone },
-								() => {
-									this.setState({ visible: true });
-								},
-							);
-						}}
-					/>
-					<MessageItem
-						showIcon
-						label="打印机KEY"
-						value={shopDetail.key}
-						onPress={() => {
-							this.setState(
-								{ changeKey: 'key', title: '打印机KEY', defalutValue: shopDetail.key },
-								() => {
-									this.setState({ visible: true });
-								},
-							);
-						}}
-					/>
-					<MessageItem
-						showIcon
-						label="打印机SN"
-						value={shopDetail.sn}
-						onPress={() => {
-							this.setState({ changeKey: 'sn', title: '打印机SN', defalutValue: shopDetail.sn }, () => {
-								this.setState({ visible: true });
-							});
-						}}
-					/>
-				</ScrollView>
-				{visible && (
-					<Dialog
-						title={title}
-						changeKey={changeKey}
-						defalutValue={defalutValue}
-						onOk={this.onOkDialog.bind(this)}
-						onCancel={() => this.setState({ visible: false })}
-					/>
-				)}
-				<Loading visible={loadingVisible} />
-			</View>
+			<SafeViewComponent>
+				<View style={styles.container}>
+					<CommonHeader title="店铺设置" navigation={navigation} />
+					<ScrollView style={styles.setting_content}>
+						<MessageItem
+							showIcon
+							label="店铺名称"
+							value={shopDetail.name}
+							onPress={() => {
+								this.setState(
+									{ changeKey: 'name', title: '店铺名称', defalutValue: shopDetail.name },
+									() => {
+										this.setState({ visible: true });
+									},
+								);
+							}}
+						/>
+						<MessageItem
+							showIcon
+							label="店铺经理"
+							value={shopDetail.manager}
+							onPress={() => {
+								this.setState(
+									{ changeKey: 'manager', title: '店铺经理名称', defalutValue: shopDetail.manager },
+									() => {
+										this.setState({ visible: true });
+									},
+								);
+							}}
+						/>
+						<MessageItem
+							showIcon
+							label="联系方式"
+							value={shopDetail.phone}
+							onPress={() => {
+								this.setState(
+									{ changeKey: 'phone', title: '联系方式', defalutValue: shopDetail.phone },
+									() => {
+										this.setState({ visible: true });
+									},
+								);
+							}}
+						/>
+						<MessageItem
+							showIcon
+							label="打印机KEY"
+							value={shopDetail.key}
+							onPress={() => {
+								this.setState(
+									{ changeKey: 'key', title: '打印机KEY', defalutValue: shopDetail.key },
+									() => {
+										this.setState({ visible: true });
+									},
+								);
+							}}
+						/>
+						<MessageItem
+							showIcon
+							label="打印机SN"
+							value={shopDetail.sn}
+							onPress={() => {
+								this.setState(
+									{ changeKey: 'sn', title: '打印机SN', defalutValue: shopDetail.sn },
+									() => {
+										this.setState({ visible: true });
+									},
+								);
+							}}
+						/>
+					</ScrollView>
+					{visible && (
+						<Dialog
+							title={title}
+							changeKey={changeKey}
+							defalutValue={defalutValue}
+							onOk={this.onOkDialog.bind(this)}
+							onCancel={() => this.setState({ visible: false })}
+						/>
+					)}
+					<Loading visible={loadingVisible} />
+				</View>
+			</SafeViewComponent>
 		);
 	}
 }

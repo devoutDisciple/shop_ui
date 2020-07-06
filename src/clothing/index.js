@@ -6,6 +6,7 @@ import CommonHeader from '../component/CommonHeader';
 import storageUtil from '../util/Storage';
 import Request from '../util/Request';
 import Loading from '../component/Loading';
+import SafeViewComponent from '../component/SafeViewComponent';
 
 export default class Goods extends React.Component {
 	constructor(props) {
@@ -34,41 +35,43 @@ export default class Goods extends React.Component {
 		const { navigation } = this.props;
 		let { clothingDetail, loadingVisible, refreshLoadingVisible } = this.state;
 		return (
-			<View style={styles.container}>
-				<CommonHeader title="衣物清洗费用管理" navigation={navigation} />
-				<ScrollView
-					style={styles.content}
-					refreshControl={
-						<RefreshControl
-							refreshing={refreshLoadingVisible}
-							onRefresh={this.onSearchClothings.bind(this)}
-						/>
-					}
-				>
-					<View style={styles.content_title}>
-						<Text>衣物清洗费用管理</Text>
-					</View>
-					<View style={styles.content_clothing}>
-						{clothingDetail &&
-							clothingDetail.map((item, index) => {
-								return (
-									<GoodsItem
-										key={index}
-										data={item}
-										onSearchClothings={this.onSearchClothings.bind(this)}
-									/>
-								);
-							})}
-					</View>
-				</ScrollView>
-				<TouchableOpacity
-					style={styles.footer}
-					onPress={() => this.props.navigation.navigate('AddClothingScreen')}
-				>
-					<Text style={styles.footer_text}>增加衣物</Text>
-				</TouchableOpacity>
-				<Loading visible={loadingVisible} />
-			</View>
+			<SafeViewComponent>
+				<View style={styles.container}>
+					<CommonHeader title="衣物清洗费用管理" navigation={navigation} />
+					<ScrollView
+						style={styles.content}
+						refreshControl={
+							<RefreshControl
+								refreshing={refreshLoadingVisible}
+								onRefresh={this.onSearchClothings.bind(this)}
+							/>
+						}
+					>
+						<View style={styles.content_title}>
+							<Text>衣物清洗费用管理</Text>
+						</View>
+						<View style={styles.content_clothing}>
+							{clothingDetail &&
+								clothingDetail.map((item, index) => {
+									return (
+										<GoodsItem
+											key={index}
+											data={item}
+											onSearchClothings={this.onSearchClothings.bind(this)}
+										/>
+									);
+								})}
+						</View>
+					</ScrollView>
+					<TouchableOpacity
+						style={styles.footer}
+						onPress={() => this.props.navigation.navigate('AddClothingScreen')}
+					>
+						<Text style={styles.footer_text}>增加衣物</Text>
+					</TouchableOpacity>
+					<Loading visible={loadingVisible} />
+				</View>
+			</SafeViewComponent>
 		);
 	}
 }
