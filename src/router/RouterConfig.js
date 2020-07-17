@@ -6,7 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 // 首页
-import HomeScreen from '../home/index';
+import OrderScreen from '../home/index';
 
 // 商店管理
 import ShopDetailScreen from '../shopDetail/index';
@@ -20,10 +20,10 @@ import ClothingScreen from '../clothing/index';
 // 增加衣物页面
 import AddClothingScreen from '../clothing/AddClothing';
 
-// ===================
+// 销售额统计页面
+import SalesScreen from '../sales/index';
 
-// 订单
-import OrderScreen from '../order/Index';
+// ===================
 
 // 我的  --------------------
 import MyScreen from '../my/My';
@@ -77,7 +77,7 @@ const TabNavigator = createBottomTabNavigator(
 			screen: OrderContainer,
 			navigationOptions: {
 				title: 'Order',
-				tabBarLabel: '订单',
+				tabBarLabel: '订单管理',
 				tabBarIcon: ({ focused, tintColor }) => (
 					<TabBarItem
 						focused={focused}
@@ -91,7 +91,7 @@ const TabNavigator = createBottomTabNavigator(
 			screen: MyContainer,
 			navigationOptions: {
 				title: 'My',
-				tabBarLabel: '我的',
+				tabBarLabel: '店铺管理',
 				tabBarIcon: ({ focused, tintColor }) => (
 					<TabBarItem
 						focused={focused}
@@ -128,9 +128,19 @@ const finnalApp = createStackNavigator(
 		// 	},
 		// },
 
+		// 销售额统计页面
+		SalesScreen: {
+			screen: SalesScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
 		// 首页
 		HomeScreen: {
-			screen: HomeScreen,
+			screen: TabNavigator,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',

@@ -18,6 +18,25 @@ export default {
 		return data;
 	},
 
+	// 角色
+	filterRoleStatus: function(status) {
+		let data = '';
+		switch (Number(status)) {
+			case 1:
+				data = '超级管理员';
+				break;
+			case 2:
+				data = '店长';
+				break;
+			case 3:
+				data = '店员';
+				break;
+			default:
+				data = '。。。';
+		}
+		return data;
+	},
+
 	// 订单
 	filterOrderStatus: function(status) {
 		let data = '';

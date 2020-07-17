@@ -6,8 +6,8 @@ import Request from '../util/Request';
 import Order from './order/index';
 import Shop from './shop/index';
 import SalesReportTotal from './sales/SalesReportTotal';
-import { NavigationActions, StackActions } from 'react-navigation';
 import SafeViewComponent from '../component/SafeViewComponent';
+import NavigationUtil from '../util/NavigationUtil';
 import { StyleSheet, ScrollView, View, RefreshControl, TouchableOpacity, Text } from 'react-native';
 
 export default class MyScreen extends React.Component {
@@ -46,7 +46,9 @@ export default class MyScreen extends React.Component {
 			await this.onSearch();
 			this.setState({ loadingVisible: false });
 		} catch (error) {
-			await this.setState({ loadingVisible: false });
+			this.setState({ loadingVisible: false });
+		} finally {
+			this.setState({ loadingVisible: false });
 		}
 	}
 
@@ -71,11 +73,7 @@ export default class MyScreen extends React.Component {
 			let user = await StorageUtil.get('user');
 			let { navigation } = this.props;
 			if (!user) {
-				const resetAction = StackActions.reset({
-					index: 0,
-					actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
-				});
-				navigation.dispatch(resetAction);
+				NavigationUtil.reset(navigation, 'LoginScreen');
 				return 'error';
 			}
 			return 'success';
@@ -86,19 +84,18 @@ export default class MyScreen extends React.Component {
 
 	// 获取商店信息
 	async getShopMessage() {
-		let user = await StorageUtil.get('user'),
-			{ navigation } = this.props;
 		try {
+			let user = await StorageUtil.get('user'),
+				{ navigation } = this.props;
+			if (!user) {
+				return NavigationUtil.reset(navigation, 'LoginScreen');
+			}
 			let shop = await Request.get('/shop/getShopDetailById', { shopid: user.shopid });
 			if (shop && shop.code === 200) {
 				await this.setState({ shopDetail: shop.data });
 				return StorageUtil.set('shop', shop.data);
 			}
-			const resetAction = StackActions.reset({
-				index: 0,
-				actions: [NavigationActions.navigate({ routeName: 'LoginScreen' })],
-			});
-			navigation.dispatch(resetAction);
+			NavigationUtil.reset(navigation, 'LoginScreen');
 		} catch (error) {
 			this.setState({ loadingVisible: false });
 		}
@@ -113,7 +110,7 @@ export default class MyScreen extends React.Component {
 			if (success && code === 200 && data) {
 				this.setState({
 					orderTotalNum: data.orderTotalNum || 0,
-					orderTotalMoney: data.orderTotalMoney || 0,
+					orderTotalMoney: data.totalMoney || 0,
 				});
 			}
 		} catch (error) {
@@ -135,16 +132,16 @@ export default class MyScreen extends React.Component {
 		}
 	}
 
-	// // 获取storage
-	// async onGetStorage() {
-	// 	let keys = await StorageUtil.getAllKeys();
-	// 	let res = await StorageUtil.multiGet(keys);
-	// 	console.log('StorageUtil: ', res);
-	// }
+	// 获取storage
+	async onGetStorage() {
+		let keys = await StorageUtil.getAllKeys();
+		let res = await StorageUtil.multiGet(keys);
+		console.log('StorageUtil: ', res);
+	}
 
-	// onClearStorage() {
-	// 	StorageUtil.clear();
-	// }
+	onClearStorage() {
+		StorageUtil.clear();
+	}
 
 	render() {
 		const { navigation } = this.props,
@@ -161,11 +158,11 @@ export default class MyScreen extends React.Component {
 				<View style={styles.container}>
 					<CommonHeader title={`${shopDetail.name || 'MOVING'}后台管理系统`} navigation={navigation} />
 					{/* <TouchableOpacity onPress={this.onGetStorage.bind(this)}>
-					<Text>获取storage</Text>
-				</TouchableOpacity>
-				<TouchableOpacity onPress={this.onClearStorage.bind(this)}>
-					<Text>清除storage</Text>
-				</TouchableOpacity> */}
+						<Text>获取storage</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={this.onClearStorage.bind(this)}>
+						<Text>清除storage</Text>
+					</TouchableOpacity> */}
 					<ScrollView
 						style={styles.view_container}
 						refreshControl={

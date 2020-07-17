@@ -1,5 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import FilterStatus from '../util/FilterStatus';
 import { Text, View, StyleSheet, Image } from 'react-native';
 
 export default class MyScreen extends React.Component {
@@ -10,12 +10,8 @@ export default class MyScreen extends React.Component {
 
 	componentDidMount() {}
 
-	// 点击编辑按钮
-	editBtnClick() {
-		this.props.navigation.navigate('MyMessage');
-	}
-
 	render() {
+		let { shopDetail, userDetail } = this.props;
 		return (
 			<View style={styles.my_header}>
 				<View style={styles.my_header_img_container}>
@@ -23,11 +19,13 @@ export default class MyScreen extends React.Component {
 				</View>
 				<View style={styles.my_header_message}>
 					<View style={styles.my_header_message_name}>
-						<Text style={styles.my_header_message_name_left_text}>广州市洗衣店</Text>
+						<Text style={styles.my_header_message_name_left_text}>{shopDetail.name}</Text>
 					</View>
 					<View style={styles.my_header_message_member}>
 						<Text style={styles.my_header_message_member_text}>角色:{'  '}</Text>
-						<Text style={styles.my_header_message_member_text}>店员</Text>
+						<Text style={styles.my_header_message_member_text}>
+							{FilterStatus.filterRoleStatus(userDetail.role)}
+						</Text>
 					</View>
 				</View>
 			</View>
@@ -70,12 +68,14 @@ const styles = StyleSheet.create({
 	},
 	my_header_message_member: {
 		height: 30,
-		paddingHorizontal: 9,
+		// paddingHorizontal: 9,
 		backgroundColor: '#fb9dd0',
-		marginLeft: 11,
+		marginLeft: 15,
 		flexDirection: 'row',
 		borderRadius: 20,
 		alignItems: 'center',
+		justifyContent: 'center',
+		width: 120,
 	},
 	my_header_message_member_text: {
 		fontSize: 13,

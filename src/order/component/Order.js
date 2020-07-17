@@ -84,7 +84,6 @@ export default class AllOrder extends React.Component {
 					keyExtractor={(item, index) => String(item.id)}
 					ListFooterComponent={<FooterScreen status={footerStatus} />}
 					renderItem={({ item, index }) => {
-						console.log(item, 111);
 						// 通过快递柜下单
 						if (item.order_type === 1) {
 							let goods = JSON.parse(item.goods || []);

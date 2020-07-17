@@ -2,8 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>zh_CN</string>
+		<string>en</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>锐动洗衣后台管理系统</string>
 	<key>CFBundleExecutable</key>
@@ -39,16 +42,30 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(PRODUCT_NAME)想访问您的相册, 为了帮助您上传头像</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+	<string>$(PRODUCT_NAME)想访问您的相册, 为了帮助您上传头像</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$(PRODUCT_NAME)想读取您的通讯录，方便手机联系我们店员</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME)想要获取您的位置，方便使用上门取衣等功能</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>$(PRODUCT_NAME)想要获取您的位置，方便使用上门取衣等功能</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microphone is accessed for the first time</string>
+	<string>是否允许$(PRODUCT_NAME)使用您的麦克风</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>是否允许$(PRODUCT_NAME)保存相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>是否允许$(PRODUCT_NAME)访问您的相册</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>是否允许$(PRODUCT_NAME)访问提醒事项</string>
+	<key>NSSiriUsageDescription</key>
+	<string>是否允许$(PRODUCT_NAME)使用Siri</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>是否允许$(PRODUCT_NAME)使用语音识别</string>
+	<key>Privacy - Calendars Usage Description </key>
+	<string>是否允许$(PRODUCT_NAME)使用日历</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
