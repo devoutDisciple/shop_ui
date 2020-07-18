@@ -4,37 +4,16 @@ import React from 'react';
 import My_Header from './Header';
 import My_Wallert from './Wallet';
 import ListItem from './ListItem';
-import Icon from 'react-native-vector-icons/AntDesign';
 import StorageUtil from '../util/Storage';
 import Loading from '../component/Loading';
 import Request from '../util/Request';
 import NavigationUtil from '../util/NavigationUtil';
-import { StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
+import Message from '../component/Message';
+import SafeViewComponent from '../component/SafeViewComponent';
+import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
 import NotifService from '../notifService/index';
 
 export default class MyScreen extends React.Component {
-	static navigationOptions = ({ navigation, navigationOptions }) => {
-		return {
-			headerTitle: '',
-			headerRight: () => {
-				return (
-					<TouchableOpacity onPress={() => navigation.state.params.rightIconClick()}>
-						<Icon
-							style={{ width: 20, marginTop: 3, marginRight: 3 }}
-							name="setting"
-							size={20}
-							color="#333"
-						/>
-					</TouchableOpacity>
-				);
-			},
-			headerStyle: {
-				borderWidth: 0,
-				borderBottomColor: '#fff',
-			},
-		};
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -43,15 +22,12 @@ export default class MyScreen extends React.Component {
 			userDetail: {},
 			orderTotalNum: 0,
 			orderTotalMoney: 0,
+			headerLoading: false,
 		};
 		this.notif = new NotifService();
 	}
 
 	async componentDidMount() {
-		const { setParams } = this.props.navigation;
-		setParams({
-			rightIconClick: () => this.setIconClick(),
-		});
 		await this.initSearch();
 	}
 
@@ -64,6 +40,18 @@ export default class MyScreen extends React.Component {
 			this.setState({ loadingVisible: false });
 		} finally {
 			this.setState({ loadingVisible: false });
+		}
+	}
+
+	async refreshing() {
+		try {
+			this.setState({ headerLoading: true });
+			await this.onSearch();
+			this.setState({ headerLoading: false });
+		} catch (error) {
+			this.setState({ headerLoading: false });
+		} finally {
+			this.setState({ headerLoading: false });
 		}
 	}
 
@@ -132,6 +120,37 @@ export default class MyScreen extends React.Component {
 		}
 	}
 
+	async pressList(type) {
+		let { navigation } = this.props;
+		// 营销总览
+		if (type === 'SalesTypeScreen') {
+			navigation.navigate('SalesTypeScreen');
+		}
+		// 订单概况
+		if (type === 'orderOverviewScreen') {
+			navigation.navigate('orderOverviewScreen');
+		}
+		// 店铺设置
+		if (type === 'ShopDetailScreen') {
+			navigation.navigate('ShopDetailScreen');
+		}
+		//  洗衣柜状态
+		if (type === 'CabinetScreen') {
+			navigation.navigate('CabinetScreen');
+		}
+		// 衣物管理
+		if (type === 'ClothingScreen') {
+			navigation.navigate('ClothingScreen');
+		}
+		// 退出登录
+		if (type === 'logout') {
+			Message.confirm('提示', '确定退出登录', async () => {
+				await StorageUtil.clear();
+				NavigationUtil.reset(navigation, 'HomeScreen');
+			});
+		}
+	}
+
 	// 点击设置按钮
 	setIconClick() {
 		this.props.navigation.navigate('MySetting');
@@ -143,32 +162,63 @@ export default class MyScreen extends React.Component {
 	}
 
 	render() {
-		let { shopDetail, userDetail, loadingVisible, orderTotalNum, orderTotalMoney } = this.state;
+		let { shopDetail, userDetail, loadingVisible, orderTotalNum, orderTotalMoney, headerLoading } = this.state;
 		return (
-			<View style={styles.container}>
-				<ScrollView style={styles.container}>
-					<My_Header navigation={this.props.navigation} shopDetail={shopDetail} userDetail={userDetail} />
-					<My_Wallert
-						navigation={this.props.navigation}
-						orderTotalNum={orderTotalNum}
-						orderTotalMoney={orderTotalMoney}
-					/>
-					<ListItem iconName="creditcard" text="销售额统计" />
-					{/* <ListItem iconName="creditcard" text="发送消息通知" onPress={this.sendLocalMessage.bind(this)} /> */}
-					<ListItem iconName="creditcard" text="销售量统计" />
-					<ListItem iconName="creditcard" text="会员消费报表" />
-					<ListItem iconName="creditcard" text="积分兑换记录" />
-					<ListItem iconName="creditcard" text="钱包管理" />
-					<ListItem iconName="creditcard" text="修改店铺信息" />
-					<ListItem iconName="creditcard" text="客户意见反馈" />
-				</ScrollView>
-				<Loading visible={loadingVisible} />
-			</View>
+			<SafeViewComponent>
+				<View style={styles.con}>
+					<ScrollView
+						style={styles.container}
+						howsVerticalScrollIndicator={false}
+						refreshControl={
+							<RefreshControl refreshing={headerLoading} onRefresh={this.refreshing.bind(this)} />
+						}
+					>
+						<My_Header navigation={this.props.navigation} shopDetail={shopDetail} userDetail={userDetail} />
+						<My_Wallert
+							navigation={this.props.navigation}
+							orderTotalNum={orderTotalNum}
+							orderTotalMoney={orderTotalMoney}
+						/>
+						<ListItem
+							iconName="linechart"
+							text="营销总览"
+							onPress={this.pressList.bind(this, 'SalesTypeScreen')}
+						/>
+						{/* <ListItem iconName="creditcard" text="发送消息通知" onPress={this.sendLocalMessage.bind(this)} /> */}
+						<ListItem
+							iconName="profile"
+							text="订单概况"
+							onPress={this.pressList.bind(this, 'orderOverviewScreen')}
+						/>
+						<ListItem
+							iconName="setting"
+							text="店铺设置"
+							onPress={this.pressList.bind(this, 'ShopDetailScreen')}
+						/>
+						<ListItem
+							iconName="videocamera"
+							text="洗衣柜状态"
+							onPress={this.pressList.bind(this, 'CabinetScreen')}
+						/>
+						<ListItem
+							iconName="skin"
+							text="衣物管理"
+							onPress={this.pressList.bind(this, 'ClothingScreen')}
+						/>
+						<ListItem iconName="logout" text="退出登录" onPress={this.pressList.bind(this, 'logout')} />
+					</ScrollView>
+					<Loading visible={loadingVisible} />
+				</View>
+			</SafeViewComponent>
 		);
 	}
 }
 // 展示头像的view高度
 const styles = StyleSheet.create({
+	con: {
+		flex: 1,
+		marginTop: 60,
+	},
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',

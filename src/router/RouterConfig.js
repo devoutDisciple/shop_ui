@@ -21,7 +21,10 @@ import ClothingScreen from '../clothing/index';
 import AddClothingScreen from '../clothing/AddClothing';
 
 // 销售额统计页面
-import SalesScreen from '../sales/index';
+import SalesTypeScreen from '../my/salesType/index';
+
+// 订单概况
+import orderOverviewScreen from '../my/orderOverview/index';
 
 // ===================
 
@@ -63,6 +66,9 @@ const MyContainer = createStackNavigator(
 	{
 		MyScreen: {
 			screen: MyScreen,
+			navigationOptions: {
+				headerShown: false,
+			},
 		},
 	},
 	{
@@ -128,9 +134,9 @@ const finnalApp = createStackNavigator(
 		// 	},
 		// },
 
-		// 销售额统计页面
-		SalesScreen: {
-			screen: SalesScreen,
+		// 首页
+		HomeScreen: {
+			screen: TabNavigator,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',
@@ -138,9 +144,19 @@ const finnalApp = createStackNavigator(
 			},
 		},
 
-		// 首页
-		HomeScreen: {
-			screen: TabNavigator,
+		// 订单概况
+		orderOverviewScreen: {
+			screen: orderOverviewScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 销售额统计页面
+		SalesTypeScreen: {
+			screen: SalesTypeScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',
