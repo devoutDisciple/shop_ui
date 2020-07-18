@@ -1,12 +1,9 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Request from '../util/Request';
 import Toast from '../component/Toast';
 import Message from '../component/Message';
-
-const { width } = Dimensions.get('window');
 
 export default class Goods extends React.Component {
 	constructor(props) {
@@ -26,16 +23,23 @@ export default class Goods extends React.Component {
 		});
 	}
 
+	async goEditClothing() {
+		let { navigation } = this.props,
+			{ data } = this.props;
+		console.log(this.props.data);
+		navigation.navigate('EditClothingScreen', { id: data.id });
+	}
+
 	render() {
 		const { data } = this.props;
 		return (
 			<View style={styles.goodsItem}>
-				<View style={styles.goodsItem_name}>
+				<TouchableOpacity style={styles.goodsItem_name} onPress={this.goEditClothing.bind(this)}>
 					<Text style={styles.goodsItem_name_text}>{data.name}</Text>
-				</View>
-				<View style={styles.goodsItem_price}>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.goodsItem_price} onPress={this.goEditClothing.bind(this)}>
 					<Text style={styles.goodsItem_price_text}>{data.price}</Text>
-				</View>
+				</TouchableOpacity>
 				<TouchableOpacity style={styles.goodsItem_delete} onPress={this.deleteClothing.bind(this)}>
 					<Icon name="minuscircleo" size={18} color="#fb9dd0" />
 				</TouchableOpacity>

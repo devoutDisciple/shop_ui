@@ -23,6 +23,9 @@ import ClothingScreen from '../clothing/index';
 // 增加衣物页面
 import AddClothingScreen from '../clothing/AddClothing';
 
+// 衣物编辑页面
+import EditClothingScreen from '../clothing/EditClothing';
+
 // 销售额统计页面
 import SalesTypeScreen from '../my/salesType/index';
 
@@ -143,6 +146,16 @@ const finnalApp = createStackNavigator(
 		// 首页
 		HomeScreen: {
 			screen: TabNavigator,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 衣物编辑页面
+		EditClothingScreen: {
+			screen: EditClothingScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',

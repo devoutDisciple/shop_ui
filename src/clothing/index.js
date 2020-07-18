@@ -57,6 +57,7 @@ export default class Goods extends React.Component {
 										<GoodsItem
 											key={index}
 											data={item}
+											navigation={navigation}
 											onSearchClothings={this.onSearchClothings.bind(this)}
 										/>
 									);

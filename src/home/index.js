@@ -1,14 +1,15 @@
 import React from 'react';
-import CommonHeader from '../component/CommonHeaderNoBack';
+import Shop from './shop/index';
+import Order from './order/index';
+import config from '../config/config';
+import Request from '../util/Request';
 import StorageUtil from '../util/Storage';
 import Loading from '../component/Loading';
-import Request from '../util/Request';
-import Order from './order/index';
-import Shop from './shop/index';
-import SalesReportTotal from './sales/SalesReportTotal';
-import SafeViewComponent from '../component/SafeViewComponent';
 import NavigationUtil from '../util/NavigationUtil';
-import { StyleSheet, ScrollView, View, RefreshControl, TouchableOpacity, Text } from 'react-native';
+import CommonHeader from '../component/CommonHeaderNoBack';
+import SafeViewComponent from '../component/SafeViewComponent';
+import VersionDialog from '../component/VersionDialog';
+import { StyleSheet, ScrollView, View, RefreshControl, Linking } from 'react-native';
 
 export default class MyScreen extends React.Component {
 	constructor(props) {
@@ -16,6 +17,8 @@ export default class MyScreen extends React.Component {
 		this.state = {
 			loadingVisible: false,
 			refreshLoadingVisible: false,
+			versionSoftDialogVisible: false, // 非强制更新
+			versionForceDialogVisible: false, // 强制更新
 			shopDetail: {},
 			orderTotalNum: 0, // 订单总数量
 			orderTotalMoney: 0, // 订单总金额
@@ -33,7 +36,26 @@ export default class MyScreen extends React.Component {
 	}
 
 	async componentDidMount() {
+		await this.getVersion();
 		await this.initSearch();
+	}
+
+	// 获取当前版本
+	async getVersion() {
+		let res = await Request.get('/version/getCurrentVersion');
+		let versionDetail = res.data;
+		if (!versionDetail.version.includes(config.currentVersion)) {
+			if (versionDetail.force === 1) {
+				this.setState({
+					versionSoftDialogVisible: true,
+				});
+			}
+			if (versionDetail.force === 2) {
+				this.setState({
+					versionForceDialogVisible: true,
+				});
+			}
+		}
 	}
 
 	async initSearch() {
@@ -116,13 +138,36 @@ export default class MyScreen extends React.Component {
 		console.log('StorageUtil: ', res);
 	}
 
+	// 跳转到appstore进行更新
+	goAppStore() {
+		let url = `itms-apps://apps.apple.com/us/app/${config.AppStoreId}`;
+		//后面有个APP_ID，
+		Linking.canOpenURL(url)
+			.then(supported => {
+				if (supported) {
+					Linking.openURL(url);
+				} else {
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+
 	onClearStorage() {
 		StorageUtil.clear();
 	}
 
 	render() {
 		const { navigation } = this.props,
-			{ loadingVisible, shopDetail, orderTypeNum, refreshLoadingVisible } = this.state;
+			{
+				loadingVisible,
+				shopDetail,
+				orderTypeNum,
+				refreshLoadingVisible,
+				versionSoftDialogVisible,
+				versionForceDialogVisible,
+			} = this.state;
 		return (
 			<SafeViewComponent style={styles.container}>
 				<View style={styles.container}>
@@ -144,6 +189,31 @@ export default class MyScreen extends React.Component {
 						<Shop navigation={navigation} />
 					</ScrollView>
 					<Loading visible={loadingVisible} />
+					{/* 非强制版本 */}
+					{versionSoftDialogVisible && (
+						<VersionDialog
+							title="版本更新"
+							okText="立即更新"
+							cancelText="取消更新"
+							desc="有新版本更新,请更新至最新版本"
+							onOk={this.goAppStore.bind(this)}
+							onCancel={() => {
+								this.setState({ versionSoftDialogVisible: false });
+							}}
+							cancelShow={true}
+						/>
+					)}
+					{/* 强制更新版本 */}
+					{versionForceDialogVisible && (
+						<VersionDialog
+							title="版本更新"
+							okText="立即更新"
+							desc="有新版本更新,请立即更新至最新版本"
+							onOk={this.goAppStore.bind(this)}
+							onCancel={() => {}}
+							cancelShow={false}
+						/>
+					)}
 				</View>
 			</SafeViewComponent>
 		);
