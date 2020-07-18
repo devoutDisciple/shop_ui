@@ -11,7 +11,7 @@ export default class OrderScreen extends React.Component {
 	async componentDidMount() {}
 
 	render() {
-		let { orderDetail, address, type } = this.props;
+		let { orderDetail, type } = this.props;
 		// type-1 快递柜下单 2-积分兑换 3-上门取衣
 		if (Number(type) === 1) {
 			return (
@@ -43,6 +43,14 @@ export default class OrderScreen extends React.Component {
 						<Text>预约信息</Text>
 					</View>
 					<View style={styles.detail_send_content}>
+						<View style={styles.detail_send_content_item}>
+							<Text style={styles.detail_send_content_item_label}>派送费用: </Text>
+							<Text style={styles.detail_send_content_item_text}>预约成功，已付款</Text>
+						</View>
+						<View style={styles.detail_send_content_item}>
+							<Text style={styles.detail_send_content_item_label}>订单金额: </Text>
+							<Text style={styles.detail_send_content_item_text}>{orderDetail.money}</Text>
+						</View>
 						<View style={styles.detail_send_content_item}>
 							<Text style={styles.detail_send_content_item_label}>取衣时间: </Text>
 							<Text style={styles.detail_send_content_item_text}>{orderDetail.home_time}</Text>
@@ -111,14 +119,19 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		marginBottom: 10,
 		marginLeft: 20,
+		// backgroundColor: 'red',
+		height: 25,
+		alignItems: 'center',
 	},
 	detail_send_content_item_label: {
 		width: 80,
+		fontSize: 14,
 		// textAlign: 'right',
 		// marginRight: 5,
 	},
 	detail_send_content_item_text: {
 		flex: 1,
 		color: '#8a8a8a',
+		fontSize: 14,
 	},
 });

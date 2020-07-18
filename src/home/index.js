@@ -27,13 +27,9 @@ export default class MyScreen extends React.Component {
 				orderType5: 0,
 				orderType6: 0,
 				orderType7: 0,
+				orderType9: 0,
 			},
 		};
-		this.onSearch = this.onSearch.bind(this);
-		this.getShopMessage = this.getShopMessage.bind(this);
-		this.onJudgeUserLogin = this.onJudgeUserLogin.bind(this);
-		this.onSearchShopSalesNum = this.onSearchShopSalesNum.bind(this);
-		this.onSearchOrderTypeNum = this.onSearchOrderTypeNum.bind(this);
 	}
 
 	async componentDidMount() {
@@ -59,8 +55,6 @@ export default class MyScreen extends React.Component {
 		if (flag === 'success') {
 			// 更新商店信息
 			await this.getShopMessage();
-			// 查询商铺销售量信息
-			await this.onSearchShopSalesNum();
 			// 查询订单分类数量
 			await this.onSearchOrderTypeNum();
 		}
@@ -101,23 +95,6 @@ export default class MyScreen extends React.Component {
 		}
 	}
 
-	// 查询店铺总销量
-	async onSearchShopSalesNum() {
-		try {
-			let { shopDetail } = this.state;
-			let res = await Request.get('/order/getAllSalesNum', { shopid: shopDetail.id });
-			let { data, code, success } = res;
-			if (success && code === 200 && data) {
-				this.setState({
-					orderTotalNum: data.orderTotalNum || 0,
-					orderTotalMoney: data.totalMoney || 0,
-				});
-			}
-		} catch (error) {
-			this.setState({ loadingVisible: false });
-		}
-	}
-
 	// 查询订单分类数量
 	async onSearchOrderTypeNum() {
 		try {
@@ -145,14 +122,7 @@ export default class MyScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props,
-			{
-				loadingVisible,
-				shopDetail,
-				orderTotalNum,
-				orderTotalMoney,
-				orderTypeNum,
-				refreshLoadingVisible,
-			} = this.state;
+			{ loadingVisible, shopDetail, orderTypeNum, refreshLoadingVisible } = this.state;
 		return (
 			<SafeViewComponent style={styles.container}>
 				<View style={styles.container}>
@@ -169,9 +139,9 @@ export default class MyScreen extends React.Component {
 							<RefreshControl refreshing={refreshLoadingVisible} onRefresh={this.initSearch.bind(this)} />
 						}
 					>
-						<SalesReportTotal orderTotalNum={orderTotalNum} orderTotalMoney={orderTotalMoney} />
+						{/* <SalesReportTotal orderTotalNum={orderTotalNum} orderTotalMoney={orderTotalMoney} /> */}
 						<Order orderTypeNum={orderTypeNum} navigation={navigation} />
-						<Shop navigation={navigation} />
+						{/* <Shop navigation={navigation} /> */}
 					</ScrollView>
 					<Loading visible={loadingVisible} />
 				</View>

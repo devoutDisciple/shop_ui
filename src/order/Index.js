@@ -5,6 +5,7 @@ import Order from './component/Order';
 import FilterStatus from '../util/FilterStatus';
 import CommonHeader from '../component/CommonHeader';
 import SafeViewComponent from '../component/SafeViewComponent';
+import NavigationUtil from '../util/NavigationUtil';
 
 export default class OrderScreen extends React.Component {
 	constructor(props) {
@@ -17,7 +18,11 @@ export default class OrderScreen extends React.Component {
 		return (
 			<SafeViewComponent>
 				<View style={{ flex: 1 }}>
-					<CommonHeader title={FilterStatus.filterOrderStatus(status)} navigation={navigation} />
+					<CommonHeader
+						navigation={navigation}
+						title={FilterStatus.filterOrderStatus(status)}
+						back={() => NavigationUtil.reset(navigation, 'HomeScreen')}
+					/>
 					<Order navigation={navigation} type="all" status={status} />
 				</View>
 			</SafeViewComponent>

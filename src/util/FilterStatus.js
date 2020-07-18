@@ -57,13 +57,35 @@ export default {
 				data = '已完成';
 				break;
 			case 6:
-				data = '预约成功';
+				data = '预约上门';
 				break;
 			case 7:
 				data = '积分兑换';
 				break;
+			case 8:
+				data = '预约成功';
+				break;
+			case 9:
+				data = '待派送';
+				break;
 			default:
 				data = '待取货';
+		}
+		return data;
+	},
+
+	// 订单
+	filterClothingStatus: function(status) {
+		let data = '';
+		switch (Number(status)) {
+			case 6:
+				data = '预约上门，未付款';
+				break;
+			case 8:
+				data = '预约成功，已付款';
+				break;
+			default:
+				data = '预约上门，未付款';
 		}
 		return data;
 	},

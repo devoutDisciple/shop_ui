@@ -16,9 +16,9 @@ export default class AllOrder extends React.Component {
 	componentDidMount() {}
 
 	// 更新衣物状态
-	async updateOrderStatus() {
+	async updateOrderStatus(status) {
 		let { id } = this.props.detail;
-		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: 2 });
+		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: status });
 		if (orderStatus.data === 'success') {
 			return this.props.onSearch();
 		}
@@ -54,15 +54,48 @@ export default class AllOrder extends React.Component {
 	getClothing() {
 		Message.confirm('确认已取到衣物', '确认后衣物将归类于清洗中订单', async () => {
 			this.props.setLoading(true);
-			await this.updateOrderStatus();
+			await this.updateOrderStatus(2);
 			this.props.setLoading(false);
 			Toast.success('已取到衣物');
 			this.props.onSearch();
 		});
 	}
 
+	// 完成清洗
+	successClear() {
+		Message.confirm('已完成清洗', '清洗完成后，订单将归类于待派送订单', async () => {
+			this.props.setLoading(true);
+			await this.updateOrderStatus(9);
+			this.props.setLoading(false);
+			Toast.success('已完成清洗');
+			this.props.onSearch();
+		});
+	}
+
+	// 打开柜子
+	async onOpenCabinet() {
+		Message.confirm('是否打开格口', '请确认在柜子旁', async () => {
+			try {
+				let { id } = this.props.detail;
+				this.props.setLoading(true);
+				let result = await Request.post('/order/openCellById', { orderId: id, status: 2 });
+				this.props.setLoading(false);
+				if (result.data === 'success') {
+					Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
+					return this.props.onSearch();
+				}
+				return Message.warning('网络错误', '请稍后重试！');
+			} catch (error) {
+				this.props.setLoading(false);
+			}
+		});
+	}
+
 	renderBtn() {
-		let actionBtn = [];
+		let actionBtn = [],
+			detail = this.props.detail || {};
+		let { status, id, is_sure } = detail;
+
 		// 联系用户
 		const connectBtn = (
 			<TouchableOpacity
@@ -73,22 +106,70 @@ export default class AllOrder extends React.Component {
 				<Text style={styles.order_pay_font}>联系用户</Text>
 			</TouchableOpacity>
 		);
-		// 存放衣物
-		const saveClothingBtn = (
+
+		// 设置金额
+		const clearSucessBtn = (
 			<TouchableOpacity
-				key="saveClothingBtn"
+				key="clearSucessBtn"
+				style={styles.order_item_right_bottom_btn}
+				onPress={() => this.props.navigation.navigate('GoodsScreen', { orderId: id })}
+			>
+				<Text style={styles.order_pay_font}>设置金额</Text>
+			</TouchableOpacity>
+		);
+
+		// 确认取到衣物
+		const sureGetClothing = (
+			<TouchableOpacity
+				key="sureGetClothing"
 				style={styles.order_item_right_bottom_btn}
 				onPress={this.getClothing.bind(this)}
 			>
 				<Text style={styles.order_pay_font}>确认取到衣物</Text>
 			</TouchableOpacity>
 		);
-		actionBtn = [connectBtn, saveClothingBtn];
+
+		// 确认完成清洗
+		const successClear = (
+			<TouchableOpacity
+				key="successClear"
+				style={styles.order_item_right_bottom_btn}
+				onPress={this.successClear.bind(this)}
+			>
+				<Text style={styles.order_pay_font}>完成清洗</Text>
+			</TouchableOpacity>
+		);
+
+		// 存放衣物
+		const saveClothingBtn = (
+			<TouchableOpacity
+				key="saveClothingBtn"
+				style={styles.order_item_right_bottom_btn}
+				onPress={() => this.props.navigation.navigate('CabinetScreen', { orderId: id, showCabinetBtn: true })}
+			>
+				<Text style={styles.order_pay_font}>存放衣物</Text>
+			</TouchableOpacity>
+		);
+
+		if (Number(status) === 6) {
+			actionBtn = [connectBtn];
+		}
+		if (Number(status) === 8) {
+			actionBtn = [connectBtn, sureGetClothing];
+		}
+		if (status === 2) {
+			actionBtn = [connectBtn, clearSucessBtn];
+			is_sure === 2 && actionBtn.push(successClear);
+		}
+		if (status === 9) {
+			actionBtn = [saveClothingBtn];
+		}
 		return actionBtn;
 	}
 
 	render() {
-		const { id, create_time, status, code, home_time } = this.props.detail;
+		const { id, create_time, status, code, home_time, money } = this.props.detail;
+		let showPayResult = Number(status) === 6 || Number(status) === 8;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
@@ -112,6 +193,16 @@ export default class AllOrder extends React.Component {
 						</View>
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>订单方式：预约上门取衣</Text>
+						</View>
+						{showPayResult && (
+							<View style={styles.order_item_right_adrress}>
+								<Text style={styles.font_desc_style}>
+									派送费用：{FilterStatus.filterClothingStatus(status)}
+								</Text>
+							</View>
+						)}
+						<View style={styles.order_item_right_adrress}>
+							<Text style={styles.font_desc_style}>洗衣费用：{money}</Text>
 						</View>
 					</TouchableOpacity>
 					<View style={styles.order_item_right_bottom}>{this.renderBtn()}</View>

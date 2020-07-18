@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		marginBottom: 10,
 		marginLeft: 20,
+		height: 25,
+		alignItems: 'center',
 	},
 	detail_send_content_item_label: {
 		width: 80,

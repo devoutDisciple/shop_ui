@@ -17,7 +17,7 @@ export default class MyScreen extends React.Component {
 		return (
 			<View style={styles.module_chunk}>
 				<View style={styles.detail_common_title}>
-					<Text style={{ fontSize: 16, color: '#333' }}>销售总览</Text>
+					<Text style={{ fontSize: 16, color: '#333' }}>店铺总览</Text>
 				</View>
 				<View style={styles.sales}>
 					<View style={styles.sales_chunk1}>

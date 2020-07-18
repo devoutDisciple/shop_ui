@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 const { width } = Dimensions.get('window');
@@ -33,7 +31,7 @@ export default class MyScreen extends React.Component {
 	}
 }
 
-let itemWidth = (width - 37) / 3;
+let itemWidth = (width - 35) / 3;
 const sales_chunk = {
 	width: itemWidth,
 	height: 100,
@@ -46,14 +44,14 @@ const styles = StyleSheet.create({
 	chunk: {
 		width: itemWidth,
 		height: 100,
-		marginLeft: 5,
+		// marginLeft: 5,
 		marginBottom: 10,
 		borderColor: '#dbdbdb',
 		borderWidth: 0.5,
 	},
 	sales_chunk1: {
 		...sales_chunk,
-		backgroundColor: '#fa6638',
+		backgroundColor: '#7fe8fe',
 	},
 	sales_chunk2: {
 		...sales_chunk,
@@ -69,11 +67,12 @@ const styles = StyleSheet.create({
 	},
 	sales_chunk5: {
 		...sales_chunk,
-		backgroundColor: '#52c41b',
+		backgroundColor: '#fa85c0',
 	},
 	sales_chunk6: {
 		...sales_chunk,
-		backgroundColor: '#fa85c0',
+		backgroundColor: '#fcca81',
+		// backgroundColor: '#fa85c0',
 	},
 	sales_chunk_title: {
 		height: 50,

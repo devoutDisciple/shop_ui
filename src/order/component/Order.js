@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import Empty from './Empty';
 import FooterScreen from './Footer';
@@ -71,7 +70,7 @@ export default class AllOrder extends React.Component {
 
 	render() {
 		let { navigation } = this.props;
-		let { data, headerLoading, footerStatus, loadingVisible, type } = this.state;
+		let { data, headerLoading, footerStatus, loadingVisible } = this.state;
 		return (
 			<View style={styles.order_container}>
 				<FlatList

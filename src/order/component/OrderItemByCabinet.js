@@ -19,12 +19,13 @@ export default class AllOrder extends React.Component {
 				let { id } = this.props.detail;
 				this.props.setLoading(true);
 				let result = await Request.post('/order/openCellById', { orderId: id, status: 2 });
+				this.props.setLoading(false);
 				if (result.data === 'success') {
 					Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
 					return this.props.onSearch();
 				}
 				return Message.warning('网络错误', '请稍后重试！');
-			} finally {
+			} catch (error) {
 				this.props.setLoading(false);
 			}
 		});
@@ -70,6 +71,7 @@ export default class AllOrder extends React.Component {
 				<Text style={styles.order_pay_font}>联系用户</Text>
 			</TouchableOpacity>
 		);
+
 		// 打开柜子
 		const openBoxBtn = (
 			<TouchableOpacity
@@ -112,6 +114,9 @@ export default class AllOrder extends React.Component {
 		}
 		if (status === 3 || status === 4) {
 			actionBtn = [connectBtn];
+		}
+		if (status === 9) {
+			actionBtn = [saveClothingBtn];
 		}
 		return actionBtn;
 	}

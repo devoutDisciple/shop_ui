@@ -6,7 +6,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 // 首页
-import OrderScreen from '../home/index';
+import HomeScreen from '../home/index';
+
+// 订单管理页面
+import OrderScreen from '../order/Index';
 
 // 商店管理
 import ShopDetailScreen from '../shopDetail/index';
@@ -46,10 +49,10 @@ import LoginScreen from '../login/Login';
 import TabBarItem from './TabBarItem';
 
 // 订单页面
-const OrderContainer = createStackNavigator(
+const HomeScreenContainer = createStackNavigator(
 	{
-		OrderScreen: {
-			screen: OrderScreen,
+		HomeScreen: {
+			screen: HomeScreen,
 			navigationOptions: {
 				headerShown: false,
 			},
@@ -80,7 +83,7 @@ const MyContainer = createStackNavigator(
 const TabNavigator = createBottomTabNavigator(
 	{
 		Order: {
-			screen: OrderContainer,
+			screen: HomeScreenContainer,
 			navigationOptions: {
 				title: 'Order',
 				tabBarLabel: '订单管理',
