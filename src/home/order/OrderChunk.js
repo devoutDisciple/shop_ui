@@ -11,13 +11,20 @@ export default class MyScreen extends React.Component {
 
 	goOrder() {
 		let { status, navigation } = this.props;
+		// 订单录入
+		if (status === -1) {
+			return;
+		}
 		navigation.navigate('OrdersScreen', { status: status });
 	}
 
 	render() {
 		let { title, num } = this.props;
 		return (
-			<TouchableOpacity style={styles.chunk} onPress={this.goOrder.bind(this)}>
+			<TouchableOpacity
+				style={styles[this.props.className === 'sales_chunk5' ? 'chunk5' : 'chunk']}
+				onPress={this.goOrder.bind(this)}
+			>
 				<View style={styles[this.props.className]}>
 					<View style={styles.sales_chunk_title}>
 						<Text style={styles.sales_chunk_title_text}>{title}</Text>
@@ -44,7 +51,6 @@ const styles = StyleSheet.create({
 	chunk: {
 		width: itemWidth,
 		height: 100,
-		// marginLeft: 5,
 		marginBottom: 10,
 		borderColor: '#dbdbdb',
 		borderWidth: 0.5,
@@ -66,8 +72,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#595959',
 	},
 	sales_chunk5: {
-		...sales_chunk,
-		backgroundColor: '#fa85c0',
+		width: itemWidth,
+		height: 100,
+		marginBottom: 10,
+		backgroundColor: '#fff',
 	},
 	sales_chunk6: {
 		...sales_chunk,

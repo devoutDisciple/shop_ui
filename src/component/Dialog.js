@@ -19,7 +19,7 @@ export default class Dialog extends React.Component {
 	}
 
 	render() {
-		let { title, placeHolder } = this.props,
+		let { title, placeHolder, maxLength } = this.props,
 			{ changeKey, value } = this.state;
 		return (
 			<View style={styles.container}>
@@ -37,7 +37,7 @@ export default class Dialog extends React.Component {
 					</View>
 					<View style={styles.content_desc}>
 						<TextInput
-							maxLength={20}
+							maxLength={maxLength || 20}
 							defaultValue={value}
 							selectionColor="#fb9bcd"
 							placeholderTextColor="#bfbfbf"
@@ -47,7 +47,10 @@ export default class Dialog extends React.Component {
 						/>
 					</View>
 					<View style={styles.content_footer}>
-						<TouchableOpacity onPress={() => this.props.onOk(changeKey, value)} style={styles.content_footer_left}>
+						<TouchableOpacity
+							onPress={() => this.props.onOk(changeKey, value)}
+							style={styles.content_footer_left}
+						>
 							<Text style={styles.content_footer_text}>确定</Text>
 						</TouchableOpacity>
 						<TouchableOpacity onPress={() => this.props.onCancel()} style={styles.content_footer_right}>

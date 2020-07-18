@@ -141,7 +141,7 @@ export default class MyScreen extends React.Component {
 					>
 						{/* <SalesReportTotal orderTotalNum={orderTotalNum} orderTotalMoney={orderTotalMoney} /> */}
 						<Order orderTypeNum={orderTypeNum} navigation={navigation} />
-						{/* <Shop navigation={navigation} /> */}
+						<Shop navigation={navigation} />
 					</ScrollView>
 					<Loading visible={loadingVisible} />
 				</View>

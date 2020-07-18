@@ -4,6 +4,7 @@ import FooterScreen from './Footer';
 import OrderItemByHome from './OrderItemByHome';
 import OrderItemByCabinet from './OrderItemByCabinet';
 import OrderItemByIntergral from './OrderItemByIntergral';
+import OrderItemByShoperInput from './OrderItemByShoperInput';
 import { View, FlatList, StyleSheet } from 'react-native';
 import Request from '../../util/Request';
 import storageUtil from '../../util/Storage';
@@ -120,6 +121,18 @@ export default class AllOrder extends React.Component {
 						if (item.order_type === 3) {
 							return (
 								<OrderItemByIntergral
+									detail={item}
+									key={String(item.id)}
+									navigation={navigation}
+									onSearch={this.headerRefresh.bind(this)}
+									setLoading={flag => this.setState({ loadingVisible: flag })}
+								/>
+							);
+						}
+						// 店员录入订单
+						if (item.order_type === 4) {
+							return (
+								<OrderItemByShoperInput
 									detail={item}
 									key={String(item.id)}
 									navigation={navigation}

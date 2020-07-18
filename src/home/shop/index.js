@@ -15,7 +15,7 @@ export default class MyScreen extends React.Component {
 	onGoShopDetail(type) {
 		let { navigation } = this.props;
 		if (type === 1) {
-			return navigation.navigate('ShopDetailScreen');
+			return navigation.navigate('InputOrderScreen');
 		}
 		if (type === 2) {
 			return navigation.navigate('CabinetScreen', { showCabinetBtn: false });
@@ -33,12 +33,12 @@ export default class MyScreen extends React.Component {
 				</View>
 				<View style={styles.sales}>
 					<Chunk
-						title="店铺设置"
+						title="订单录入"
 						iconName="setting"
 						className="sales_chunk1"
 						onPress={this.onGoShopDetail.bind(this, 1)}
 					/>
-					<Chunk
+					{/* <Chunk
 						title="洗衣柜状态"
 						iconName="layout"
 						className="sales_chunk2"
@@ -49,7 +49,7 @@ export default class MyScreen extends React.Component {
 						iconName="tagso"
 						className="sales_chunk3"
 						onPress={this.onGoShopDetail.bind(this, 3)}
-					/>
+					/> */}
 				</View>
 			</View>
 		);

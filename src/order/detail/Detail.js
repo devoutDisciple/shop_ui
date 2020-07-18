@@ -1,13 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
-import CommonHeader from '../../component/CommonHeader';
 import DetailSave from './DetailSave';
 import DetailUser from './DetailUser';
 import Detailgoods from './DetailGoods';
 import Request from '../../util/Request';
 import Loading from '../../component/Loading';
-import storageUtil from '../../util/Storage';
+import CommonHeader from '../../component/CommonHeader';
+import DetailOrderByShoperInput from './DetailOrderByShoperInput';
+import { Text, View, ScrollView, StyleSheet } from 'react-native';
 
 export default class OrderScreen extends React.Component {
 	constructor(props) {
@@ -36,8 +36,8 @@ export default class OrderScreen extends React.Component {
 	render() {
 		const { navigation } = this.props,
 			{ orderDetail, loadingVisible, address, type } = this.state;
+		console.log(orderDetail, 111);
 		return (
-			// <Text>234</Text>
 			<View style={{ flex: 1 }}>
 				<CommonHeader title="订单详情" navigation={navigation} />
 				<ScrollView style={styles.detail_content}>
@@ -46,8 +46,14 @@ export default class OrderScreen extends React.Component {
 						<Text style={styles.detail_content_title_time}>下单时间：{orderDetail.create_time}</Text>
 					</View>
 					<Detailgoods orderDetail={orderDetail} type={type} />
-					<DetailUser orderDetail={orderDetail} address={address} type={type} />
-					<DetailSave orderDetail={orderDetail} address={address} type={type} />
+					{Number(orderDetail.order_type) === 4 ? (
+						<DetailOrderByShoperInput orderDetail={orderDetail} type={type} />
+					) : (
+						<>
+							<DetailUser orderDetail={orderDetail} address={address} type={type} />
+							<DetailSave orderDetail={orderDetail} address={address} type={type} />
+						</>
+					)}
 				</ScrollView>
 				<Loading visible={loadingVisible} />
 			</View>

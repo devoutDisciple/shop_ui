@@ -54,12 +54,12 @@ export default class SettingScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	common_text_style: {
-		fontSize: 16,
+		fontSize: 14,
 		color: '#333',
 	},
 	setting_content_item: {
 		marginHorizontal: 10,
-		height: 70,
+		height: 60,
 		borderBottomColor: '#f1f1f1',
 		borderBottomWidth: 0.5,
 		justifyContent: 'center',
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
 	},
 	setting_content_item_right: {
 		width: 30,
-		// backgroundColor: 'orange',
 		justifyContent: 'center',
 		alignItems: 'flex-end',
 	},

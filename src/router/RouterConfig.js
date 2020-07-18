@@ -29,6 +29,9 @@ import SalesTypeScreen from '../my/salesType/index';
 // 订单概况
 import orderOverviewScreen from '../my/orderOverview/index';
 
+// 订单录入
+import InputOrderScreen from '../inputOrder/index';
+
 // ===================
 
 // 我的  --------------------
@@ -140,6 +143,16 @@ const finnalApp = createStackNavigator(
 		// 首页
 		HomeScreen: {
 			screen: TabNavigator,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// 订单录入页面
+		InputOrderScreen: {
+			screen: InputOrderScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',
