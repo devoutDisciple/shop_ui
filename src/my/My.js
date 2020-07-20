@@ -11,7 +11,6 @@ import NavigationUtil from '../util/NavigationUtil';
 import Message from '../component/Message';
 import SafeViewComponent from '../component/SafeViewComponent';
 import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
-import NotifService from '../notifService/index';
 
 export default class MyScreen extends React.Component {
 	constructor(props) {
@@ -24,7 +23,6 @@ export default class MyScreen extends React.Component {
 			orderTotalMoney: 0,
 			headerLoading: false,
 		};
-		this.notif = new NotifService();
 	}
 
 	async componentDidMount() {
@@ -156,11 +154,6 @@ export default class MyScreen extends React.Component {
 		this.props.navigation.navigate('MySetting');
 	}
 
-	// 点击销售统计
-	sendLocalMessage() {
-		this.notif.localNotif('moving洗衣店', '消息通知内容');
-	}
-
 	render() {
 		let { shopDetail, userDetail, loadingVisible, orderTotalNum, orderTotalMoney, headerLoading } = this.state;
 		return (
@@ -179,17 +172,16 @@ export default class MyScreen extends React.Component {
 							orderTotalNum={orderTotalNum}
 							orderTotalMoney={orderTotalMoney}
 						/>
-						<ListItem
+						{/* <ListItem
 							iconName="linechart"
 							text="营销总览"
 							onPress={this.pressList.bind(this, 'SalesTypeScreen')}
 						/>
-						{/* <ListItem iconName="creditcard" text="发送消息通知" onPress={this.sendLocalMessage.bind(this)} /> */}
 						<ListItem
 							iconName="profile"
 							text="订单概况"
 							onPress={this.pressList.bind(this, 'orderOverviewScreen')}
-						/>
+						/> */}
 						<ListItem
 							iconName="setting"
 							text="店铺设置"

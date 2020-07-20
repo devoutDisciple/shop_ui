@@ -46,6 +46,10 @@ export default class LoginScreen extends React.Component {
 		}
 	}
 
+	goOtherPage() {
+		this.props.navigation.navigate('SecurityLoginScreen');
+	}
+
 	render() {
 		const { loginBtnDisable } = this.state;
 
@@ -74,13 +78,13 @@ export default class LoginScreen extends React.Component {
 						selectionColor={baseColor.fontColor}
 						maxLength={20}
 					/>
-					<View style={styles.login_desc}>
+					{/* <View style={styles.login_desc}>
 						<View style={styles.login_desc_left}>
 							<View style={styles.login_desc_left_account}>
 								<Text style={{ color: baseColor.shadowColor }}>如果忘记密码，请联系管理员！</Text>
 							</View>
 						</View>
-					</View>
+					</View> */}
 					<View style={styles.login_btn}>
 						<Button
 							buttonStyle={{
@@ -97,6 +101,9 @@ export default class LoginScreen extends React.Component {
 							title="登录"
 						/>
 					</View>
+					<TouchableOpacity onPress={this.goOtherPage.bind(this, 3)} style={styles.phoneLogin}>
+						<Text style={{ color: baseColor.fontColor }}>用户注册</Text>
+					</TouchableOpacity>
 				</ScrollView>
 			</SafeViewComponent>
 		);
@@ -127,6 +134,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	login_btn: {
+		marginTop: 20,
 		height: 90,
 		// backgroundColor: 'red',
 	},

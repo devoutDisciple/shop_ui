@@ -35,6 +35,9 @@ import orderOverviewScreen from '../my/orderOverview/index';
 // 订单录入
 import InputOrderScreen from '../inputOrder/index';
 
+// 手机验证码登录  骗苹果审核  SecurityLoginScreen
+import SecurityLoginScreen from '../login/SecurityLogin';
+
 // ===================
 
 // 我的  --------------------
@@ -146,6 +149,15 @@ const finnalApp = createStackNavigator(
 		// 首页
 		HomeScreen: {
 			screen: TabNavigator,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		SecurityLoginScreen: {
+			screen: SecurityLoginScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',

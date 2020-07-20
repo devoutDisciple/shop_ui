@@ -32,6 +32,7 @@ Axios.defaults = Object.assign(Axios.defaults, {
 // 添加响应拦截器
 Axios.interceptors.response.use(
 	function(res) {
+		console.log(res, 11111);
 		if (res.status !== 200) {
 			message.warning('网络异常, 请稍后重试1');
 			return Promise.reject('系统错误');
