@@ -30,6 +30,13 @@ export default class AllOrder extends React.Component {
 		await this.onJustSearch();
 	}
 
+	// 当参数含有flash的时候会进行刷新
+	async UNSAFE_componentWillReceiveProps(nextProps) {
+		if (nextProps && nextProps.navigation && nextProps.navigation.state.params.flash) {
+			await this.onJustSearch();
+		}
+	}
+
 	async onJustSearch() {
 		let data = await this.onSearchOrder(true);
 		this.setState({ data });
