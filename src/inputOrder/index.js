@@ -55,8 +55,6 @@ export default class SettingScreen extends React.Component {
 			if (!orderDetail.name || !orderDetail.phone || !orderDetail.address || !orderDetail.money) {
 				return Toast.warning('请完善信息');
 			}
-			console.log(orderDetail.money, 111);
-			console.log(typeof orderDetail.money);
 			if (typeof orderDetail.money !== 'number' || orderDetail.money < 0) {
 				return Toast.warning('请输入正确清洗费用');
 			}

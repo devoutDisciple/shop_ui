@@ -14,7 +14,7 @@ export default class Goods extends React.Component {
 	componentDidMount() {}
 
 	render() {
-		const { id, name, num, price } = this.props;
+		const { idx, name, num, price } = this.props;
 		return (
 			<View style={styles.goodsItem}>
 				<View style={styles.goodsItem_name}>
@@ -22,13 +22,13 @@ export default class Goods extends React.Component {
 					<Text style={styles.goodsItem_price_text}>清洗价格：{price}</Text>
 				</View>
 				<View style={styles.goodsItem_count}>
-					<TouchableOpacity style={styles.goodsItem_count_icon} onPress={() => this.props.onSubCloth(id)}>
+					<TouchableOpacity style={styles.goodsItem_count_icon} onPress={() => this.props.onSubCloth(idx)}>
 						<Icon name="minuscircleo" size={18} color="#fb9dd0" />
 					</TouchableOpacity>
 					<View style={styles.goodsItem_count_num}>
 						<Text style={styles.goodsItem_count_num_text}>{num}</Text>
 					</View>
-					<TouchableOpacity style={styles.goodsItem_count_icon} onPress={() => this.props.onAddCloth(id)}>
+					<TouchableOpacity style={styles.goodsItem_count_icon} onPress={() => this.props.onAddCloth(idx)}>
 						<Icon name="pluscircleo" size={18} color="#fb9dd0" />
 					</TouchableOpacity>
 				</View>

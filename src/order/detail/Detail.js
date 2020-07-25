@@ -36,7 +36,6 @@ export default class OrderScreen extends React.Component {
 	render() {
 		const { navigation } = this.props,
 			{ orderDetail, loadingVisible, address, type } = this.state;
-		console.log(orderDetail, 111);
 		return (
 			<View style={{ flex: 1 }}>
 				<CommonHeader title="订单详情" navigation={navigation} />

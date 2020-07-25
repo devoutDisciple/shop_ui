@@ -14,30 +14,29 @@ export default class OrderScreen extends React.Component {
 		super(props);
 	}
 
-	componentDidMount() {
-		console.log(this.props.data, 2222);
-	}
-
 	async openCell(type) {
 		try {
 			this.props.setLoading(true);
 			let { navigation, data } = this.props;
 			let orderId = navigation.getParam('orderId');
 			let cabinetId = data.id;
+			console.log(111);
 			let res = await Request.post('/order/openCellByRandomByCabinetId', {
 				orderId: orderId,
 				cabinetId: cabinetId,
 				type: type,
 				status: 3,
 			});
+			console.log(222);
+			this.props.setLoading(false);
 			if (res.data === 'success') {
 				this.props.onSearch();
-				this.props.setLoading(false);
 				Message.success('格口已打开', '请存放衣物，并随手关闭格口', () => {
 					navigation.navigate('HomeScreen');
 				});
 			}
-		} finally {
+		} catch (error) {
+			console.log(3333);
 			this.props.setLoading(false);
 		}
 	}
@@ -45,6 +44,9 @@ export default class OrderScreen extends React.Component {
 	render() {
 		let { data, navigation } = this.props;
 		let showCabinetBtn = navigation.getParam('showCabinetBtn');
+		let bigBoxCells = (data.usedState && data.usedState.bigBox && data.usedState.bigBox.empty) || 0;
+		let smallBoxCells = (data.usedState && data.usedState.samllBox && data.usedState.samllBox.empty) || 0;
+		console.log(data.usedState);
 		return (
 			<View style={styles.container}>
 				<View style={styles.detail_common_title}>
@@ -73,10 +75,10 @@ export default class OrderScreen extends React.Component {
 					{showCabinetBtn && (
 						<View style={styles.cabinet_bottom}>
 							<TouchableOpacity style={styles.bottom_btn} onPress={this.openCell.bind(this, 'smallBox')}>
-								<Text style={{ color: '#fb9dd0' }}>存放衣物(叠柜)</Text>
+								<Text style={{ color: '#fb9dd0' }}>叠柜(可用: {smallBoxCells})</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={styles.bottom_btn} onPress={this.openCell.bind(this, 'bigBox')}>
-								<Text style={{ color: '#fb9dd0' }}>存放衣物(挂柜)</Text>
+								<Text style={{ color: '#fb9dd0' }}>挂柜(可用: {bigBoxCells})</Text>
 							</TouchableOpacity>
 						</View>
 					)}

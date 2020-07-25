@@ -7,6 +7,7 @@ import storageUtil from '../util/Storage';
 import Loading from '../component/Loading';
 import CommonHeader from '../component/CommonHeader';
 import SafeViewComponent from '../component/SafeViewComponent';
+import ClothingAddDialog from '../component/ClothingAddDialog';
 import { Text, View, StyleSheet, ScrollView, Dimensions, Alert, TouchableOpacity } from 'react-native';
 
 const { width } = Dimensions.get('window');
@@ -22,6 +23,7 @@ export default class Goods extends React.Component {
 			originPrice: '0.00',
 			isThursday: false,
 			loadingVisible: false,
+			addClothingVisible: false,
 		};
 	}
 
@@ -42,7 +44,6 @@ export default class Goods extends React.Component {
 			let orderId = navigation.getParam('orderId');
 			// 获取订单衣物
 			let result = await Request.get('/order/getOrderById', { id: orderId });
-			console.log(result, 11);
 			let goods = result.data && result.data.goods ? result.data.goods : '[]';
 			goods = JSON.parse(goods);
 			let { money, origin_money, discount } = result.data;
@@ -55,6 +56,13 @@ export default class Goods extends React.Component {
 						return (item.num = currentSelectGoods[0].num);
 					}
 					item.num = 0;
+				});
+			}
+			if (Array.isArray(goods) && Array.isArray(data)) {
+				goods.forEach(item => {
+					if (!item.id) {
+						data.push(item);
+					}
 				});
 			}
 			let isThursday = Number(result.weekDay) === 4;
@@ -71,6 +79,82 @@ export default class Goods extends React.Component {
 		} catch {
 			this.setState({ loadingVisible: false });
 		}
+	}
+
+	// 减少衣物
+	onSubCloth(idx) {
+		let { data } = this.state,
+			goods = data[idx];
+		if (goods.num < 1) {
+			return;
+		}
+		goods.num--;
+		this.setState({ data }, () => this.onCountPrice());
+	}
+
+	// 增加衣物
+	onAddCloth(idx) {
+		let { data } = this.state;
+		let goods = data[idx];
+		goods.num++;
+		this.setState({ data }, () => this.onCountPrice());
+	}
+
+	// 增加衣物类型
+	onAddClothingType(params) {
+		let { data } = this.state;
+		data.push({ name: params.name, price: params.price, num: 1 });
+		this.setState({ data, addClothingVisible: false }, () => {
+			this.onCountPrice();
+		});
+	}
+
+	// 设置折扣
+	setDiscount() {
+		let num = 10,
+			data = [],
+			{ discountText } = this.state;
+		for (let i = 0; i < 20; i++) {
+			let text = num - 0.5 * i + '折';
+			data.push(text);
+		}
+		data.push('免费');
+		Picker.init({
+			pickerConfirmBtnText: '确认',
+			pickerCancelBtnText: '取消',
+			pickerTitleText: '',
+			pickerConfirmBtnColor: [251, 156, 206, 1],
+			pickerCancelBtnColor: [196, 199, 206, 1],
+			pickerTitleColor: [251, 156, 206, 1],
+			pickerData: data,
+			selectedValue: [discountText],
+			onPickerConfirm: res => {
+				this.setState({ discountText: res[0] });
+				this.onCountPrice();
+			},
+		});
+		Picker.show();
+	}
+
+	// 结算价格
+	onCountPrice() {
+		let { data, discountText } = this.state;
+		let discount = 1;
+		if (discountText === '免费') {
+			discount = 0;
+		}
+		if (discountText && discountText.includes('折')) {
+			let num = discountText.split('折')[0];
+			discount = Number(num) / 10;
+		}
+		let originPrice = 0;
+		data.map(item => {
+			originPrice += Number(item.price * item.num);
+		});
+		originPrice = Number(originPrice).toFixed(2);
+		let currentMoney = (originPrice * discount).toFixed(2);
+		let subMoney = Number(originPrice - currentMoney).toFixed(2);
+		this.setState({ originPrice: originPrice, totalPrice: currentMoney, subMoney });
 	}
 
 	// 点击确定的时候
@@ -113,76 +197,18 @@ export default class Goods extends React.Component {
 		);
 	}
 
-	// 减少衣物
-	onSubCloth(id) {
-		let { data } = this.state;
-		let goods = data.filter(item => item.id === id)[0];
-		if (goods.num < 1) {
-			return;
-		}
-		goods.num--;
-		this.setState({ data }, () => this.onCountPrice());
-	}
-
-	// 增加衣物
-	onAddCloth(id) {
-		let { data } = this.state;
-		let goods = data.filter(item => item.id === id)[0];
-		goods.num++;
-		this.setState({ data }, () => this.onCountPrice());
-	}
-
-	// 设置折扣
-	setDiscount() {
-		let num = 10,
-			data = [],
-			{ discountText } = this.state;
-		for (let i = 0; i < 20; i++) {
-			let text = num - 0.5 * i + '折';
-			data.push(text);
-		}
-		data.push('免费');
-		Picker.init({
-			pickerConfirmBtnText: '确认',
-			pickerCancelBtnText: '取消',
-			pickerTitleText: '',
-			pickerConfirmBtnColor: [251, 156, 206, 1],
-			pickerCancelBtnColor: [196, 199, 206, 1],
-			pickerTitleColor: [251, 156, 206, 1],
-			pickerData: data,
-			selectedValue: [discountText],
-			onPickerConfirm: res => {
-				console.log(res[0]);
-				this.setState({ discountText: res[0] });
-				this.onCountPrice();
-			},
-		});
-		Picker.show();
-	}
-
-	// 结算价格
-	onCountPrice() {
-		let { data, discountText } = this.state;
-		let discount = 1;
-		if (discountText === '免费') {
-			discount = 0;
-		}
-		if (discountText && discountText.includes('折')) {
-			let num = discountText.split('折')[0];
-			discount = Number(num) / 10;
-		}
-		let totalPrice = 0;
-		data.map(item => {
-			totalPrice += Number(item.price * item.num);
-		});
-		let currentMoney = (totalPrice * discount).toFixed(2);
-		let subMoney = Number(totalPrice - currentMoney).toFixed(2);
-		this.setState({ totalPrice: currentMoney, subMoney, originPrice: totalPrice });
-	}
-
 	render() {
 		const { navigation } = this.props;
-		let { data, totalPrice, originPrice, loadingVisible, discountText, subMoney, isThursday } = this.state;
+		let {
+			data,
+			totalPrice,
+			originPrice,
+			loadingVisible,
+			discountText,
+			subMoney,
+			isThursday,
+			addClothingVisible,
+		} = this.state;
 		return (
 			<SafeViewComponent>
 				<View style={styles.container}>
@@ -197,16 +223,23 @@ export default class Goods extends React.Component {
 									return (
 										<GoodsItem
 											key={index}
-											id={item.id}
+											idx={index}
 											num={item.num}
 											name={item.name}
-											source={item.url}
 											price={item.price}
 											onSubCloth={this.onSubCloth.bind(this)}
 											onAddCloth={this.onAddCloth.bind(this)}
 										/>
 									);
 								})}
+						</View>
+						<View style={styles.add_clothing}>
+							<TouchableOpacity
+								style={styles.add_clothing_container}
+								onPress={() => this.setState({ addClothingVisible: true })}
+							>
+								<Text style={styles.add_clothing_text}>增加衣物 </Text>
+							</TouchableOpacity>
 						</View>
 						<View style={styles.content_title}>
 							<Text>会员日下单</Text>
@@ -226,7 +259,7 @@ export default class Goods extends React.Component {
 						</View>
 						<View style={styles.discount_sub}>
 							<Text style={styles.discount_label}>已减：</Text>
-							<Text style={styles.discount_sub_text}>- {subMoney}</Text>
+							<Text style={styles.discount_value}>- {subMoney}</Text>
 						</View>
 						<View style={styles.member_order}>
 							<Text style={styles.discount_label}>当前折扣：</Text>
@@ -253,6 +286,12 @@ export default class Goods extends React.Component {
 						</TouchableOpacity>
 					</View>
 					<Loading visible={loadingVisible} />
+					{addClothingVisible && (
+						<ClothingAddDialog
+							onAddClothingType={this.onAddClothingType.bind(this)}
+							onCancel={() => this.setState({ addClothingVisible: false })}
+						/>
+					)}
 				</View>
 			</SafeViewComponent>
 		);
@@ -383,5 +422,20 @@ const styles = StyleSheet.create({
 	origin_text: {
 		fontSize: 16,
 		fontWeight: '600',
+	},
+	add_clothing: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+	},
+	add_clothing_container: {
+		width: 80,
+		height: 30,
+		backgroundColor: '#fb9dd0',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 5,
+	},
+	add_clothing_text: {
+		color: '#fff',
 	},
 });

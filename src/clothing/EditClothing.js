@@ -28,7 +28,6 @@ export default class Goods extends React.Component {
 	// 获取衣物详情
 	async getClothingDetail() {
 		let { navigation } = this.props;
-		console.log(navigation.getParam('id'));
 		let id = navigation.getParam('id');
 		this.setState({ loadingVisible: true });
 		let result = await Request.get('/clothing/getDetailById', { id });

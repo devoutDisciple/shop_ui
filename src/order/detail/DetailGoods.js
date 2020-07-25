@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import CommonSylte from '../../style/common';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
 export default class OrderScreen extends React.Component {
 	constructor(props) {
@@ -13,6 +13,7 @@ export default class OrderScreen extends React.Component {
 	render() {
 		let { orderDetail, type } = this.props,
 			goods = [];
+		console.log(orderDetail, 9999);
 		try {
 			goods = JSON.parse(orderDetail.goods);
 		} catch (error) {
@@ -42,6 +43,18 @@ export default class OrderScreen extends React.Component {
 							</View>
 						);
 					})}
+
+					<View style={styles.detail_content_goods_send}>
+						<Text>原价： ￥{orderDetail.origin_money}</Text>
+					</View>
+					<View style={styles.detail_content_goods_send}>
+						<Text>折扣： ￥{orderDetail.discount + '折'}</Text>
+					</View>
+					<View style={styles.detail_content_goods_send}>
+						<Text>
+							已减： ￥{Number(Number(orderDetail.origin_money) - Number(orderDetail.money).toFixed(2))}
+						</Text>
+					</View>
 					<View style={styles.detail_content_goods_send}>
 						<Text>派送费： ￥{orderDetail.send_money}</Text>
 					</View>
@@ -133,6 +146,7 @@ const styles = StyleSheet.create({
 	},
 	detail_content_goods_send: {
 		marginVertical: 10,
+		marginLeft: 10,
 	},
 	detail_content_goods_total: {
 		alignItems: 'flex-end',

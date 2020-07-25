@@ -26,7 +26,6 @@ export default class Goods extends React.Component {
 	async goEditClothing() {
 		let { navigation } = this.props,
 			{ data } = this.props;
-		console.log(this.props.data);
 		navigation.navigate('EditClothingScreen', { id: data.id });
 	}
 
