@@ -1,6 +1,8 @@
 import React from 'react';
 import FilterStatus from '../util/FilterStatus';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import Config from '../config/config';
+import FastImage from '../component/FastImage';
+import { Text, View, StyleSheet } from 'react-native';
 
 export default class MyScreen extends React.Component {
 	constructor(props) {
@@ -15,7 +17,7 @@ export default class MyScreen extends React.Component {
 		return (
 			<View style={styles.my_header}>
 				<View style={styles.my_header_img_container}>
-					<Image style={styles.my_header_image} source={require('../../img/public/header.jpg')} />
+					<FastImage style={styles.my_header_image} source={{ uri: `${Config.baseUrl}/${shopDetail.url}` }} />
 				</View>
 				<View style={styles.my_header_message}>
 					<View style={styles.my_header_message_name}>

@@ -9,6 +9,7 @@ import Dialog from '../component/Dialog';
 import Loading from '../component/Loading';
 import Message from '../component/Message';
 import CommonHeader from '../component/CommonHeader';
+import ImagePicker from 'react-native-image-crop-picker';
 import SafeViewComponent from '../component/SafeViewComponent';
 
 export default class SettingScreen extends React.Component {
@@ -64,13 +65,44 @@ export default class SettingScreen extends React.Component {
 		}
 	}
 
+	// 用户上传头像
+	async selectPhoto() {
+		let keys = await Storage.getAllKeys();
+		let res = await Storage.multiGet(keys);
+		console.log('StorageUtil: ', res);
+		ImagePicker.openPicker({
+			width: 200,
+			height: 200,
+			cropping: true,
+			cropperCircleOverlay: true,
+			includeBase64: true,
+		}).then(async response => {
+			// 获取用户token值
+			let shop = await Storage.get('shop');
+			let data = { img: response.data, shopid: shop.id };
+			let result = await Request.post('/shop/addPhoto', data);
+			if (result.data === 'success') {
+				Toast.success('店铺logo修改成功');
+				this.onSearchShopDetail();
+			}
+		});
+	}
+
 	render() {
 		const { navigation } = this.props,
 			{ visible, shopDetail, changeKey, title, defalutValue, loadingVisible } = this.state;
+		console.log(shopDetail, 111);
 		return (
 			<SafeViewComponent>
 				<View style={styles.container}>
 					<CommonHeader title="店铺设置" navigation={navigation} />
+					<MessageItem
+						label="店铺logo"
+						value={shopDetail.url}
+						showIcon
+						isImage
+						onPress={this.selectPhoto.bind(this)}
+					/>
 					<ScrollView style={styles.setting_content}>
 						<MessageItem
 							showIcon
