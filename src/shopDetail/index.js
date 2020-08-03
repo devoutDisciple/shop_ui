@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
 	},
 	setting_content: {
 		flex: 1,
-		marginTop: 20,
+		marginTop: 5,
 	},
 	setting_content_item: {
 		marginHorizontal: 10,

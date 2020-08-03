@@ -1,5 +1,5 @@
 import React from 'react';
-import MessageItem from './MessageItem';
+import MessageItem from './Test';
 import Request from '../util/Request';
 import Toast from '../component/Toast';
 import StorageUtil from '../util/Storage';
@@ -55,7 +55,7 @@ export default class SettingScreen extends React.Component {
 			if (!orderDetail.name || !orderDetail.phone || !orderDetail.address || !orderDetail.money) {
 				return Toast.warning('请完善信息');
 			}
-			if (typeof orderDetail.money !== 'number' || orderDetail.money < 0) {
+			if (isNaN(Number(orderDetail.money)) || Number(orderDetail.money) < 0) {
 				return Toast.warning('请输入正确清洗费用');
 			}
 			if (!/^1[3456789]\d{9}$/.test(orderDetail.phone)) {

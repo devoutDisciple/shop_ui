@@ -177,7 +177,7 @@ export default class AllOrder extends React.Component {
 					</View>
 					<TouchableOpacity onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
-							<Text style={styles.font_desc_style}>订单方式：店员录入</Text>
+							<Text style={styles.font_desc_style}>订单方式：手动录入</Text>
 						</View>
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>客户姓名：{home_username}</Text>
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
 	font_desc_style: {
 		fontSize: 12,
 		color: '#333',
-		lineHeight: 20,
+		lineHeight: 16,
 	},
 	order_item: {
 		minHeight: 150,
@@ -243,8 +243,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 	},
 	order_item_right_adrress: {
-		marginTop: 8,
-		minHeight: 24,
+		marginTop: 12,
 	},
 	order_item_right_goods: {
 		flexDirection: 'row',
