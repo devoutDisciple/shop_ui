@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 import GoodsItem from './GoodsItem';
@@ -40,6 +39,7 @@ export default class Goods extends React.Component {
 					<CommonHeader title="衣物清洗费用管理" navigation={navigation} />
 					<ScrollView
 						style={styles.content}
+						showsVerticalScrollIndicator={false}
 						refreshControl={
 							<RefreshControl
 								refreshing={refreshLoadingVisible}

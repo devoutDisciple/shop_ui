@@ -213,7 +213,7 @@ export default class Goods extends React.Component {
 			<SafeViewComponent>
 				<View style={styles.container}>
 					<CommonHeader title="确认衣物价格" navigation={navigation} />
-					<ScrollView style={styles.content}>
+					<ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
 						<View style={styles.content_title}>
 							<Text>洗衣费用价格计算</Text>
 						</View>

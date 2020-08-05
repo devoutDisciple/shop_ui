@@ -43,7 +43,7 @@ export default class OrderScreen extends React.Component {
 						navigation={navigation}
 						back={() => navigation.navigate('HomeScreen')}
 					/>
-					<ScrollView style={styles.cabinet}>
+					<ScrollView style={styles.cabinet} showsVerticalScrollIndicator={false}>
 						{cabinetDetail.map((item, index) => {
 							return (
 								<CabinetItem

@@ -1,6 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, View, StyleSheet, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import {
+	Text,
+	View,
+	StyleSheet,
+	Dimensions,
+	TextInput,
+	TouchableOpacity,
+	KeyboardAvoidingView,
+	Platform,
+} from 'react-native';
 import Toast from './Toast';
 const { width, height } = Dimensions.get('window');
 
@@ -33,7 +42,7 @@ export default class Dialog extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.content}>
+				<KeyboardAvoidingView style={styles.content} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 					<View style={styles.content_title}>
 						<Text
 							style={{
@@ -74,7 +83,7 @@ export default class Dialog extends React.Component {
 							<Text style={styles.content_footer_text}>取消</Text>
 						</TouchableOpacity>
 					</View>
-				</View>
+				</KeyboardAvoidingView>
 			</View>
 		);
 	}
@@ -90,9 +99,8 @@ const styles = StyleSheet.create({
 	content: {
 		minHeight: 40,
 		width: width * 0.8,
-		position: 'absolute',
-		left: width / 10,
-		top: height / 2 - 60,
+		marginLeft: width / 10,
+		marginTop: height / 2 - 120,
 		opacity: 1,
 		backgroundColor: 'rgba(255,255,255,1)',
 		borderRadius: 10,

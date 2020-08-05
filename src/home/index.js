@@ -180,6 +180,7 @@ export default class MyScreen extends React.Component {
 					</TouchableOpacity> */}
 					<ScrollView
 						style={styles.view_container}
+						showsVerticalScrollIndicator={false}
 						refreshControl={
 							<RefreshControl refreshing={refreshLoadingVisible} onRefresh={this.initSearch.bind(this)} />
 						}

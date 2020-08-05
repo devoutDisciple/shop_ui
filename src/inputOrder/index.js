@@ -94,7 +94,7 @@ export default class SettingScreen extends React.Component {
 						navigation={navigation}
 						back={() => NavigationUtil.reset(navigation, 'HomeScreen')}
 					/>
-					<ScrollView style={styles.setting_content}>
+					<ScrollView style={styles.setting_content} showsVerticalScrollIndicator={false}>
 						<MessageItem
 							showIcon
 							label="客户名称"

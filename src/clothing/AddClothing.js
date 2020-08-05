@@ -1,6 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import CommonHeader from '../component/CommonHeader';
 import storageUtil from '../util/Storage';

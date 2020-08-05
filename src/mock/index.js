@@ -39,6 +39,7 @@ export default class Advertisement extends React.Component {
 					<CommonHeader title="锐动洗衣" navigation={navigation} />
 					<ScrollView
 						style={styles.view_container}
+						showsVerticalScrollIndicator={false}
 						refreshControl={
 							<RefreshControl refreshing={refreshLoadingVisible} onRefresh={this.initSearch.bind(this)} />
 						}

@@ -36,6 +36,7 @@ export default class Advertisement extends React.Component {
 		let res = await Request.get('/mock/getMockFlag', { version: config.currentVersion });
 		console.log(res);
 		let data = res.data;
+		data = 1;
 		if (Number(data) === 1) {
 			return;
 		} // 直接跳转home页面

@@ -55,7 +55,7 @@ export default class LoginScreen extends React.Component {
 
 		return (
 			<SafeViewComponent>
-				<ScrollView style={{ flex: 1, padding: 10 }}>
+				<ScrollView style={{ flex: 1, padding: 10 }} showsVerticalScrollIndicator={false}>
 					<TouchableOpacity style={{ marginVertical: 20 }} />
 					<View style={{ marginVertical: 20, marginLeft: 20 }}>
 						<Text style={{ fontSize: 20 }}>锐动洗衣后台管理登录</Text>

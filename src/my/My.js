@@ -163,7 +163,7 @@ export default class MyScreen extends React.Component {
 				<View style={styles.con}>
 					<ScrollView
 						style={styles.container}
-						howsVerticalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}
 						refreshControl={
 							<RefreshControl refreshing={headerLoading} onRefresh={this.refreshing.bind(this)} />
 						}

@@ -98,7 +98,7 @@ export default class SettingScreen extends React.Component {
 						isImage
 						onPress={this.selectPhoto.bind(this)}
 					/>
-					<ScrollView style={styles.setting_content}>
+					<ScrollView style={styles.setting_content} showsVerticalScrollIndicator={false}>
 						<MessageItem
 							showIcon
 							label="店铺名称"
