@@ -1,8 +1,6 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-console */
 import React from 'react';
 import message from '../component/Message';
-import { RNCamera } from 'react-native-camera';
+// import { RNCamera } from 'react-native-camera';
 import CommonHeader from '../component/CommonHeader';
 import { StyleSheet, Text, View, Easing, Animated } from 'react-native';
 
@@ -45,7 +43,7 @@ export default class ScanCameraScreen extends React.Component {
 		return (
 			<View style={styles.container}>
 				<CommonHeader title="扫码开门" navigation={navigation} />
-				<RNCamera
+				{/* <RNCamera
 					ref={ref => {
 						this.camera = ref;
 					}}
@@ -66,7 +64,7 @@ export default class ScanCameraScreen extends React.Component {
 						/>
 						<Text style={styles.rectangleText}>将二维码放入框内，即可自动扫描</Text>
 					</View>
-				</RNCamera>
+				</RNCamera> */}
 			</View>
 		);
 	}

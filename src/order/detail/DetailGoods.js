@@ -13,7 +13,6 @@ export default class OrderScreen extends React.Component {
 	render() {
 		let { orderDetail, type } = this.props,
 			goods = [];
-		console.log(orderDetail, 9999);
 		try {
 			goods = JSON.parse(orderDetail.goods);
 		} catch (error) {
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
 	detail_common_title: CommonSylte.detail_common_title,
 	detail_content_goods: {
 		backgroundColor: '#fff',
-		marginVertical: 10,
+		marginTop: 10,
 		padding: 10,
 	},
 	empty: {

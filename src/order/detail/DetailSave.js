@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
 	detail_common_title: CommonSylte.detail_common_title,
 	detail_send: {
 		backgroundColor: '#fff',
-		marginVertical: 10,
+		marginTop: 10,
 		padding: 10,
 		marginBottom: 20,
 	},

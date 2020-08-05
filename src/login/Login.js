@@ -101,9 +101,9 @@ export default class LoginScreen extends React.Component {
 							title="登录"
 						/>
 					</View>
-					<TouchableOpacity onPress={this.goOtherPage.bind(this, 3)} style={styles.phoneLogin}>
+					{/* <TouchableOpacity onPress={this.goOtherPage.bind(this, 3)} style={styles.phoneLogin}>
 						<Text style={{ color: baseColor.fontColor }}>用户注册</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</ScrollView>
 			</SafeViewComponent>
 		);

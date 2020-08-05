@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-
 import React from 'react';
 import My_Header from './Header';
 import My_Wallert from './Wallet';
@@ -120,6 +118,10 @@ export default class MyScreen extends React.Component {
 
 	async pressList(type) {
 		let { navigation } = this.props;
+		let { userDetail } = this.state;
+		if (userDetail.role === 3 && type !== 'logout') {
+			return Message.warning('暂无权限', '此功能仅店长可用');
+		}
 		// 营销总览
 		if (type === 'SalesTypeScreen') {
 			navigation.navigate('SalesTypeScreen');
@@ -170,6 +172,7 @@ export default class MyScreen extends React.Component {
 						<My_Wallert
 							navigation={this.props.navigation}
 							orderTotalNum={orderTotalNum}
+							userDetail={userDetail}
 							orderTotalMoney={orderTotalMoney}
 						/>
 						{/* <ListItem

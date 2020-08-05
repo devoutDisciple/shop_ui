@@ -3,6 +3,7 @@ import React from 'react';
 import DetailSave from './DetailSave';
 import DetailUser from './DetailUser';
 import Detailgoods from './DetailGoods';
+import DetailPrint from './DetailPrint';
 import Request from '../../util/Request';
 import Loading from '../../component/Loading';
 import CommonHeader from '../../component/CommonHeader';
@@ -53,6 +54,7 @@ export default class OrderScreen extends React.Component {
 							<DetailSave orderDetail={orderDetail} address={address} type={type} />
 						</>
 					)}
+					<DetailPrint orderid={orderDetail.id} />
 				</ScrollView>
 				<Loading visible={loadingVisible} />
 			</View>

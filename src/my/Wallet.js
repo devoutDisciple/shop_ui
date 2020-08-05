@@ -1,8 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default class Waller extends React.Component {
 	constructor(props) {
@@ -12,15 +10,15 @@ export default class Waller extends React.Component {
 	componentDidMount() {}
 
 	render() {
-		let { orderTotalMoney, orderTotalNum } = this.props;
+		let { orderTotalMoney, orderTotalNum, userDetail } = this.props;
 		return (
 			<View style={styles.my_wallet}>
 				<TouchableOpacity style={styles.my_wallet_chunk}>
-					<Text style={styles.my_wallet_chunk_top}>{orderTotalMoney}</Text>
+					<Text style={styles.my_wallet_chunk_top}>{userDetail.role === 3 ? '****' : orderTotalMoney}</Text>
 					<Text style={styles.my_wallet_chunk_bottom}>店铺总收入</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.my_wallet_chunk}>
-					<Text style={styles.my_wallet_chunk_top}>{orderTotalNum}</Text>
+					<Text style={styles.my_wallet_chunk_top}>{userDetail.role === 3 ? '****' : orderTotalNum}</Text>
 					<Text style={styles.my_wallet_chunk_bottom}>店铺交易量</Text>
 				</TouchableOpacity>
 			</View>

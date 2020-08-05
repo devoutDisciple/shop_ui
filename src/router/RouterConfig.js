@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -26,11 +24,22 @@ import AddClothingScreen from '../clothing/AddClothing';
 // 衣物编辑页面
 import EditClothingScreen from '../clothing/EditClothing';
 
-// 销售额统计页面
-import SalesTypeScreen from '../my/salesType/index';
+// 广告页面
+import AdvertisementScreen from '../advertisement/index';
 
-// 订单概况
-import orderOverviewScreen from '../my/orderOverview/index';
+// mock---------------------------
+// mock页面
+import MockScreen from '../mock/index';
+import MockConcatusScreen from '../mock/concatUs/ConcatUs';
+import MockClothingScreen from '../mock/clothing/Clothing';
+
+// mock---------------------------
+
+// // 销售额统计页面
+// import SalesTypeScreen from '../my/salesType/index';
+
+// // 订单概况
+// import orderOverviewScreen from '../my/orderOverview/index';
 
 // 订单录入
 import InputOrderScreen from '../inputOrder/index';
@@ -146,6 +155,46 @@ const finnalApp = createStackNavigator(
 		// 	},
 		// },
 
+		// 广告页面
+		AdvertisementScreen: {
+			screen: AdvertisementScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// ------mock
+		MockScreen: {
+			screen: MockScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// mock 联系我们
+		MockConcatusScreen: {
+			screen: MockConcatusScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
+		// mock 预约取衣
+		MockClothingScreen: {
+			screen: MockClothingScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
 		// 首页
 		HomeScreen: {
 			screen: TabNavigator,
@@ -186,24 +235,24 @@ const finnalApp = createStackNavigator(
 		},
 
 		// 订单概况
-		orderOverviewScreen: {
-			screen: orderOverviewScreen,
-			navigationOptions: {
-				headerShown: false,
-				headerBackTitle: '返回',
-				headerBackAllowFontScaling: false,
-			},
-		},
+		// orderOverviewScreen: {
+		// 	screen: orderOverviewScreen,
+		// 	navigationOptions: {
+		// 		headerShown: false,
+		// 		headerBackTitle: '返回',
+		// 		headerBackAllowFontScaling: false,
+		// 	},
+		// },
 
-		// 销售额统计页面
-		SalesTypeScreen: {
-			screen: SalesTypeScreen,
-			navigationOptions: {
-				headerShown: false,
-				headerBackTitle: '返回',
-				headerBackAllowFontScaling: false,
-			},
-		},
+		// // 销售额统计页面
+		// SalesTypeScreen: {
+		// 	screen: SalesTypeScreen,
+		// 	navigationOptions: {
+		// 		headerShown: false,
+		// 		headerBackTitle: '返回',
+		// 		headerBackAllowFontScaling: false,
+		// 	},
+		// },
 
 		// 订单管理
 		OrdersScreen: {
