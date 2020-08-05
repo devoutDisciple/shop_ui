@@ -20,14 +20,12 @@ export default class OrderScreen extends React.Component {
 			let { navigation, data } = this.props;
 			let orderId = navigation.getParam('orderId');
 			let cabinetId = data.id;
-			console.log(111);
 			let res = await Request.post('/order/openCellByRandomByCabinetId', {
 				orderId: orderId,
 				cabinetId: cabinetId,
 				type: type,
 				status: 3,
 			});
-			console.log(222);
 			this.props.setLoading(false);
 			if (res.data === 'success') {
 				this.props.onSearch();
@@ -36,7 +34,6 @@ export default class OrderScreen extends React.Component {
 				});
 			}
 		} catch (error) {
-			console.log(3333);
 			this.props.setLoading(false);
 		}
 	}
@@ -46,7 +43,6 @@ export default class OrderScreen extends React.Component {
 		let showCabinetBtn = navigation.getParam('showCabinetBtn');
 		let bigBoxCells = (data.usedState && data.usedState.bigBox && data.usedState.bigBox.empty) || 0;
 		let smallBoxCells = (data.usedState && data.usedState.samllBox && data.usedState.samllBox.empty) || 0;
-		console.log(data.usedState);
 		return (
 			<View style={styles.container}>
 				<View style={styles.detail_common_title}>

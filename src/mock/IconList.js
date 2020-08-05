@@ -27,7 +27,6 @@ export default class IconList extends React.Component {
 			Linking.canOpenURL(tel)
 				.then(supported => {
 					if (!supported) {
-						console.log(123);
 						Message.warning('商家电话', '18210619398');
 					} else {
 						return Linking.openURL('18210619398');

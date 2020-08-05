@@ -66,9 +66,6 @@ export default class SettingScreen extends React.Component {
 
 	// 用户上传头像
 	async selectPhoto() {
-		let keys = await Storage.getAllKeys();
-		let res = await Storage.multiGet(keys);
-		console.log('StorageUtil: ', res);
 		ImagePicker.openPicker({
 			width: 200,
 			height: 200,
@@ -90,7 +87,6 @@ export default class SettingScreen extends React.Component {
 	render() {
 		const { navigation } = this.props,
 			{ visible, shopDetail, changeKey, title, defalutValue, loadingVisible } = this.state;
-		console.log(shopDetail, 111);
 		return (
 			<SafeViewComponent>
 				<View style={styles.container}>
