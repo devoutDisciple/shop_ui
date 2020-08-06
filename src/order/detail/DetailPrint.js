@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 5,
+		marginBottom: 40,
 	},
 	btn_text: {
 		color: '#fff',

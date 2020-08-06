@@ -4,6 +4,7 @@ import Request from '../util/Request';
 import Toast from '../component/Toast';
 import Picker from 'react-native-picker';
 import storageUtil from '../util/Storage';
+import Message from '../component/Message';
 import Loading from '../component/Loading';
 import CommonHeader from '../component/CommonHeader';
 import SafeViewComponent from '../component/SafeViewComponent';
@@ -170,31 +171,46 @@ export default class Goods extends React.Component {
 			discount = Number(discountText.split('折')[0]);
 		}
 		let selectGoods = data.filter(item => item.num !== 0);
-		Alert.alert(
-			'提示',
-			`该次洗衣总费用${totalPrice}元`,
-			[
-				{
-					text: '确定',
-					onPress: async () => {
-						this.setState({ loadingVisible: true });
-						let result = await Request.post('/order/sureOrder', {
-							orderId: orderId,
-							goods: selectGoods,
-							totalPrice,
-							originMoney: originPrice,
-							discount: discount,
-						});
-						this.setState({ loadingVisible: false });
-						if (result || result.data === 'success') {
-							navigation.navigate('OrdersScreen', { status: 2, flash: true });
-							return Toast.success('更改成功');
-						}
-					},
-				},
-			],
-			{ cancelable: false },
-		);
+		Message.confirm('提示', `该次洗衣总费用${totalPrice}元`, async () => {
+			this.setState({ loadingVisible: true });
+			let result = await Request.post('/order/sureOrder', {
+				orderId: orderId,
+				goods: selectGoods,
+				totalPrice,
+				originMoney: originPrice,
+				discount: discount,
+			});
+			this.setState({ loadingVisible: false });
+			if (result || result.data === 'success') {
+				navigation.navigate('OrdersScreen', { status: 2, flash: true });
+				return Toast.success('更改成功');
+			}
+		});
+		// Alert.alert(
+		// 	'提示',
+		// 	`该次洗衣总费用${totalPrice}元`,
+		// 	[
+		// 		{
+		// 			text: '确定',
+		// 			onPress: async () => {
+		// 				this.setState({ loadingVisible: true });
+		// 				let result = await Request.post('/order/sureOrder', {
+		// 					orderId: orderId,
+		// 					goods: selectGoods,
+		// 					totalPrice,
+		// 					originMoney: originPrice,
+		// 					discount: discount,
+		// 				});
+		// 				this.setState({ loadingVisible: false });
+		// 				if (result || result.data === 'success') {
+		// 					navigation.navigate('OrdersScreen', { status: 2, flash: true });
+		// 					return Toast.success('更改成功');
+		// 				}
+		// 			},
+		// 		},
+		// 	],
+		// 	{ cancelable: true },
+		// );
 	}
 
 	render() {

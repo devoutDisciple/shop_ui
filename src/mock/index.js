@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 	detail_common_title: {
 		...CommonSylte.detail_common_title,
 		marginTop: 15,
-		marginBottom: -5,
+		marginBottom: -15,
 		marginLeft: 10,
 	},
 	container: {
