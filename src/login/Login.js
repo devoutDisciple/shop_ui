@@ -62,12 +62,11 @@ export default class LoginScreen extends React.Component {
 					</View>
 					<Kohana
 						{...commonInputParams}
+						maxLength={20}
 						iconName="user"
-						label={'请输入登录账号'}
-						onChangeText={this.inputChange.bind(this, 'username')}
-						keyboardType="number-pad"
-						maxLength={11}
+						label="请输入登录账号"
 						selectionColor={baseColor.fontColor}
+						onChangeText={this.inputChange.bind(this, 'username')}
 					/>
 					<Kohana
 						iconName="lock"

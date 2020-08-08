@@ -28,15 +28,22 @@ export default class Goods extends React.Component {
 	}
 
 	async addClothing() {
-		this.setState({ loadingVisible: true });
 		let shop = await storageUtil.get('shop');
-		let { name, price, sort } = this.state;
-		let params = { shopid: shop.id, name, price, sort, create_time: moment().format('YYYY-MM-DD HH:mm:ss') };
-		let res = await Request.post('/clothing/add', params);
-		if (res && res.code === 200 && res.data === 'success') {
-			Toast.success('新增成功');
+		let { navigation } = this.props;
+		try {
+			this.setState({ loadingVisible: true });
+			let { name, price, sort } = this.state;
+			let params = { shopid: shop.id, name, price, sort, create_time: moment().format('YYYY-MM-DD HH:mm:ss') };
+			let res = await Request.post('/clothing/add', params);
+			if (res && res.code === 200 && res.data === 'success') {
+				Toast.success('新增成功');
+				this.setState({ loadingVisible: false });
+				navigation.state.params.onSearchClothings();
+				this.props.navigation.goBack();
+			}
+		} catch (error) {
 			this.setState({ loadingVisible: false });
-			this.props.navigation.goBack();
+			navigation.state.params.onSearchClothings();
 		}
 	}
 
@@ -71,11 +78,12 @@ export default class Goods extends React.Component {
 							<Kohana
 								iconName="redenvelopes"
 								{...commonInputParams}
-								label={'请输入衣物价格'}
+								label="请输入衣物价格(元)"
 								onChangeText={this.inputChange.bind(this, 'price')}
 								keyboardType="number-pad"
+								returnKeyType="done"
 								selectionColor={baseColor.fontColor}
-								maxLength={20}
+								maxLength={8}
 							/>
 						</View>
 					</View>
@@ -90,8 +98,9 @@ export default class Goods extends React.Component {
 								label={'请输入衣物权重'}
 								onChangeText={this.inputChange.bind(this, 'sort')}
 								keyboardType="number-pad"
+								returnKeyType="done"
 								selectionColor={baseColor.fontColor}
-								maxLength={20}
+								maxLength={8}
 							/>
 						</View>
 					</View>

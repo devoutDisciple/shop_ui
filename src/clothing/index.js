@@ -15,7 +15,6 @@ export default class Goods extends React.Component {
 			loadingVisible: false,
 			refreshLoadingVisible: false,
 		};
-		this.onSearchClothings = this.onSearchClothings.bind(this);
 	}
 
 	async componentDidMount() {
@@ -66,7 +65,11 @@ export default class Goods extends React.Component {
 					</ScrollView>
 					<TouchableOpacity
 						style={styles.footer}
-						onPress={() => this.props.navigation.navigate('AddClothingScreen')}
+						onPress={() =>
+							this.props.navigation.navigate('AddClothingScreen', {
+								onSearchClothings: this.onSearchClothings.bind(this),
+							})
+						}
 					>
 						<Text style={styles.footer_text}>增加衣物</Text>
 					</TouchableOpacity>

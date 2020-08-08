@@ -56,7 +56,7 @@ export default class Advertisement extends React.Component {
 						{/* 图标选项 */}
 						<IconList navigation={navigation} />
 						<View style={styles.detail_common_title}>
-							<Text style={{ fontSize: 16, color: '#333' }}>锐动新闻</Text>
+							<Text style={{ fontSize: 16, color: '#333' }}>特色服务</Text>
 						</View>
 						<News />
 					</ScrollView>

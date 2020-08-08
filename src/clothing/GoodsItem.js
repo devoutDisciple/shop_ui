@@ -23,10 +23,17 @@ export default class Goods extends React.Component {
 		});
 	}
 
+	onSearchClothings() {
+		this.props.onSearchClothings();
+	}
+
 	async goEditClothing() {
 		let { navigation } = this.props,
 			{ data } = this.props;
-		navigation.navigate('EditClothingScreen', { id: data.id });
+		navigation.navigate('EditClothingScreen', {
+			id: data.id,
+			onSearchClothings: this.onSearchClothings.bind(this),
+		});
 	}
 
 	render() {

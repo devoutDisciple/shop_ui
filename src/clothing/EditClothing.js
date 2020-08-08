@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import CommonHeader from '../component/CommonHeader';
@@ -12,7 +11,7 @@ export default class Goods extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			clothingDetail: [],
+			clothingDetail: {},
 			loadingVisible: false,
 			name: '',
 			price: 0,
@@ -36,19 +35,21 @@ export default class Goods extends React.Component {
 	}
 
 	inputChange(key, value) {
-		let params = this.state.clothingDetail;
-		params[key] = value;
-		this.setState({ clothingDetail: params });
+		let { clothingDetail } = this.state;
+		clothingDetail[key] = value;
+		this.setState({ clothingDetail });
 	}
 
 	async updateClothing() {
 		let { clothingDetail } = this.state;
+		let { navigation } = this.props;
 		this.setState({ loadingVisible: true });
 		let res = await Request.post('/clothing/updateClothing', { data: clothingDetail });
 		if (res && res.code === 200 && res.data === 'success') {
 			Toast.success('更新成功，请刷新列表');
 			this.setState({ loadingVisible: false });
-			this.props.navigation.goBack();
+			navigation.state.params.onSearchClothings();
+			navigation.goBack();
 		}
 	}
 
@@ -67,7 +68,7 @@ export default class Goods extends React.Component {
 							<Kohana
 								iconName="tagso"
 								{...commonInputParams}
-								label={'请输入衣物名称'}
+								label="请输入衣物名称"
 								value={clothingDetail.name}
 								onChangeText={this.inputChange.bind(this, 'name')}
 								// keyboardType="number-pad"
@@ -84,12 +85,13 @@ export default class Goods extends React.Component {
 							<Kohana
 								iconName="redenvelopes"
 								{...commonInputParams}
-								label={'请输入衣物价格'}
+								label="请输入衣物价格(元)"
 								value={clothingDetail.price}
 								onChangeText={this.inputChange.bind(this, 'price')}
 								keyboardType="number-pad"
+								returnKeyType="done"
 								selectionColor={baseColor.fontColor}
-								maxLength={20}
+								maxLength={8}
 							/>
 						</View>
 					</View>
@@ -101,12 +103,13 @@ export default class Goods extends React.Component {
 							<Kohana
 								iconName="flag"
 								{...commonInputParams}
-								label={'请输入衣物权重'}
+								label="请输入衣物权重"
 								value={clothingDetail.sortNum}
-								onChangeText={this.inputChange.bind(this, 'sort')}
+								onChangeText={this.inputChange.bind(this, 'sortNum')}
 								keyboardType="number-pad"
+								returnKeyType="done"
 								selectionColor={baseColor.fontColor}
-								maxLength={20}
+								maxLength={8}
 							/>
 						</View>
 					</View>

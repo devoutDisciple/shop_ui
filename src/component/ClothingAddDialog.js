@@ -67,8 +67,9 @@ export default class Dialog extends React.Component {
 					<View style={styles.content_desc}>
 						<TextInput
 							maxLength={10}
-							placeholder="请输入衣物价格"
+							returnKeyType="done"
 							selectionColor="#fb9bcd"
+							placeholder="请输入衣物价格"
 							placeholderTextColor="#bfbfbf"
 							keyboardType="number-pad"
 							style={styles.message_edit_input}

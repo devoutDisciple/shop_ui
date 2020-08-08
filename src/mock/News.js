@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, RefreshControl } from 'react-native';
-import CommonSylte from '../style/common';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default class Advertisement extends React.Component {
 	constructor(props) {
