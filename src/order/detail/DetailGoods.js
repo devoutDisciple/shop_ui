@@ -18,7 +18,7 @@ export default class OrderScreen extends React.Component {
 		} catch (error) {
 			goods = [];
 		}
-		if (goods && goods.length !== 0 && Number(type) === 1) {
+		if (goods && goods.length !== 0 && (Number(type) === 1 || Number(type) === 2 || Number(type) === 4)) {
 			return (
 				<View style={styles.detail_content_goods}>
 					<View style={styles.detail_common_title}>
@@ -59,16 +59,6 @@ export default class OrderScreen extends React.Component {
 					</View>
 					<View style={styles.detail_content_goods_total}>
 						<Text style={styles.detail_content_goods_total_text}>总价：￥{orderDetail.money}</Text>
-					</View>
-				</View>
-			);
-		}
-		// 积分兑换商品
-		if (Number(type) === 2) {
-			return (
-				<View style={styles.detail_content_goods}>
-					<View style={styles.detail_common_title}>
-						<Text>预约上门取衣</Text>
 					</View>
 				</View>
 			);

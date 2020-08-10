@@ -3,6 +3,7 @@ import React from 'react';
 import Request from '../../util/Request';
 import Config from '../../config/config';
 import Message from '../../component/Message';
+import StrageUtil from '../../util/Storage';
 import FilterStatus from '../../util/FilterStatus';
 import { Text, View, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
@@ -17,8 +18,9 @@ export default class AllOrder extends React.Component {
 		Message.confirm('是否打开格口', '请确认在柜子旁', async () => {
 			try {
 				let { id } = this.props.detail;
+				let user = await StrageUtil.get('user');
 				this.props.setLoading(true);
-				let result = await Request.post('/order/openCellById', { orderId: id, status: 2 });
+				let result = await Request.post('/order/openCellById', { orderId: id, status: 2, optid: user.id });
 				this.props.setLoading(false);
 				if (result.data === 'success') {
 					Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
@@ -123,7 +125,7 @@ export default class AllOrder extends React.Component {
 
 	render() {
 		const { goods } = this.props;
-		const { id, cabinetUrl, create_time, cabinetAdderss, money, status, code } = this.props.detail;
+		const { id, cabinetUrl, create_time, cabinetAdderss, money, status, code, cabinetName } = this.props.detail;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
@@ -141,9 +143,11 @@ export default class AllOrder extends React.Component {
 					<View style={styles.order_item_right_time}>
 						<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
 					</View>
-					<TouchableOpacity onPress={this.onSearchDetail.bind(this, id)}>
+					<TouchableOpacity style={styles.order_item_touch} onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
-							<Text style={styles.font_desc_style}>存取地址：{cabinetAdderss}</Text>
+							<Text style={styles.font_desc_style}>
+								存取地址：{cabinetAdderss} {cabinetName}
+							</Text>
 						</View>
 						<View style={styles.order_item_right_goods}>
 							<View style={styles.order_item_right_goods_left}>
@@ -173,7 +177,10 @@ const styles = StyleSheet.create({
 	font_desc_style: {
 		fontSize: 12,
 		color: '#333',
-		lineHeight: 20,
+		lineHeight: 28,
+	},
+	order_item_touch: {
+		paddingTop: 10,
 	},
 	order_item: {
 		minHeight: 150,
@@ -214,8 +221,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 	},
 	order_item_right_adrress: {
-		marginTop: 8,
-		minHeight: 24,
+		// marginTop: 8,
 	},
 	order_item_right_goods: {
 		flexDirection: 'row',

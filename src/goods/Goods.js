@@ -9,7 +9,7 @@ import Loading from '../component/Loading';
 import CommonHeader from '../component/CommonHeader';
 import SafeViewComponent from '../component/SafeViewComponent';
 import ClothingAddDialog from '../component/ClothingAddDialog';
-import { Text, View, StyleSheet, ScrollView, Dimensions, Alert, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -155,7 +155,9 @@ export default class Goods extends React.Component {
 		});
 		originPrice = Number(originPrice).toFixed(2);
 		let currentMoney = (originPrice * discount).toFixed(2);
-		console.log(originPrice, currentMoney, 999);
+		if (discountText === '免费') {
+			currentMoney = 0.01;
+		}
 		let subMoney = Number(originPrice - currentMoney).toFixed(2);
 		this.setState({ originPrice: originPrice, totalPrice: currentMoney, subMoney });
 	}

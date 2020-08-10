@@ -65,29 +65,10 @@ export default class AllOrder extends React.Component {
 	successClear() {
 		Message.confirm('已完成清洗', '清洗完成后，订单将归类于待派送订单', async () => {
 			this.props.setLoading(true);
-			await this.updateOrderStatus(9);
+			await this.updateOrderStatus(5);
 			this.props.setLoading(false);
 			Toast.success('已完成清洗');
 			this.props.onSearch();
-		});
-	}
-
-	// 打开柜子
-	async onOpenCabinet() {
-		Message.confirm('是否打开格口', '请确认在柜子旁', async () => {
-			try {
-				let { id } = this.props.detail;
-				this.props.setLoading(true);
-				let result = await Request.post('/order/openCellById', { orderId: id, status: 2 });
-				this.props.setLoading(false);
-				if (result.data === 'success') {
-					Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
-					return this.props.onSearch();
-				}
-				return Message.warning('网络错误', '请稍后重试！');
-			} catch (error) {
-				this.props.setLoading(false);
-			}
 		});
 	}
 
@@ -104,6 +85,17 @@ export default class AllOrder extends React.Component {
 				style={styles.order_item_right_bottom_btn}
 			>
 				<Text style={styles.order_pay_font}>联系用户</Text>
+			</TouchableOpacity>
+		);
+
+		// 设置金额
+		const clearSucessBtn = (
+			<TouchableOpacity
+				key="clearSucessBtn"
+				style={styles.order_item_right_bottom_btn}
+				onPress={() => this.props.navigation.navigate('GoodsScreen', { orderId: id })}
+			>
+				<Text style={styles.order_pay_font}>设置金额</Text>
 			</TouchableOpacity>
 		);
 
@@ -147,7 +139,7 @@ export default class AllOrder extends React.Component {
 			actionBtn = [connectBtn, sureGetClothing];
 		}
 		if (status === 2) {
-			actionBtn = [connectBtn];
+			actionBtn = [connectBtn, clearSucessBtn];
 			is_sure === 2 && actionBtn.push(successClear);
 		}
 		if (status === 9) {
@@ -175,7 +167,7 @@ export default class AllOrder extends React.Component {
 					<View style={styles.order_item_right_time}>
 						<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
 					</View>
-					<TouchableOpacity onPress={this.onSearchDetail.bind(this, id)}>
+					<TouchableOpacity style={styles.order_item_touch} onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>订单方式：手动录入</Text>
 						</View>
@@ -202,7 +194,10 @@ const styles = StyleSheet.create({
 	font_desc_style: {
 		fontSize: 12,
 		color: '#333',
-		lineHeight: 16,
+		lineHeight: 28,
+	},
+	order_item_touch: {
+		paddingTop: 10,
 	},
 	order_item: {
 		minHeight: 150,
@@ -241,9 +236,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		borderBottomColor: '#f2f2f2',
 		borderBottomWidth: 1,
-	},
-	order_item_right_adrress: {
-		marginTop: 12,
 	},
 	order_item_right_goods: {
 		flexDirection: 'row',

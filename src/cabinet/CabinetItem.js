@@ -5,7 +5,9 @@ import { Text, View, StyleSheet } from 'react-native';
 import FastImage from '../component/FastImage';
 import config from '../config/config';
 import { Badge } from 'react-native-elements';
+import StrageUtil from '../util/Storage';
 import Request from '../util/Request';
+import NavigationUtil from '../util/NavigationUtil';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Message from '../component/Message';
 
@@ -20,17 +22,19 @@ export default class OrderScreen extends React.Component {
 			let { navigation, data } = this.props;
 			let orderId = navigation.getParam('orderId');
 			let cabinetId = data.id;
+			let user = await StrageUtil.get('user');
 			let res = await Request.post('/order/openCellByRandomByCabinetId', {
 				orderId: orderId,
 				cabinetId: cabinetId,
 				type: type,
 				status: 3,
+				userid: user.id,
 			});
 			this.props.setLoading(false);
 			if (res.data === 'success') {
 				this.props.onSearch();
 				Message.success('格口已打开', '请存放衣物，并随手关闭格口', () => {
-					navigation.navigate('HomeScreen');
+					return NavigationUtil.reset(navigation, 'HomeScreen');
 				});
 			}
 		} catch (error) {

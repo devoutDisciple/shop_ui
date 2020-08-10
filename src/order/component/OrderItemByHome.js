@@ -72,25 +72,6 @@ export default class AllOrder extends React.Component {
 		});
 	}
 
-	// 打开柜子
-	async onOpenCabinet() {
-		Message.confirm('是否打开格口', '请确认在柜子旁', async () => {
-			try {
-				let { id } = this.props.detail;
-				this.props.setLoading(true);
-				let result = await Request.post('/order/openCellById', { orderId: id, status: 2 });
-				this.props.setLoading(false);
-				if (result.data === 'success') {
-					Message.warning('柜门已打开', '请取出衣物，随手关门，谢谢！');
-					return this.props.onSearch();
-				}
-				return Message.warning('网络错误', '请稍后重试！');
-			} catch (error) {
-				this.props.setLoading(false);
-			}
-		});
-	}
-
 	renderBtn() {
 		let actionBtn = [],
 			detail = this.props.detail || {};
@@ -187,7 +168,7 @@ export default class AllOrder extends React.Component {
 					<View style={styles.order_item_right_time}>
 						<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
 					</View>
-					<TouchableOpacity onPress={this.onSearchDetail.bind(this, id)}>
+					<TouchableOpacity style={styles.order_item_touch} onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>预约时间：{home_time}</Text>
 						</View>
@@ -221,7 +202,10 @@ const styles = StyleSheet.create({
 	font_desc_style: {
 		fontSize: 12,
 		color: '#333',
-		lineHeight: 20,
+		lineHeight: 28,
+	},
+	order_item_touch: {
+		paddingTop: 10,
 	},
 	order_item: {
 		minHeight: 150,
@@ -260,10 +244,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		borderBottomColor: '#f2f2f2',
 		borderBottomWidth: 1,
-	},
-	order_item_right_adrress: {
-		marginTop: 8,
-		minHeight: 24,
 	},
 	order_item_right_goods: {
 		flexDirection: 'row',
