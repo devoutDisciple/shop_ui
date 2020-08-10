@@ -34,7 +34,6 @@ export default class Advertisement extends React.Component {
 	// 是否开启mock
 	async getMockFlag() {
 		let res = await Request.get('/mock/getMockFlag', { version: config.currentVersion });
-		console.log(res);
 		let data = res.data;
 		if (Number(data) === 1) {
 			return;

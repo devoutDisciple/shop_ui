@@ -1,8 +1,6 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import CommonSylte from '../../style/common';
 import { Text, View, StyleSheet } from 'react-native';
-import FilterStatus from '../../util/FilterStatus';
 
 export default class OrderScreen extends React.Component {
 	constructor(props) {
@@ -47,6 +45,7 @@ const styles = StyleSheet.create({
 	detail_send: {
 		backgroundColor: '#fff',
 		marginTop: 10,
+		marginBottom: 10,
 		padding: 10,
 	},
 	detail_send_content_item: {

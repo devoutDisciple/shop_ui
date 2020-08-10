@@ -6,6 +6,7 @@ import { Kohana } from 'react-native-textinput-effects';
 import { baseColor, commonInputParams } from './commonParams';
 import Storage from '../util/Storage';
 import Request from '../util/Request';
+import NavigationUtil from '../util/NavigationUtil';
 import SafeViewComponent from '../component/SafeViewComponent';
 
 export default class LoginScreen extends React.Component {
@@ -36,13 +37,14 @@ export default class LoginScreen extends React.Component {
 	// 点击登录按钮
 	async loginBtnClick() {
 		let { username, password } = this.state;
+		let { navigation } = this.props;
 		let res = await Request.post('/account/login', {
 			username,
 			password,
 		});
 		if (res && res.code === 200) {
 			await Storage.set('user', res.data || {});
-			this.props.navigation.navigate('HomeScreen');
+			NavigationUtil.reset(navigation, 'HomeScreen');
 		}
 	}
 

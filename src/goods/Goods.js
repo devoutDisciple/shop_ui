@@ -67,6 +67,7 @@ export default class Goods extends React.Component {
 				});
 			}
 			let isThursday = Number(result.weekDay) === 4;
+			console.log(origin_money, money, 8888);
 			let subMoney = Number(Number(origin_money) - Number(money)).toFixed(2);
 			this.setState({
 				data: data || [],
@@ -154,6 +155,7 @@ export default class Goods extends React.Component {
 		});
 		originPrice = Number(originPrice).toFixed(2);
 		let currentMoney = (originPrice * discount).toFixed(2);
+		console.log(originPrice, currentMoney, 999);
 		let subMoney = Number(originPrice - currentMoney).toFixed(2);
 		this.setState({ originPrice: originPrice, totalPrice: currentMoney, subMoney });
 	}
@@ -186,31 +188,6 @@ export default class Goods extends React.Component {
 				return Toast.success('更改成功');
 			}
 		});
-		// Alert.alert(
-		// 	'提示',
-		// 	`该次洗衣总费用${totalPrice}元`,
-		// 	[
-		// 		{
-		// 			text: '确定',
-		// 			onPress: async () => {
-		// 				this.setState({ loadingVisible: true });
-		// 				let result = await Request.post('/order/sureOrder', {
-		// 					orderId: orderId,
-		// 					goods: selectGoods,
-		// 					totalPrice,
-		// 					originMoney: originPrice,
-		// 					discount: discount,
-		// 				});
-		// 				this.setState({ loadingVisible: false });
-		// 				if (result || result.data === 'success') {
-		// 					navigation.navigate('OrdersScreen', { status: 2, flash: true });
-		// 					return Toast.success('更改成功');
-		// 				}
-		// 			},
-		// 		},
-		// 	],
-		// 	{ cancelable: true },
-		// );
 	}
 
 	render() {
@@ -275,7 +252,7 @@ export default class Goods extends React.Component {
 						</View>
 						<View style={styles.discount_sub}>
 							<Text style={styles.discount_label}>已减：</Text>
-							<Text style={styles.discount_value}>- {subMoney}</Text>
+							<Text style={styles.discount_value}>{subMoney}</Text>
 						</View>
 						<View style={styles.member_order}>
 							<Text style={styles.discount_label}>当前折扣：</Text>

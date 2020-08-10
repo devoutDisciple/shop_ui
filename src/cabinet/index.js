@@ -28,7 +28,6 @@ export default class OrderScreen extends React.Component {
 		let shop = await Storage.get('shop');
 		let shopid = shop.id;
 		let res = await Request.get('/cabinet/getAllByShopId', { shopid });
-		console.log(res, 11);
 		this.setState({ cabinetDetail: res.data || [], loadingVisible: false });
 	}
 
