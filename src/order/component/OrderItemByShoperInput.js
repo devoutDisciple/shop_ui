@@ -4,8 +4,11 @@ import Request from '../../util/Request';
 import Config from '../../config/config';
 import Toast from '../../component/Toast';
 import Message from '../../component/Message';
+import { Badge } from 'react-native-elements';
+import MoneyItem from './MoneyItem';
+import FastImage from '../../component/FastImage';
 import FilterStatus from '../../util/FilterStatus';
-import { Text, View, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
 export default class AllOrder extends React.Component {
 	constructor(props) {
@@ -63,7 +66,7 @@ export default class AllOrder extends React.Component {
 
 	// 完成清洗
 	successClear() {
-		Message.confirm('已完成清洗', '清洗完成后，订单将归类于待派送订单', async () => {
+		Message.confirm('已完成清洗', '清洗完成后，订单将归类于已完成订单', async () => {
 			this.props.setLoading(true);
 			await this.updateOrderStatus(5);
 			this.props.setLoading(false);
@@ -135,6 +138,9 @@ export default class AllOrder extends React.Component {
 		if (Number(status) === 6) {
 			actionBtn = [connectBtn];
 		}
+		if (status === 5) {
+			actionBtn = [connectBtn];
+		}
 		if (Number(status) === 8) {
 			actionBtn = [connectBtn, sureGetClothing];
 		}
@@ -149,11 +155,14 @@ export default class AllOrder extends React.Component {
 	}
 
 	render() {
-		const { id, create_time, status, code, home_username, money } = this.props.detail;
+		const { id, create_time, status, code, home_username, money, urgency } = this.props.detail;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
-					<Image style={styles.order_item_left_img} source={{ uri: `${Config.baseUrl}/logo_square.jpg` }} />
+					<FastImage
+						style={styles.order_item_left_img}
+						source={{ uri: `${Config.baseUrl}/logo_square.jpg` }}
+					/>
 				</View>
 				<View style={styles.order_item_right}>
 					<View style={styles.order_item_right_title}>
@@ -165,7 +174,14 @@ export default class AllOrder extends React.Component {
 						</View>
 					</View>
 					<View style={styles.order_item_right_time}>
-						<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
+						<View style={styles.order_item_right_time_left}>
+							<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
+						</View>
+						{Number(urgency) === 2 && (
+							<View style={styles.order_item_right_time_right}>
+								<Badge value="加急订单" status="success" textStyle={{ fontSize: 10 }} />
+							</View>
+						)}
 					</View>
 					<TouchableOpacity style={styles.order_item_touch} onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
@@ -174,9 +190,13 @@ export default class AllOrder extends React.Component {
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>客户姓名：{home_username}</Text>
 						</View>
-						<View style={styles.order_item_right_adrress}>
-							<Text style={styles.font_desc_style}>洗衣费用：{money}</Text>
-						</View>
+						<MoneyItem text="加急费用" money={Number(money).toFixed(2)} />
+						{Number(urgency) === 2 && (
+							<>
+								<MoneyItem text="加急费用" money={Number(money * 0.5).toFixed(2)} />
+								<MoneyItem text="洗衣总费用" money={Number(money * 1.5).toFixed(2)} />
+							</>
+						)}
 					</TouchableOpacity>
 					<View style={styles.order_item_right_bottom}>{this.renderBtn()}</View>
 				</View>
@@ -232,10 +252,14 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 	},
 	order_item_right_time: {
-		height: 20,
-		justifyContent: 'center',
+		height: 25,
+		alignItems: 'center',
 		borderBottomColor: '#f2f2f2',
 		borderBottomWidth: 1,
+		flexDirection: 'row',
+	},
+	order_item_right_time_left: {
+		flex: 1,
 	},
 	order_item_right_goods: {
 		flexDirection: 'row',

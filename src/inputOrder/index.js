@@ -1,5 +1,5 @@
 import React from 'react';
-import MessageItem from './Test';
+import MessageItem from './MessageItem';
 import Request from '../util/Request';
 import Toast from '../component/Toast';
 import StorageUtil from '../util/Storage';
@@ -23,6 +23,7 @@ export default class SettingScreen extends React.Component {
 			title: '',
 			changeKey: '',
 			loadingVisible: false,
+			urgency: 1,
 		};
 	}
 
@@ -42,6 +43,17 @@ export default class SettingScreen extends React.Component {
 		this.setState({ orderDetail: params });
 	}
 
+	// 改变加急状态
+	changeUrgency(value) {
+		if (value === 1) {
+			Message.warning('普通订单', '店员将会在一至三日内取货，请耐心等待');
+		}
+		if (value === 2) {
+			Message.warning('加急订单', '店员将会在当日收取衣物，另外收取衣物总费用的50%作为加急费用');
+		}
+		this.setState({ urgency: value });
+	}
+
 	// 确认订单
 	async onSureOrder() {
 		// let keys = await StorageUtil.getAllKeys();
@@ -50,13 +62,10 @@ export default class SettingScreen extends React.Component {
 		try {
 			let user = await StorageUtil.get('user');
 			let shop = await StorageUtil.get('shop');
-			let { orderDetail } = this.state;
+			let { orderDetail, urgency } = this.state;
 			let { navigation } = this.props;
-			if (!orderDetail.name || !orderDetail.phone || !orderDetail.address || !orderDetail.money) {
+			if (!orderDetail.name || !orderDetail.phone || !orderDetail.address) {
 				return Toast.warning('请完善信息');
-			}
-			if (isNaN(Number(orderDetail.money)) || Number(orderDetail.money) < 0) {
-				return Toast.warning('请输入正确清洗费用');
 			}
 			if (!/^1[3456789]\d{9}$/.test(orderDetail.phone)) {
 				return Toast.warning('请输入正确的手机号码');
@@ -68,7 +77,7 @@ export default class SettingScreen extends React.Component {
 				home_phone: orderDetail.phone,
 				home_address: orderDetail.address,
 				desc: orderDetail.desc,
-				money: orderDetail.money,
+				urgency: urgency,
 				userid: user.id, // 是谁录入的
 				is_sure: 2,
 			});
@@ -85,7 +94,7 @@ export default class SettingScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props,
-			{ visible, orderDetail, changeKey, title, defalutValue, loadingVisible } = this.state;
+			{ visible, orderDetail, changeKey, title, defalutValue, loadingVisible, urgency } = this.state;
 		return (
 			<SafeViewComponent>
 				<View style={styles.container}>
@@ -135,17 +144,22 @@ export default class SettingScreen extends React.Component {
 							}}
 						/>
 						<MessageItem
-							showIcon
-							label="清洗费用"
-							value={orderDetail.money}
-							onPress={() => {
-								this.setState(
-									{ changeKey: 'money', title: '清洗费用', defalutValue: orderDetail.money },
-									() => {
-										this.setState({ visible: true });
-									},
-								);
-							}}
+							label="是否加急"
+							isSwitch
+							value={
+								<View style={styles.sex_container}>
+									<TouchableOpacity onPress={this.changeUrgency.bind(this, 2)}>
+										<Text style={urgency === 2 ? styles.sex_item_active : styles.sex_item_normal}>
+											是
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity onPress={this.changeUrgency.bind(this, 1)}>
+										<Text style={urgency === 1 ? styles.sex_item_active : styles.sex_item_normal}>
+											否
+										</Text>
+									</TouchableOpacity>
+								</View>
+							}
 						/>
 						<MessageItem
 							showIcon

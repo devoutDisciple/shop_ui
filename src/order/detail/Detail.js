@@ -6,6 +6,7 @@ import Detailgoods from './DetailGoods';
 import DetailPrint from './DetailPrint';
 import Request from '../../util/Request';
 import Loading from '../../component/Loading';
+import { Badge } from 'react-native-elements';
 import CommonHeader from '../../component/CommonHeader';
 import DetailOrderByShoperInput from './DetailOrderByShoperInput';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
@@ -43,7 +44,12 @@ export default class OrderScreen extends React.Component {
 				<ScrollView style={styles.detail_content} showsVerticalScrollIndicator={false}>
 					<View style={styles.detail_content_title}>
 						<Text style={styles.detail_content_title_num}>订单编号: {orderDetail.code}</Text>
-						<Text style={styles.detail_content_title_time}>下单时间：{orderDetail.create_time}</Text>
+						<View style={styles.detail_content_title_time}>
+							<Text style={styles.detail_content_title_time_left}>{orderDetail.create_time}</Text>
+							{orderDetail.urgency === 2 && (
+								<Badge value="加急订单" status="success" textStyle={{ fontSize: 10 }} />
+							)}
+						</View>
 					</View>
 					<Detailgoods orderDetail={orderDetail} type={type} />
 					{Number(orderDetail.order_type) === 4 ? (
@@ -78,6 +84,14 @@ const styles = StyleSheet.create({
 	},
 	detail_content_title_time: {
 		marginTop: 5,
+		flexDirection: 'row',
+	},
+	detail_content_title_time_left: {
+		flex: 1,
+		fontSize: 12,
+		color: '#8a8a8a',
+	},
+	detail_content_title_time_right: {
 		fontSize: 12,
 		color: '#8a8a8a',
 	},

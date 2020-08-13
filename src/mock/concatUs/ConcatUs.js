@@ -55,7 +55,7 @@ export default class ConcatUs extends React.Component {
 						<Text style={styles.text_item}>&emsp;联系方式：15994786393</Text>
 						<Text style={styles.text_item}>&emsp;联系邮箱：kim19900214@hotmail.com</Text>
 						<Text style={styles.text_item}>&emsp;开发人员：张振</Text>
-						<Text style={styles.text_item_bottom}>&emsp;联系方式：18210619398（微信同号）</Text>
+						<Text style={styles.text_item_bottom}>&emsp;联系方式：18210619398</Text>
 					</ScrollView>
 				</View>
 			</SafeViewComponent>

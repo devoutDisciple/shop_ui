@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 		minHeight: 40,
 		width: width * 0.8,
 		marginLeft: width / 10,
-		marginTop: height / 2 - 120,
+		marginTop: height / 2 - 140,
 		opacity: 1,
 		backgroundColor: 'rgba(255,255,255,1)',
 		borderRadius: 10,

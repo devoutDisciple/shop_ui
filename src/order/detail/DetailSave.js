@@ -43,31 +43,35 @@ export default class OrderScreen extends React.Component {
 					</View>
 					<View style={styles.detail_send_content}>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>派送费用: </Text>
-							<Text style={styles.detail_send_content_item_text}>预约成功，已付款</Text>
+							<Text style={styles.detail_send_content_item_label}>派送费用：</Text>
+							<Text style={styles.detail_send_content_item_text}>
+								￥{Number(orderDetail.send_money).toFixed(2)}
+							</Text>
 						</View>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>订单金额: </Text>
-							<Text style={styles.detail_send_content_item_text}>{orderDetail.money}</Text>
+							<Text style={styles.detail_send_content_item_label}>订单金额：</Text>
+							<Text style={styles.detail_send_content_item_text}>
+								￥{Number(orderDetail.money).toFixed(2)}
+							</Text>
 						</View>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>取衣时间: </Text>
+							<Text style={styles.detail_send_content_item_label}>取衣时间：</Text>
 							<Text style={styles.detail_send_content_item_text}>{orderDetail.home_time}</Text>
 						</View>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>取衣地点: </Text>
+							<Text style={styles.detail_send_content_item_label}>取衣地点：</Text>
 							<Text style={styles.detail_send_content_item_text}>{orderDetail.home_address}</Text>
 						</View>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>联系人: </Text>
+							<Text style={styles.detail_send_content_item_label}>联系人：</Text>
 							<Text style={styles.detail_send_content_item_text}>{orderDetail.home_username}</Text>
 						</View>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>联系方式: </Text>
+							<Text style={styles.detail_send_content_item_label}>联系方式：</Text>
 							<Text style={styles.detail_send_content_item_text}>{orderDetail.home_phone}</Text>
 						</View>
 						<View style={styles.detail_send_content_item}>
-							<Text style={styles.detail_send_content_item_label}>备注: </Text>
+							<Text style={styles.detail_send_content_item_label}>备注：</Text>
 							<Text style={styles.detail_send_content_item_text}>{orderDetail.desc}</Text>
 						</View>
 					</View>

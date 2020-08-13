@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Linking } from 'react-native';
-import IconWithText from '../component/IconWithText';
 import Message from '../component/Message';
+import IconWithText from '../component/IconWithText';
+import { View, StyleSheet, Linking } from 'react-native';
 
 export default class IconList extends React.Component {
 	constructor(props) {
@@ -63,12 +63,12 @@ export default class IconList extends React.Component {
 			{
 				key: 'clothing',
 				url: require('../../img/home/service.png'),
-				text: '取衣预约',
+				text: '上门取衣',
 			},
 			{
 				key: 'phone',
 				url: require('../../img/home/jifen.png'),
-				text: '线下预约',
+				text: '电话预约',
 			},
 			{
 				key: 'about',

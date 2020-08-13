@@ -842,7 +842,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 202008090154;
+				CURRENT_PROJECT_VERSION = 2020080110321;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = W46MECA4RF;
 				INFOPLIST_FILE = moving_shop/Info.plist;
@@ -894,7 +894,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-viewpager\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/toolbar-android\"",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -915,7 +915,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 202008090154;
+				CURRENT_PROJECT_VERSION = 2020080110321;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = W46MECA4RF;
 				INFOPLIST_FILE = moving_shop/Info.plist;
@@ -967,7 +967,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-viewpager\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/toolbar-android\"",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

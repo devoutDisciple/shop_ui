@@ -4,8 +4,9 @@ import Request from '../../util/Request';
 import Config from '../../config/config';
 import Toast from '../../component/Toast';
 import Message from '../../component/Message';
+import FastImage from '../../component/FastImage';
 import FilterStatus from '../../util/FilterStatus';
-import { Text, View, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
 export default class AllOrder extends React.Component {
 	constructor(props) {
@@ -92,7 +93,7 @@ export default class AllOrder extends React.Component {
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
-					<Image style={styles.order_item_left_img} source={{ uri: `${Config.baseUrl}/${goods.url}` }} />
+					<FastImage style={styles.order_item_left_img} source={{ uri: `${Config.baseUrl}/${goods.url}` }} />
 				</View>
 				<View style={styles.order_item_right}>
 					<View style={styles.order_item_right_title}>

@@ -1,11 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import MoneyItem from './MoneyItem';
 import Request from '../../util/Request';
 import Config from '../../config/config';
-import Message from '../../component/Message';
 import StrageUtil from '../../util/Storage';
+import { Badge } from 'react-native-elements';
+import Message from '../../component/Message';
+import FastImage from '../../component/FastImage';
 import FilterStatus from '../../util/FilterStatus';
-import { Text, View, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
 export default class AllOrder extends React.Component {
 	constructor(props) {
@@ -117,6 +120,9 @@ export default class AllOrder extends React.Component {
 		if (status === 3 || status === 4) {
 			actionBtn = [connectBtn];
 		}
+		if (status === 5) {
+			actionBtn = [connectBtn];
+		}
 		if (status === 9) {
 			actionBtn = [saveClothingBtn];
 		}
@@ -125,11 +131,21 @@ export default class AllOrder extends React.Component {
 
 	render() {
 		const { goods } = this.props;
-		const { id, cabinetUrl, create_time, cabinetAdderss, money, status, code, cabinetName } = this.props.detail;
+		const {
+			id,
+			cabinetUrl,
+			create_time,
+			cabinetAdderss,
+			money,
+			status,
+			code,
+			cabinetName,
+			urgency,
+		} = this.props.detail;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
-					<Image style={styles.order_item_left_img} source={{ uri: `${Config.baseUrl}/${cabinetUrl}` }} />
+					<FastImage style={styles.order_item_left_img} source={{ uri: `${Config.baseUrl}/${cabinetUrl}` }} />
 				</View>
 				<View style={styles.order_item_right}>
 					<View style={styles.order_item_right_title}>
@@ -141,7 +157,14 @@ export default class AllOrder extends React.Component {
 						</View>
 					</View>
 					<View style={styles.order_item_right_time}>
-						<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
+						<View style={styles.order_item_right_time_left}>
+							<Text style={{ fontSize: 10, color: '#333' }}>{create_time}</Text>
+						</View>
+						{Number(urgency) === 2 && (
+							<View style={styles.order_item_right_time_right}>
+								<Badge value="加急订单" status="success" textStyle={{ fontSize: 10 }} />
+							</View>
+						)}
 					</View>
 					<TouchableOpacity style={styles.order_item_touch} onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
@@ -149,14 +172,13 @@ export default class AllOrder extends React.Component {
 								存取地址：{cabinetAdderss} {cabinetName}
 							</Text>
 						</View>
-						<View style={styles.order_item_right_goods}>
-							<View style={styles.order_item_right_goods_left}>
-								<Text style={styles.font_desc_style}>{goods}</Text>
-							</View>
-							<View style={styles.order_item_right_goods_right}>
-								<Text style={styles.font_desc_style}>￥ {money}</Text>
-							</View>
-						</View>
+						<MoneyItem text={goods} money={Number(money).toFixed(2)} />
+						{Number(urgency) === 2 && (
+							<>
+								<MoneyItem text="加急费用" money={Number(money * 0.5).toFixed(2)} />
+								<MoneyItem text="洗衣总费用" money={Number(money * 1.5).toFixed(2)} />
+							</>
+						)}
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>订单方式：MOVING洗衣柜下单</Text>
 						</View>
@@ -215,24 +237,19 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 	},
 	order_item_right_time: {
-		height: 20,
-		justifyContent: 'center',
+		height: 25,
+		alignItems: 'center',
 		borderBottomColor: '#f2f2f2',
 		borderBottomWidth: 1,
+		flexDirection: 'row',
+	},
+	order_item_right_time_left: {
+		flex: 1,
 	},
 	order_item_right_adrress: {
 		// marginTop: 8,
 	},
-	order_item_right_goods: {
-		flexDirection: 'row',
-	},
-	order_item_right_goods_left: {
-		flex: 1,
-	},
-	order_item_right_goods_right: {
-		width: 70,
-		alignItems: 'flex-end',
-	},
+
 	order_item_right_bottom: {
 		height: 40,
 		flexDirection: 'row',
