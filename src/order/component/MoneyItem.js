@@ -11,7 +11,7 @@ export default class AllOrder extends React.Component {
 		return (
 			<View style={styles.money}>
 				<View style={styles.money_left}>
-					<Text style={styles.money_text}>{text}：</Text>
+					<Text style={styles.money_text}>{text}</Text>
 				</View>
 				<View style={styles.money_num}>
 					<Text style={styles.money_text}>￥ {money}</Text>

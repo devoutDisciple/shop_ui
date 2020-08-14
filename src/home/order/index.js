@@ -66,15 +66,15 @@ export default class MyScreen extends React.Component {
 						navigation={navigation}
 						num={orderTypeNum.orderType2}
 					/>
-					<Chunk
+					{/* <Chunk
 						className="sales_chunk3"
 						title="待派送订单"
 						status={9}
 						navigation={navigation}
 						num={orderTypeNum.orderType9}
-					/>
+					/> */}
 					<Chunk
-						className="sales_chunk4"
+						className="sales_chunk3"
 						title="用户未收取订单"
 						status={3}
 						navigation={navigation}

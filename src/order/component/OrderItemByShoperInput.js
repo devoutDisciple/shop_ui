@@ -53,17 +53,6 @@ export default class AllOrder extends React.Component {
 		});
 	}
 
-	// 已取到衣物
-	getClothing() {
-		Message.confirm('确认已取到衣物', '确认后衣物将归类于清洗中订单', async () => {
-			this.props.setLoading(true);
-			await this.updateOrderStatus(2);
-			this.props.setLoading(false);
-			Toast.success('已取到衣物');
-			this.props.onSearch();
-		});
-	}
-
 	// 完成清洗
 	successClear() {
 		Message.confirm('已完成清洗', '清洗完成后，订单将归类于已完成订单', async () => {
@@ -102,17 +91,6 @@ export default class AllOrder extends React.Component {
 			</TouchableOpacity>
 		);
 
-		// 确认取到衣物
-		const sureGetClothing = (
-			<TouchableOpacity
-				key="sureGetClothing"
-				style={styles.order_item_right_bottom_btn}
-				onPress={this.getClothing.bind(this)}
-			>
-				<Text style={styles.order_pay_font}>确认取到衣物</Text>
-			</TouchableOpacity>
-		);
-
 		// 确认完成清洗
 		const successClear = (
 			<TouchableOpacity
@@ -123,33 +101,12 @@ export default class AllOrder extends React.Component {
 				<Text style={styles.order_pay_font}>完成清洗</Text>
 			</TouchableOpacity>
 		);
-
-		// 存放衣物
-		const saveClothingBtn = (
-			<TouchableOpacity
-				key="saveClothingBtn"
-				style={styles.order_item_right_bottom_btn}
-				onPress={() => this.props.navigation.navigate('CabinetScreen', { orderId: id, showCabinetBtn: true })}
-			>
-				<Text style={styles.order_pay_font}>存放衣物</Text>
-			</TouchableOpacity>
-		);
-
-		if (Number(status) === 6) {
-			actionBtn = [connectBtn];
-		}
 		if (status === 5) {
 			actionBtn = [connectBtn];
-		}
-		if (Number(status) === 8) {
-			actionBtn = [connectBtn, sureGetClothing];
 		}
 		if (status === 2) {
 			actionBtn = [connectBtn, clearSucessBtn];
 			is_sure === 2 && actionBtn.push(successClear);
-		}
-		if (status === 9) {
-			actionBtn = [saveClothingBtn];
 		}
 		return actionBtn;
 	}
@@ -190,11 +147,10 @@ export default class AllOrder extends React.Component {
 						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>客户姓名：{home_username}</Text>
 						</View>
-						<MoneyItem text="加急费用" money={Number(money).toFixed(2)} />
 						{Number(urgency) === 2 && (
 							<>
-								<MoneyItem text="加急费用" money={Number(money * 0.5).toFixed(2)} />
-								<MoneyItem text="洗衣总费用" money={Number(money * 1.5).toFixed(2)} />
+								<MoneyItem text="加急费用：" money={Number(money * 0.5).toFixed(2)} />
+								<MoneyItem text="洗衣总费用：" money={Number(money * 1.5).toFixed(2)} />
 							</>
 						)}
 					</TouchableOpacity>

@@ -89,9 +89,9 @@ export default class AllOrder extends React.Component {
 		);
 
 		// 设置金额
-		const clearSucessBtn = (
+		const setMoney = (
 			<TouchableOpacity
-				key="clearSucessBtn"
+				key="setMoney"
 				style={styles.order_item_right_bottom_btn}
 				onPress={() => this.props.navigation.navigate('GoodsScreen', { orderId: id })}
 			>
@@ -114,7 +114,7 @@ export default class AllOrder extends React.Component {
 			actionBtn = [connectBtn, openBoxBtn];
 		}
 		if (status === 2) {
-			actionBtn = [connectBtn, clearSucessBtn];
+			actionBtn = [connectBtn, setMoney];
 			is_sure === 2 && actionBtn.push(saveClothingBtn);
 		}
 		if (status === 3 || status === 4) {
@@ -122,9 +122,6 @@ export default class AllOrder extends React.Component {
 		}
 		if (status === 5) {
 			actionBtn = [connectBtn];
-		}
-		if (status === 9) {
-			actionBtn = [saveClothingBtn];
 		}
 		return actionBtn;
 	}
@@ -175,8 +172,8 @@ export default class AllOrder extends React.Component {
 						<MoneyItem text={goods} money={Number(money).toFixed(2)} />
 						{Number(urgency) === 2 && (
 							<>
-								<MoneyItem text="加急费用" money={Number(money * 0.5).toFixed(2)} />
-								<MoneyItem text="洗衣总费用" money={Number(money * 1.5).toFixed(2)} />
+								<MoneyItem text="加急费用：" money={Number(money * 0.5).toFixed(2)} />
+								<MoneyItem text="洗衣总费用：" money={Number(money * 1.5).toFixed(2)} />
 							</>
 						)}
 						<View style={styles.order_item_right_adrress}>
