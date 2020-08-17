@@ -32,6 +32,15 @@ export default class Advertisement extends React.Component {
 						免费派送服务，衣物将有锐动洗衣店员派送到家，让您享受至尊VIP服务!!!
 					</Text>
 				</View>
+				<View style={styles.title}>
+					<Text style={styles.title_text}>精美积分兑换礼品</Text>
+				</View>
+				<View style={styles.value}>
+					<Text style={styles.value_text}>
+						&emsp;&emsp;自2020-08-01日起，凡到店消费者即可获得精美礼品一份，数量有限，送完为止!!!
+					</Text>
+				</View>
+				<View style={styles.empty} />
 			</View>
 		);
 	}
@@ -55,5 +64,8 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		color: '#8a8a8a',
 		lineHeight: 18,
+	},
+	empty: {
+		height: 20,
 	},
 });

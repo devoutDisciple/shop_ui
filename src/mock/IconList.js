@@ -29,7 +29,7 @@ export default class IconList extends React.Component {
 					if (!supported) {
 						Message.warning('商家电话', '18210619398');
 					} else {
-						return Linking.openURL('18210619398');
+						return Linking.openURL(tel);
 					}
 				})
 				.catch(error => {

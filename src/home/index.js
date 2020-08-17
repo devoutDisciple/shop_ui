@@ -5,11 +5,12 @@ import config from '../config/config';
 import Request from '../util/Request';
 import StorageUtil from '../util/Storage';
 import Loading from '../component/Loading';
+import updateVersion from '../util/Update';
 import NavigationUtil from '../util/NavigationUtil';
+import VersionDialog from '../component/VersionDialog';
 import CommonHeader from '../component/CommonHeaderNoBack';
 import SafeViewComponent from '../component/SafeViewComponent';
-import VersionDialog from '../component/VersionDialog';
-import { StyleSheet, ScrollView, View, RefreshControl, Linking } from 'react-native';
+import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
 
 export default class MyScreen extends React.Component {
 	constructor(props) {
@@ -140,18 +141,7 @@ export default class MyScreen extends React.Component {
 
 	// 跳转到appstore进行更新
 	goAppStore() {
-		let url = `itms-apps://apps.apple.com/us/app/${config.AppStoreId}`;
-		//后面有个APP_ID，
-		Linking.canOpenURL(url)
-			.then(supported => {
-				if (supported) {
-					Linking.openURL(url);
-				} else {
-				}
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		updateVersion.updateVersion();
 	}
 
 	onClearStorage() {

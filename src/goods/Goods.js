@@ -43,11 +43,11 @@ export default class Goods extends React.Component {
 			}
 			let { navigation } = this.props;
 			let orderId = navigation.getParam('orderId');
-			// 获取订单衣物
 			let result = await Request.get('/order/getOrderById', { id: orderId });
 			let goods = result.data && result.data.goods ? result.data.goods : '[]';
 			goods = JSON.parse(goods);
-			let { money, origin_money, discount } = result.data;
+			let { money, origin_money, discount, weekDay } = result.data;
+			// 获取订单衣物
 			let res = await Request.get('/clothing/getAllByShopid', { shopid: shop.id });
 			let data = res.data || [];
 			if (Array.isArray(data) && data.length !== 0) {
@@ -66,8 +66,7 @@ export default class Goods extends React.Component {
 					}
 				});
 			}
-			let isThursday = Number(result.weekDay) === 4;
-			console.log(origin_money, money, 8888);
+			let isThursday = Number(weekDay) === 4;
 			let subMoney = Number(Number(origin_money) - Number(money)).toFixed(2);
 			this.setState({
 				data: data || [],
