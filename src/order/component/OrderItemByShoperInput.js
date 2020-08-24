@@ -32,7 +32,8 @@ export default class AllOrder extends React.Component {
 	async onConnectUs() {
 		let { detail } = this.props;
 		let res = await Request.get('/order/getOrderById', { id: detail.id });
-		let phone = res.data && res.data.userDetail ? res.data.userDetail.phone : '18210619398';
+		console.log(res, 333);
+		let phone = res.data ? res.data.home_phone : '18210619398';
 		let tel = `tel:${phone}`; // 目标电话
 		Linking.canOpenURL(tel)
 			.then(supported => {

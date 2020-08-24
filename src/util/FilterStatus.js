@@ -89,4 +89,19 @@ export default {
 		}
 		return data;
 	},
+
+	filterSendStatus: function(status) {
+		let data = '';
+		switch (Number(status)) {
+			case 1:
+				data = 'MOVING洗衣柜';
+				break;
+			case 2:
+				data = '到店自取';
+				break;
+			default:
+				data = 'MOVING洗衣柜';
+		}
+		return data;
+	},
 };

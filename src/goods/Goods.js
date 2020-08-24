@@ -68,15 +68,18 @@ export default class Goods extends React.Component {
 			}
 			let isThursday = Number(weekDay) === 4;
 			let subMoney = Number(Number(origin_money) - Number(money)).toFixed(2);
-			this.setState({
-				data: data || [],
-				totalPrice: money,
-				discountText: discount + '折',
-				originPrice: origin_money,
-				subMoney,
-				loadingVisible: false,
-				isThursday, // 是否是周四
-			});
+			this.setState(
+				{
+					data: data || [],
+					totalPrice: money,
+					discountText: discount + '折',
+					originPrice: origin_money,
+					subMoney,
+					loadingVisible: false,
+					isThursday, // 是否是周四
+				},
+				() => this.onCountPrice(),
+			);
 		} catch {
 			this.setState({ loadingVisible: false });
 		}
@@ -115,6 +118,7 @@ export default class Goods extends React.Component {
 		let num = 10,
 			data = [],
 			{ discountText } = this.state;
+		console.log(discountText, 888);
 		for (let i = 0; i < 20; i++) {
 			let text = num - 0.5 * i + '折';
 			data.push(text);
@@ -130,8 +134,10 @@ export default class Goods extends React.Component {
 			pickerData: data,
 			selectedValue: [discountText],
 			onPickerConfirm: res => {
-				this.setState({ discountText: res[0] });
-				this.onCountPrice();
+				console.log(res, 999);
+				this.setState({ discountText: res[0] }, () => {
+					this.onCountPrice();
+				});
 			},
 		});
 		Picker.show();
@@ -179,7 +185,7 @@ export default class Goods extends React.Component {
 			let result = await Request.post('/order/sureOrder', {
 				orderId: orderId,
 				goods: selectGoods,
-				totalPrice,
+				totalPrice: originPrice,
 				originMoney: originPrice,
 				discount: discount,
 			});

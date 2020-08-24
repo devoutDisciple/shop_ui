@@ -6,6 +6,7 @@ import OrderItemByCabinet from './OrderItemByCabinet';
 import OrderItemByIntergral from './OrderItemByIntergral';
 import OrderItemByShoperInput from './OrderItemByShoperInput';
 import { View, FlatList, StyleSheet } from 'react-native';
+import OrderItemByUserInShop from './OrderItemByUserInShop';
 import Request from '../../util/Request';
 import storageUtil from '../../util/Storage';
 import Loading from '../../component/Loading';
@@ -91,39 +92,59 @@ export default class AllOrder extends React.Component {
 					keyExtractor={(item, index) => String(item.id)}
 					ListFooterComponent={<FooterScreen status={footerStatus} />}
 					renderItem={({ item, index }) => {
-						// 通过快递柜下单
-						if (item.order_type === 1) {
-							let goods = JSON.parse(item.goods || []);
-							let firstName = goods[0] ? goods[0].name : '--';
-							let totalThings = 0;
+						if (item.order_type === 1 || item.order_type === 2 || item.order_type === 5) {
+							let goods = '',
+								firstName = '--',
+								totalThings = 0;
+							goods = JSON.parse(item.goods || []);
+							firstName = goods[0] ? goods[0].name : '--';
+							totalThings = 0;
 							if (goods.length !== 0) {
 								goods.forEach(good => {
 									totalThings += Number(good.num);
 								});
 							}
-							return (
-								<OrderItemByCabinet
-									detail={item}
-									key={String(item.id)}
-									navigation={navigation}
-									onSearch={this.headerRefresh.bind(this)}
-									goods={`${firstName} 等 ${totalThings} 件衣物`}
-									setLoading={flag => this.setState({ loadingVisible: flag })}
-								/>
-							);
+							// 通过快递柜下单
+							if (item.order_type === 1) {
+								return (
+									<OrderItemByCabinet
+										detail={item}
+										key={String(item.id)}
+										navigation={navigation}
+										onSearch={this.headerRefresh.bind(this)}
+										goods={`${firstName} 等 ${totalThings} 件衣物`}
+										setLoading={flag => this.setState({ loadingVisible: flag })}
+									/>
+								);
+							}
+							// 预约上门取衣
+							if (item.order_type === 2) {
+								return (
+									<OrderItemByHome
+										detail={item}
+										key={String(item.id)}
+										navigation={navigation}
+										onSearch={this.headerRefresh.bind(this)}
+										goods={`${firstName} 等 ${totalThings} 件衣物`}
+										setLoading={flag => this.setState({ loadingVisible: flag })}
+									/>
+								);
+							}
+							// 店内下单
+							if (item.order_type === 5) {
+								return (
+									<OrderItemByUserInShop
+										detail={item}
+										key={String(item.id)}
+										navigation={navigation}
+										setLoading={flag => this.setState({ loadingVisible: flag })}
+										onSearch={this.headerRefresh.bind(this)}
+										goods={`${firstName} 等 ${totalThings} 件衣物`}
+									/>
+								);
+							}
 						}
-						// 预约上门取衣
-						if (item.order_type === 2) {
-							return (
-								<OrderItemByHome
-									detail={item}
-									key={String(item.id)}
-									navigation={navigation}
-									onSearch={this.headerRefresh.bind(this)}
-									setLoading={flag => this.setState({ loadingVisible: flag })}
-								/>
-							);
-						}
+
 						// 积分兑换
 						if (item.order_type === 3) {
 							return (

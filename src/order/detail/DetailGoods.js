@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import CommonSylte from '../../style/common';
+import FilterStatus from '../../util/FilterStatus';
 import { Text, View, StyleSheet } from 'react-native';
 
 export default class OrderScreen extends React.Component {
@@ -18,13 +19,7 @@ export default class OrderScreen extends React.Component {
 		} catch (error) {
 			goods = [];
 		}
-		let subMoney = Number(Number(orderDetail.origin_money) - Number(orderDetail.money)).toFixed(2);
-		if (Number(orderDetail.urgency) === 2) {
-			subMoney = Number(
-				orderDetail.origin_money * 1.5 - (orderDetail.origin_money * 1.5 * orderDetail.discount) / 10,
-			).toFixed(2);
-		}
-		if (goods && goods.length !== 0 && (Number(type) === 1 || Number(type) === 2 || Number(type) === 4)) {
+		if ((goods && goods.length !== 0 && (Number(type) === 1 || Number(type) === 2)) || Number(type) === 5) {
 			return (
 				<View style={styles.detail_content_goods}>
 					<View style={styles.detail_common_title}>
@@ -47,15 +42,15 @@ export default class OrderScreen extends React.Component {
 							</View>
 						);
 					})}
-
 					<View style={styles.detail_content_goods_send}>
-						<Text>洗衣费用：￥{Number(orderDetail.origin_money).toFixed(2) || '0.00'}</Text>
+						<Text>洗衣费用：￥{orderDetail.money || '0.00'}</Text>
 					</View>
 					{orderDetail.urgency === 2 && (
 						<View style={styles.detail_content_goods_send}>
-							<Text>加急费用：￥{Number(orderDetail.origin_money * 0.5).toFixed(2)}</Text>
+							<Text>加急费用：￥{orderDetail.urgencyMoney}</Text>
 						</View>
 					)}
+
 					<View style={styles.detail_content_goods_send}>
 						{Number(orderDetail.discount) === 10 ? (
 							<Text>折扣：无</Text>
@@ -64,18 +59,18 @@ export default class OrderScreen extends React.Component {
 						)}
 					</View>
 					<View style={styles.detail_content_goods_send}>
-						<Text>优惠：￥{Number(subMoney).toFixed(2) || '0.00'}</Text>
+						<Text>优惠金额：￥-{orderDetail.subDiscountMoney || '0.00'}</Text>
 					</View>
 					<View style={styles.detail_content_goods_send}>
 						<Text>派送费：￥{Number(orderDetail.send_money).toFixed(2) || '0.00'}</Text>
 					</View>
+					{Number(type) === 5 ? (
+						<View style={styles.detail_content_goods_send}>
+							<Text>客户要求配送方式：{FilterStatus.filterSendStatus(orderDetail.send_status)}</Text>
+						</View>
+					) : null}
 					<View style={styles.detail_content_goods_total}>
-						<Text style={styles.detail_content_goods_total_text}>
-							总价：￥
-							{orderDetail.urgency === 2
-								? Number(orderDetail.money * 1.5).toFixed(2)
-								: Number(orderDetail.money).toFixed(2)}
-						</Text>
+						<Text style={styles.detail_content_goods_total_text}>应付金额：￥{orderDetail.payMoney}</Text>
 					</View>
 				</View>
 			);
@@ -88,7 +83,6 @@ export default class OrderScreen extends React.Component {
 						<Text>积分兑换</Text>
 					</View>
 					<View style={styles.detail_content_goods_item}>
-						{/* <Image style={styles.detail_content_goods_item_img} source={require('../../../img/lunbo/3.jpg')} /> */}
 						<View style={styles.detail_content_goods_item_name}>
 							<Text>{goods.name}</Text>
 						</View>
@@ -118,6 +112,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		marginTop: 10,
 		padding: 10,
+		borderRadius: 5,
 	},
 	empty: {
 		fontSize: 12,
@@ -125,7 +120,7 @@ const styles = StyleSheet.create({
 	},
 	detail_content_goods_item: {
 		flexDirection: 'row',
-		height: 50,
+		height: 40,
 	},
 	detail_content_goods_item_img: {
 		height: 30,
@@ -136,6 +131,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		marginLeft: 10,
+		color: '#8a8a8a',
 	},
 	detail_content_goods_item_num: {
 		width: 50,
@@ -149,6 +145,7 @@ const styles = StyleSheet.create({
 	detail_content_goods_item_price_text: {
 		fontSize: 16,
 		fontWeight: '800',
+		color: '#333',
 	},
 	detail_content_goods_send: {
 		marginVertical: 10,
@@ -160,5 +157,6 @@ const styles = StyleSheet.create({
 	detail_content_goods_total_text: {
 		fontSize: 18,
 		fontWeight: '800',
+		color: '#333',
 	},
 });
