@@ -1,15 +1,15 @@
 import React from 'react';
 import Empty from './Empty';
 import FooterScreen from './Footer';
+import Request from '../../util/Request';
+import storageUtil from '../../util/Storage';
+import Loading from '../../component/Loading';
 import OrderItemByHome from './OrderItemByHome';
 import OrderItemByCabinet from './OrderItemByCabinet';
 import OrderItemByIntergral from './OrderItemByIntergral';
 import OrderItemByShoperInput from './OrderItemByShoperInput';
 import { View, FlatList, StyleSheet } from 'react-native';
 import OrderItemByUserInShop from './OrderItemByUserInShop';
-import Request from '../../util/Request';
-import storageUtil from '../../util/Storage';
-import Loading from '../../component/Loading';
 
 export default class AllOrder extends React.Component {
 	constructor(props) {

@@ -3,7 +3,6 @@ import React from 'react';
 import MoneyItem from './MoneyItem';
 import Request from '../../util/Request';
 import Config from '../../config/config';
-import Toast from '../../component/Toast';
 import StrageUtil from '../../util/Storage';
 import { Badge } from 'react-native-elements';
 import Message from '../../component/Message';
