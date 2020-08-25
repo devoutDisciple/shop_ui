@@ -17,7 +17,7 @@ export default class OrderScreen extends React.Component {
 			return (
 				<View style={styles.detail_send}>
 					<View style={styles.detail_common_title}>
-						<Text>衣物信息</Text>
+						<Text>存放信息</Text>
 					</View>
 					<View style={styles.detail_send_content}>
 						<CommonShow

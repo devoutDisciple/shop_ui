@@ -8,6 +8,7 @@ import Request from '../../util/Request';
 import Loading from '../../component/Loading';
 import { Badge } from 'react-native-elements';
 import CommonHeader from '../../component/CommonHeader';
+import DetailShopOrder from './DetailShopOrder';
 import DetailOrderByShoperInput from './DetailOrderByShoperInput';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 
@@ -17,7 +18,6 @@ export default class OrderScreen extends React.Component {
 		this.state = {
 			orderDetail: {},
 			loadingVisible: false,
-			address: {},
 			type: 1, // 默认是从柜子下的订单
 		};
 	}
@@ -37,7 +37,7 @@ export default class OrderScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props,
-			{ orderDetail, loadingVisible, address, type } = this.state;
+			{ orderDetail, loadingVisible, type } = this.state;
 		return (
 			<View style={{ flex: 1 }}>
 				<CommonHeader title="订单详情" navigation={navigation} />
@@ -52,12 +52,13 @@ export default class OrderScreen extends React.Component {
 						</View>
 					</View>
 					<Detailgoods orderDetail={orderDetail} type={type} />
+					{Number(type) === 5 ? <DetailShopOrder orderDetail={orderDetail} /> : null}
 					{Number(orderDetail.order_type) === 4 ? (
 						<DetailOrderByShoperInput orderDetail={orderDetail} type={type} />
 					) : (
 						<>
-							<DetailUser orderDetail={orderDetail} address={address} type={type} />
-							<DetailSave orderDetail={orderDetail} address={address} type={type} />
+							<DetailUser orderDetail={orderDetail} type={type} />
+							<DetailSave orderDetail={orderDetail} type={type} />
 						</>
 					)}
 					<DetailPrint orderid={orderDetail.id} />
