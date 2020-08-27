@@ -64,25 +64,17 @@ export default class AllOrder extends React.Component {
 		});
 	}
 
-	// 完成清洗
-	successClear() {
-		Message.confirm('已完成清洗', '清洗完成后，订单将归类于待派送订单', async () => {
+	// 完成派送，送到了客户手中
+	successSend() {
+		Message.confirm('已完成派送', '已完成派送，订单将归类于用户待收取订单', async () => {
 			this.props.setLoading(true);
-			await this.updateOrderStatus(3);
+			let { id } = this.props.detail;
+			let orderStatus = await Request.post('/order/successClear', { orderid: id });
 			this.props.setLoading(false);
-			Toast.success('已完成清洗');
 			this.props.onSearch();
-		});
-	}
-
-	// 已派送完成
-	compalteOrder() {
-		Message.confirm('请确认', '此订单是否应送至客户手中，确认后此订单归类于已完成订单', async () => {
-			this.props.setLoading(true);
-			await this.updateOrderStatus(5);
-			this.props.setLoading(false);
-			Toast.success('已完成');
-			this.props.onSearch();
+			if (orderStatus.data === 'success') {
+				Toast.success('已完成清洗');
+			}
 		});
 	}
 
@@ -135,14 +127,14 @@ export default class AllOrder extends React.Component {
 			</TouchableOpacity>
 		);
 
-		// 派送上门，完成此订单
-		const complateBtn = (
+		// 已完成派送   successSend
+		const sendSuccessBtn = (
 			<TouchableOpacity
-				key="complateBtn"
+				key="sendSuccessBtn"
 				style={styles.order_item_right_bottom_btn}
-				onPress={this.compalteOrder.bind(this)}
+				onPress={this.successSend.bind(this)}
 			>
-				<Text style={styles.order_pay_font}>已派送完成</Text>
+				<Text style={styles.order_pay_font}>完成派送</Text>
 			</TouchableOpacity>
 		);
 
@@ -154,13 +146,16 @@ export default class AllOrder extends React.Component {
 		}
 		if (status === 2) {
 			actionBtn = [connectBtn, setMoney];
-			is_sure === 2 && actionBtn.push(saveClothingBtn);
+			if (is_sure === 2) {
+				actionBtn.push(saveClothingBtn);
+				actionBtn.push(sendSuccessBtn);
+			}
 		}
 		if (status === 3) {
 			actionBtn = [connectBtn];
 		}
 		if (status === 4) {
-			actionBtn = [complateBtn, connectBtn];
+			actionBtn = [connectBtn];
 		}
 		if (status === 5) {
 			actionBtn = [connectBtn];

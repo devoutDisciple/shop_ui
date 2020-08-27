@@ -3,6 +3,7 @@ import React from 'react';
 import MoneyItem from './MoneyItem';
 import Request from '../../util/Request';
 import Config from '../../config/config';
+import Toast from '../../component/Toast';
 import StrageUtil from '../../util/Storage';
 import { Badge } from 'react-native-elements';
 import Message from '../../component/Message';
@@ -52,6 +53,20 @@ export default class AllOrder extends React.Component {
 				}
 			})
 			.catch(error => Message.warning('用户电话', phone));
+	}
+
+	// 用户已经取到衣物
+	successSend() {
+		Message.confirm('顾客已取到衣物', '请确认顾客已取到衣物，订单将归类于用户待收取订单', async () => {
+			this.props.setLoading(true);
+			let { id } = this.props.detail;
+			let orderStatus = await Request.post('/order/successClear', { orderid: id });
+			this.props.setLoading(false);
+			this.props.onSearch();
+			if (orderStatus.data === 'success') {
+				Toast.success('操作成功');
+			}
+		});
 	}
 
 	// 点击查看详情页面
@@ -111,12 +126,31 @@ export default class AllOrder extends React.Component {
 			</TouchableOpacity>
 		);
 
+		// 用户已经取到衣物   successSend
+		const sendSuccessBtn = (
+			<TouchableOpacity
+				key="sendSuccessBtn"
+				style={styles.order_item_right_bottom_btn}
+				onPress={this.successSend.bind(this)}
+			>
+				<Text style={styles.order_pay_font}>客户已取到衣物</Text>
+			</TouchableOpacity>
+		);
+
 		if (status === 1) {
 			actionBtn = [connectBtn, openBoxBtn];
 		}
 		if (status === 2) {
 			actionBtn = [connectBtn, setMoney];
-			is_sure === 2 && actionBtn.push(saveClothingBtn);
+			if (is_sure === 2) {
+				// 放到洗衣柜中
+				if (detail.send_status === 1) {
+					actionBtn.push(saveClothingBtn);
+				} else {
+					// 用户自取
+					actionBtn.push(sendSuccessBtn);
+				}
+			}
 		}
 		if (status === 3 || status === 4) {
 			actionBtn = [connectBtn];
