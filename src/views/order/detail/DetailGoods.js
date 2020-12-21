@@ -65,7 +65,7 @@ export default class OrderScreen extends React.Component {
 					</View>
 					{Number(type) === 5 ? (
 						<View style={styles.detail_content_goods_send}>
-							<Text>客户要求配送方式：{FilterStatus.filterSendStatus(orderDetail.send_status)}</Text>
+							<Text>用户要求配送方式：{FilterStatus.filterSendStatus(orderDetail.send_status)}</Text>
 						</View>
 					) : null}
 					<View style={styles.detail_content_goods_total}>

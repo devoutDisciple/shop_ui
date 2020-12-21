@@ -19,7 +19,7 @@ export default class OrderScreen extends React.Component {
 				<View style={{ flex: 1 }}>
 					<CommonHeader
 						navigation={navigation}
-						title={FilterStatus.filterOrderStatus(status)}
+						title={status === 3 ? '未收取订单' : FilterStatus.filterOrderStatus(status)}
 						back={() => NavigationUtil.reset(navigation, 'HomeScreen')}
 					/>
 					<Order navigation={navigation} type="all" status={status} />

@@ -63,12 +63,12 @@ export default class AllOrder extends React.Component {
 		});
 	}
 
-	// 完成派送，送到了客户手中
-	successSend() {
+	// 完成派送，送到了用户手中
+	successSendByHomeOrder() {
 		Message.confirm('已完成派送', '已完成派送，订单将归类于用户待收取订单', async () => {
 			this.props.setLoading(true);
 			let { id } = this.props.detail;
-			let orderStatus = await Request.post('/order/successClear', { orderid: id });
+			let orderStatus = await Request.post('/order/successSendByHomeOrder', { orderid: id });
 			this.props.setLoading(false);
 			this.props.onSearch();
 			if (orderStatus.data === 'success') {
@@ -126,12 +126,12 @@ export default class AllOrder extends React.Component {
 			</TouchableOpacity>
 		);
 
-		// 已完成派送   successSend
+		// 已完成派送
 		const sendSuccessBtn = (
 			<TouchableOpacity
 				key="sendSuccessBtn"
 				style={styles.order_item_right_bottom_btn}
-				onPress={this.successSend.bind(this)}
+				onPress={this.successSendByHomeOrder.bind(this)}
 			>
 				<Text style={styles.order_pay_font}>完成派送</Text>
 			</TouchableOpacity>

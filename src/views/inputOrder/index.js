@@ -106,11 +106,11 @@ export default class SettingScreen extends React.Component {
 					<ScrollView style={styles.setting_content} showsVerticalScrollIndicator={false}>
 						<MessageItem
 							showIcon
-							label="客户名称"
+							label="用户名称"
 							value={orderDetail.name}
 							onPress={() => {
 								this.setState(
-									{ changeKey: 'name', title: '客户名称', defalutValue: orderDetail.name },
+									{ changeKey: 'name', title: '用户名称', defalutValue: orderDetail.name },
 									() => {
 										this.setState({ visible: true });
 									},
@@ -119,11 +119,11 @@ export default class SettingScreen extends React.Component {
 						/>
 						<MessageItem
 							showIcon
-							label="客户电话"
+							label="用户电话"
 							value={orderDetail.phone}
 							onPress={() => {
 								this.setState(
-									{ changeKey: 'phone', title: '客户电话', defalutValue: orderDetail.phone },
+									{ changeKey: 'phone', title: '用户电话', defalutValue: orderDetail.phone },
 									() => {
 										this.setState({ visible: true });
 									},
@@ -132,11 +132,11 @@ export default class SettingScreen extends React.Component {
 						/>
 						<MessageItem
 							showIcon
-							label="客户地址"
+							label="用户地址"
 							value={orderDetail.address}
 							onPress={() => {
 								this.setState(
-									{ changeKey: 'address', title: '客户地址', defalutValue: orderDetail.address },
+									{ changeKey: 'address', title: '用户地址', defalutValue: orderDetail.address },
 									() => {
 										this.setState({ visible: true });
 									},

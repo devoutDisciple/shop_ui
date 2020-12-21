@@ -55,16 +55,14 @@ export default class AllOrder extends React.Component {
 	}
 
 	// 完成清洗
-	async successClear() {
-		// updateOrderStatus
-
+	async complateClear() {
 		Message.confirm(
 			'完成清洗',
 			'请确认已完成清洗，此操作将通知用户收取衣物，订单将归类于用户待收取订单',
 			async () => {
 				let { detail } = this.props;
 				this.props.setLoading(true);
-				let res = await Request.post('/order/updateOrderStatus', { orderid: detail.id, status: 4 });
+				let res = await Request.post('/order/complateClear', { orderid: detail.id });
 				this.props.setLoading(false);
 				this.props.onSearch();
 				if (res && res.data === 'success') {
@@ -74,12 +72,12 @@ export default class AllOrder extends React.Component {
 		);
 	}
 
-	// 用户已经取到衣物
-	successSend() {
-		Message.confirm('顾客已取到衣物', '请确认顾客已取到衣物，订单将归类于用户待收取订单', async () => {
+	// 用户取到订单
+	successOrder() {
+		Message.confirm('顾客已取到衣物', '请确认顾客已取到衣物，订单将归类于已完成订单', async () => {
 			this.props.setLoading(true);
 			let { id } = this.props.detail;
-			let orderStatus = await Request.post('/order/successClear', { orderid: id });
+			let orderStatus = await Request.post('/order/successOrder', { orderid: id });
 			this.props.setLoading(false);
 			this.props.onSearch();
 			if (orderStatus.data === 'success') {
@@ -146,24 +144,24 @@ export default class AllOrder extends React.Component {
 		);
 
 		// 完成清洗
-		const successClear = (
+		const complateClear = (
 			<TouchableOpacity
-				key="successClear"
+				key="complateClear"
 				style={styles.order_item_right_bottom_btn}
-				onPress={this.successClear.bind(this)}
+				onPress={this.complateClear.bind(this)}
 			>
 				<Text style={styles.order_pay_font}>完成清洗</Text>
 			</TouchableOpacity>
 		);
 
-		// 用户已经取到衣物   successSend
+		// 用户已经取到衣物
 		const sendSuccessBtn = (
 			<TouchableOpacity
 				key="sendSuccessBtn"
 				style={styles.order_item_right_bottom_btn}
-				onPress={this.successSend.bind(this)}
+				onPress={this.successOrder.bind(this)}
 			>
-				<Text style={styles.order_pay_font}>客户已取到衣物</Text>
+				<Text style={styles.order_pay_font}>用户已取到衣物</Text>
 			</TouchableOpacity>
 		);
 
@@ -180,7 +178,7 @@ export default class AllOrder extends React.Component {
 					actionBtn.push(saveClothingBtn);
 				} else {
 					// 用户自取
-					actionBtn.push(successClear);
+					actionBtn.push(complateClear);
 				}
 			}
 		}
@@ -241,7 +239,7 @@ export default class AllOrder extends React.Component {
 						<MoneyItem text="洗衣总费用：" money={detail.payMoney} />
 						<View style={styles.order_item_right_order_type}>
 							<Text style={styles.font_desc_style}>
-								客户要求配送方式：{FilterStatus.filterSendStatus(detail.send_status)}
+								用户要求配送方式：{FilterStatus.filterSendStatus(detail.send_status)}
 							</Text>
 						</View>
 						<View style={styles.order_item_right_order_type}>

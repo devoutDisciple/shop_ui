@@ -17,16 +17,6 @@ export default class AllOrder extends React.Component {
 
 	componentDidMount() {}
 
-	// 更新衣物状态
-	async updateOrderStatus(status) {
-		let { id } = this.props.detail;
-		let orderStatus = await Request.post('/order/updateOrderStatus', { orderid: id, status: status });
-		if (orderStatus.data === 'success') {
-			return this.props.onSearch();
-		}
-		return;
-	}
-
 	// 联系用户
 	async onConnectUs() {
 		let { detail } = this.props;
@@ -54,13 +44,30 @@ export default class AllOrder extends React.Component {
 	}
 
 	// 完成清洗
-	successClear() {
-		Message.confirm('已完成清洗', '清洗完成后，订单将归类于已完成订单', async () => {
+	complateClear() {
+		Message.confirm('已完成清洗', '清洗完成后，订单将归类于待收取订单', async () => {
 			this.props.setLoading(true);
-			await this.updateOrderStatus(5);
+			let { id } = this.props.detail;
+			let orderStatus = await Request.post('/order/complateClear', { orderid: id });
+			if (orderStatus.data === 'success') {
+				Toast.success('已完成清洗');
+				this.props.setLoading(false);
+				this.props.onSearch();
+			}
+		});
+	}
+
+	// 用户取到订单
+	successOrder() {
+		Message.confirm('顾客已取到衣物', '请确认顾客已取到衣物，订单将归类于已完成订单', async () => {
+			this.props.setLoading(true);
+			let { id } = this.props.detail;
+			let orderStatus = await Request.post('/order/successOrder', { orderid: id });
 			this.props.setLoading(false);
-			Toast.success('已完成清洗');
 			this.props.onSearch();
+			if (orderStatus.data === 'success') {
+				Toast.success('操作成功');
+			}
 		});
 	}
 
@@ -92,21 +99,38 @@ export default class AllOrder extends React.Component {
 		);
 
 		// 确认完成清洗
-		const successClear = (
+		const complateClear = (
 			<TouchableOpacity
-				key="successClear"
+				key="complateClear"
 				style={styles.order_item_right_bottom_btn}
-				onPress={this.successClear.bind(this)}
+				onPress={this.complateClear.bind(this)}
 			>
 				<Text style={styles.order_pay_font}>完成清洗</Text>
 			</TouchableOpacity>
 		);
+		// 用户已经取到衣物
+		const sendSuccessBtn = (
+			<TouchableOpacity
+				key="sendSuccessBtn"
+				style={styles.order_item_right_bottom_btn}
+				onPress={this.successOrder.bind(this)}
+			>
+				<Text style={styles.order_pay_font}>用户已取到衣物</Text>
+			</TouchableOpacity>
+		);
+
 		if (status === 5) {
 			actionBtn = [connectBtn];
 		}
 		if (status === 2) {
 			actionBtn = [connectBtn, clearSucessBtn];
-			is_sure === 2 && actionBtn.push(successClear);
+			is_sure === 2 && actionBtn.push(complateClear);
+		}
+		if (status === 3 || status === 4) {
+			actionBtn = [connectBtn, sendSuccessBtn];
+		}
+		if (status === 5) {
+			actionBtn = [connectBtn];
 		}
 		return actionBtn;
 	}
@@ -145,7 +169,7 @@ export default class AllOrder extends React.Component {
 							<Text style={styles.font_desc_style}>订单方式：手动录入</Text>
 						</View>
 						<View style={styles.order_item_right_adrress}>
-							<Text style={styles.font_desc_style}>客户姓名：{home_username}</Text>
+							<Text style={styles.font_desc_style}>用户姓名：{home_username}</Text>
 						</View>
 						{Number(urgency) === 2 && (
 							<>
