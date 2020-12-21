@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import Spinner from 'react-native-spinkit';
@@ -16,7 +15,13 @@ export default class SettingScreen extends React.Component {
 		if (visible) {
 			return (
 				<View style={styles.container}>
-					<Spinner style={styles.spinner} isVisible={visible || false} size={50} type="Bounce" color="#fb9bcd" />
+					<Spinner
+						style={styles.spinner}
+						isVisible={visible || false}
+						size={50}
+						type="Bounce"
+						color="#fb9bcd"
+					/>
 				</View>
 			);
 		}

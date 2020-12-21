@@ -1,6 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import CommonSylte from '../style/common';
+import CommonSylte from '@/style/common';
 import { View, StyleSheet, Text } from 'react-native';
 
 export default class OrderScreen extends React.Component {

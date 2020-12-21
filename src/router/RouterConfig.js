@@ -4,65 +4,65 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 // 首页
-import HomeScreen from '../home/index';
+import HomeScreen from '@/views/home/index';
 
 // 订单管理页面
-import OrderScreen from '../order/Index';
+import OrderScreen from '@/views/order/Index';
 
 // 商店管理
-import ShopDetailScreen from '../shopDetail/index';
+import ShopDetailScreen from '@/views/shopDetail/index';
 
 // 洗衣柜管理
-import CabinetScreen from '../cabinet/index';
+import CabinetScreen from '@/views/cabinet/index';
 
 // 衣物管理页面
-import ClothingScreen from '../clothing/index';
+import ClothingScreen from '@/views/clothing/index';
 
 // 增加衣物页面
-import AddClothingScreen from '../clothing/AddClothing';
+import AddClothingScreen from '@/views/clothing/AddClothing';
 
 // 衣物编辑页面
-import EditClothingScreen from '../clothing/EditClothing';
+import EditClothingScreen from '@/views/clothing/EditClothing';
 
 // 广告页面
-import AdvertisementScreen from '../advertisement/index';
+import AdvertisementScreen from '@/views/advertisement/index';
 
 // mock---------------------------
 // mock页面
-import MockScreen from '../mock/index';
-import MockConcatusScreen from '../mock/concatUs/ConcatUs';
-import MockClothingScreen from '../mock/clothing/Clothing';
+import MockScreen from '@/views/mock/index';
+import MockConcatusScreen from '@/views/mock/concatUs/ConcatUs';
+import MockClothingScreen from '@/views/mock/clothing/Clothing';
 
 // mock---------------------------
 
 // // 销售额统计页面
-// import SalesTypeScreen from '../my/salesType/index';
+// import SalesTypeScreen from '@/views/my/salesType/index';
 
 // // 订单概况
-// import orderOverviewScreen from '../my/orderOverview/index';
+// import orderOverviewScreen from '@/views/my/orderOverview/index';
 
 // 订单录入
-import InputOrderScreen from '../inputOrder/index';
+import InputOrderScreen from '@/views/inputOrder/index';
 
 // 手机验证码登录  骗苹果审核  SecurityLoginScreen
-import SecurityLoginScreen from '../login/SecurityLogin';
+import SecurityLoginScreen from '@/views/login/SecurityLogin';
 
 // ===================
 
 // 我的  --------------------
-import MyScreen from '../my/My';
+import MyScreen from '@/views/my/My';
 
 // 二维码扫描页面
-import ScanCameraScreen from '../scanCamera/ScanCamera';
+import ScanCameraScreen from '@/views/scanCamera/ScanCamera';
 
 // 设置商品金额页面
-import GoodsScreen from '../goods/Goods';
+import GoodsScreen from '@/views/goods/Goods';
 
 // 订单详情页面
-import OrderDetailScreen from '../order/detail/Detail';
+import OrderDetailScreen from '@/views/order/detail/Detail';
 
 // 登录页面
-import LoginScreen from '../login/Login';
+import LoginScreen from '@/views/login/Login';
 
 import TabBarItem from './TabBarItem';
 
@@ -108,8 +108,8 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: ({ focused, tintColor }) => (
 					<TabBarItem
 						focused={focused}
-						normalImage={require('../../img/tabbar/tabbar_order.png')}
-						selectedImage={require('../../img/tabbar/tabbar_order_selected.png')}
+						normalImage={require('@/asserts/tabbar/tabbar_order.png')}
+						selectedImage={require('@/asserts/tabbar/tabbar_order_selected.png')}
 					/>
 				),
 			},
@@ -122,8 +122,8 @@ const TabNavigator = createBottomTabNavigator(
 				tabBarIcon: ({ focused, tintColor }) => (
 					<TabBarItem
 						focused={focused}
-						normalImage={require('../../img/tabbar/tabbar_mine.png')}
-						selectedImage={require('../../img/tabbar/tabbar_mine_selected.png')}
+						normalImage={require('@/asserts/tabbar/tabbar_mine.png')}
+						selectedImage={require('@/asserts/tabbar/tabbar_mine_selected.png')}
 					/>
 				),
 			},
