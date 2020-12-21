@@ -7,6 +7,7 @@ import storageUtil from '@/util/Storage';
 import Message from '@/component/Message';
 import Loading from '@/component/Loading';
 import CommonHeader from '@/component/CommonHeader';
+import SelectTab from './SelectTab';
 import SafeViewComponent from '@/component/SafeViewComponent';
 import ClothingAddDialog from '@/component/ClothingAddDialog';
 import { Text, View, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
@@ -25,15 +26,42 @@ export default class Goods extends React.Component {
 			isThursday: false,
 			loadingVisible: false,
 			addClothingVisible: false,
+			tabList: [], // 衣物分类
+			selectId: '', // 选择衣物的id
 		};
 	}
 
 	async componentDidMount() {
-		await this.getClothings();
+		await this.getClothingType();
+	}
+
+	// 获取衣物分类
+	async getClothingType() {
+		let shop = await storageUtil.get('shop');
+		let res = await Request.get('/clothing_type/getByShopid', { shopid: shop.id });
+		let tabList = res.data || [],
+			selectId = '';
+		if (tabList && tabList[0] && tabList[0].id) {
+			selectId = tabList[0].id;
+		}
+		this.setState({ tabList: tabList || [], selectId }, () => {
+			this.getClothings(selectId);
+		});
+	}
+
+	// 选择衣物分类
+	onSelectClothingType(selectId) {
+		let { data } = this.state;
+		console.log(data, 111);
+		data.forEach(item => {
+			console.log(item.typeid, selectId);
+			item.show = item.typeid === selectId;
+		});
+		this.setState({ data: data || [], selectId });
 	}
 
 	// 查询衣物
-	async getClothings() {
+	async getClothings(selectId) {
 		try {
 			this.setState({ loadingVisible: true });
 			let shop = await storageUtil.get('shop');
@@ -57,6 +85,7 @@ export default class Goods extends React.Component {
 						return (item.num = currentSelectGoods[0].num);
 					}
 					item.num = 0;
+					item.show = item.typeid === selectId;
 				});
 			}
 			if (Array.isArray(goods) && Array.isArray(data)) {
@@ -208,7 +237,10 @@ export default class Goods extends React.Component {
 			subMoney,
 			isThursday,
 			addClothingVisible,
+			tabList,
+			selectId,
 		} = this.state;
+		let notEmpty = data.filter(item => item.typeid === selectId);
 		return (
 			<SafeViewComponent>
 				<View style={styles.container}>
@@ -217,30 +249,42 @@ export default class Goods extends React.Component {
 						<View style={styles.content_title}>
 							<Text>洗衣费用价格计算</Text>
 						</View>
+						<SelectTab
+							tabList={tabList}
+							selectId={selectId}
+							onSelectClothingType={this.onSelectClothingType.bind(this)}
+						/>
 						<View style={styles.content_clothing}>
-							{data &&
+							{notEmpty && notEmpty.length !== 0 ? (
 								data.map((item, index) => {
-									return (
-										<GoodsItem
-											key={index}
-											idx={index}
-											num={item.num}
-											name={item.name}
-											price={item.price}
-											onSubCloth={this.onSubCloth.bind(this)}
-											onAddCloth={this.onAddCloth.bind(this)}
-										/>
-									);
-								})}
+									if (item.show) {
+										return (
+											<GoodsItem
+												key={index}
+												idx={index}
+												num={item.num}
+												name={item.name}
+												price={item.price}
+												onSubCloth={this.onSubCloth.bind(this)}
+												onAddCloth={this.onAddCloth.bind(this)}
+											/>
+										);
+									}
+								})
+							) : (
+								<View style={styles.empty_clothing}>
+									<Text style={styles.empty_clothing_text}>该类衣物暂不支持清洗</Text>
+								</View>
+							)}
 						</View>
-						<View style={styles.add_clothing}>
+						{/* <View style={styles.add_clothing}>
 							<TouchableOpacity
 								style={styles.add_clothing_container}
 								onPress={() => this.setState({ addClothingVisible: true })}
 							>
 								<Text style={styles.add_clothing_text}>增加衣物 </Text>
 							</TouchableOpacity>
-						</View>
+						</View> */}
 						<View style={styles.content_title}>
 							<Text>会员日下单</Text>
 						</View>
@@ -437,5 +481,14 @@ const styles = StyleSheet.create({
 	},
 	add_clothing_text: {
 		color: '#fff',
+	},
+	empty_clothing: {
+		height: 100,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	empty_clothing_text: {
+		fontSize: 14,
+		color: '#bfbfbf',
 	},
 });

@@ -54,6 +54,26 @@ export default class AllOrder extends React.Component {
 			.catch(error => Message.warning('用户电话', phone));
 	}
 
+	// 完成清洗
+	async successClear() {
+		// updateOrderStatus
+
+		Message.confirm(
+			'完成清洗',
+			'请确认已完成清洗，此操作将通知用户收取衣物，订单将归类于用户待收取订单',
+			async () => {
+				let { detail } = this.props;
+				this.props.setLoading(true);
+				let res = await Request.post('/order/updateOrderStatus', { orderid: detail.id, status: 4 });
+				this.props.setLoading(false);
+				this.props.onSearch();
+				if (res && res.data === 'success') {
+					Toast.success('操作成功');
+				}
+			},
+		);
+	}
+
 	// 用户已经取到衣物
 	successSend() {
 		Message.confirm('顾客已取到衣物', '请确认顾客已取到衣物，订单将归类于用户待收取订单', async () => {
@@ -125,6 +145,17 @@ export default class AllOrder extends React.Component {
 			</TouchableOpacity>
 		);
 
+		// 完成清洗
+		const successClear = (
+			<TouchableOpacity
+				key="successClear"
+				style={styles.order_item_right_bottom_btn}
+				onPress={this.successClear.bind(this)}
+			>
+				<Text style={styles.order_pay_font}>完成清洗</Text>
+			</TouchableOpacity>
+		);
+
 		// 用户已经取到衣物   successSend
 		const sendSuccessBtn = (
 			<TouchableOpacity
@@ -139,20 +170,22 @@ export default class AllOrder extends React.Component {
 		if (status === 1) {
 			actionBtn = [connectBtn, openBoxBtn];
 		}
+		// 订单状态清洗中
 		if (status === 2) {
 			actionBtn = [connectBtn, setMoney];
+			// 确认过价格
 			if (is_sure === 2) {
 				// 放到洗衣柜中
 				if (detail.send_status === 1) {
 					actionBtn.push(saveClothingBtn);
 				} else {
 					// 用户自取
-					actionBtn.push(sendSuccessBtn);
+					actionBtn.push(successClear);
 				}
 			}
 		}
 		if (status === 3 || status === 4) {
-			actionBtn = [connectBtn];
+			actionBtn = [connectBtn, sendSuccessBtn];
 		}
 		if (status === 5) {
 			actionBtn = [connectBtn];

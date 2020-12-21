@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		marginTop: 10,
 		padding: 10,
-		marginBottom: 20,
 	},
 	detail_send2: {
 		backgroundColor: '#fff',

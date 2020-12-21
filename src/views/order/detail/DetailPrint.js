@@ -34,6 +34,7 @@ export default class OrderScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: 10,
 		justifyContent: 'flex-end',
 		alignItems: 'flex-end',
 	},

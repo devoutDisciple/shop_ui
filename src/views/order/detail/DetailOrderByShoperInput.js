@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
 	detail_send: {
 		backgroundColor: '#fff',
 		marginTop: 10,
-		marginBottom: 10,
 		padding: 10,
 	},
 	detail_send_content_item: {
