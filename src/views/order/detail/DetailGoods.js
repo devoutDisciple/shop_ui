@@ -18,7 +18,11 @@ export default class OrderScreen extends React.Component {
 		} catch (error) {
 			goods = [];
 		}
-		if ((goods && goods.length !== 0 && (Number(type) === 1 || Number(type) === 2)) || Number(type) === 5) {
+		if (
+			goods &&
+			goods.length !== 0 &&
+			(Number(type) === 1 || Number(type) === 2 || Number(type) === 4 || Number(type) === 5)
+		) {
 			return (
 				<View style={styles.detail_content_goods}>
 					<View style={styles.detail_common_title}>

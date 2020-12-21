@@ -91,19 +91,27 @@ export default class AllOrder extends React.Component {
 					ListEmptyComponent={<Empty />}
 					keyExtractor={(item, index) => String(item.id)}
 					ListFooterComponent={<FooterScreen status={footerStatus} />}
-					renderItem={({ item, index }) => {
-						if (item.order_type === 1 || item.order_type === 2 || item.order_type === 5) {
+					renderItem={({ item }) => {
+						if (
+							item.order_type === 1 ||
+							item.order_type === 2 ||
+							item.order_type === 4 ||
+							item.order_type === 5
+						) {
 							let goods = '',
 								firstName = '--',
 								totalThings = 0;
 							goods = JSON.parse(item.goods || []);
-							firstName = goods[0] ? goods[0].name : '--';
-							totalThings = 0;
-							if (goods.length !== 0) {
-								goods.forEach(good => {
-									totalThings += Number(good.num);
-								});
+							if (goods && goods.length !== 0) {
+								firstName = goods[0] ? goods[0].name : '--';
+								totalThings = 0;
+								if (goods.length !== 0) {
+									goods.forEach(good => {
+										totalThings += Number(good.num);
+									});
+								}
 							}
+
 							// 通过快递柜下单
 							if (item.order_type === 1) {
 								return (
@@ -121,6 +129,19 @@ export default class AllOrder extends React.Component {
 							if (item.order_type === 2) {
 								return (
 									<OrderItemByHome
+										detail={item}
+										key={String(item.id)}
+										navigation={navigation}
+										onSearch={this.headerRefresh.bind(this)}
+										goods={`${firstName} 等 ${totalThings} 件衣物`}
+										setLoading={flag => this.setState({ loadingVisible: flag })}
+									/>
+								);
+							}
+							// 店员录入
+							if (item.order_type === 4) {
+								return (
+									<OrderItemByShoperInput
 										detail={item}
 										key={String(item.id)}
 										navigation={navigation}
@@ -157,18 +178,18 @@ export default class AllOrder extends React.Component {
 								/>
 							);
 						}
-						// 店员录入订单
-						if (item.order_type === 4) {
-							return (
-								<OrderItemByShoperInput
-									detail={item}
-									key={String(item.id)}
-									navigation={navigation}
-									onSearch={this.headerRefresh.bind(this)}
-									setLoading={flag => this.setState({ loadingVisible: flag })}
-								/>
-							);
-						}
+						// // 店员录入订单
+						// if (item.order_type === 4) {
+						// 	return (
+						// 		<OrderItemByShoperInput
+						// 			detail={item}
+						// 			key={String(item.id)}
+						// 			navigation={navigation}
+						// 			onSearch={this.headerRefresh.bind(this)}
+						// 			setLoading={flag => this.setState({ loadingVisible: flag })}
+						// 		/>
+						// 	);
+						// }
 					}}
 				/>
 				<Loading visible={loadingVisible} />

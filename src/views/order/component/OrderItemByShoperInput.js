@@ -136,7 +136,19 @@ export default class AllOrder extends React.Component {
 	}
 
 	render() {
-		const { id, create_time, status, code, home_username, money, urgency } = this.props.detail;
+		const { goods, detail } = this.props;
+		console.log(this.props, 888);
+		const {
+			id,
+			create_time,
+			status,
+			code,
+			home_username,
+			home_address,
+			money,
+			urgency,
+			is_sure,
+		} = this.props.detail;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
@@ -166,17 +178,32 @@ export default class AllOrder extends React.Component {
 					</View>
 					<TouchableOpacity style={styles.order_item_touch} onPress={this.onSearchDetail.bind(this, id)}>
 						<View style={styles.order_item_right_adrress}>
-							<Text style={styles.font_desc_style}>订单方式：手动录入</Text>
-						</View>
-						<View style={styles.order_item_right_adrress}>
 							<Text style={styles.font_desc_style}>用户姓名：{home_username}</Text>
 						</View>
-						{Number(urgency) === 2 && (
+						<View style={styles.order_item_right_adrress}>
+							<Text style={styles.font_desc_style}>联系地址：{home_address}</Text>
+						</View>
+						{is_sure === 2 ? (
 							<>
-								<MoneyItem text="加急费用：" money={Number(money * 0.5).toFixed(2)} />
-								<MoneyItem text="洗衣总费用：" money={Number(money * 1.5).toFixed(2)} />
+								<MoneyItem text={goods} money={detail.money} />
+								<MoneyItem text="优惠价格：" money={`-${detail.subDiscountMoney}`} />
+								<MoneyItem text="洗衣总费用：" money={detail.payMoney} />
+								{Number(urgency) === 2 && (
+									<>
+										<MoneyItem text="加急费用：" money={Number(money * 0.5).toFixed(2)} />
+										<MoneyItem text="洗衣总费用：" money={Number(money * 1.5).toFixed(2)} />
+									</>
+								)}
 							</>
+						) : (
+							<View style={styles.order_item_right_order_type}>
+								<Text style={styles.font_desc_style}>未设置金额</Text>
+							</View>
 						)}
+
+						<View style={styles.order_item_right_adrress}>
+							<Text style={styles.font_desc_style}>订单方式：手动录入</Text>
+						</View>
 					</TouchableOpacity>
 					<View style={styles.order_item_right_bottom}>{this.renderBtn()}</View>
 				</View>
