@@ -14,11 +14,11 @@ export default class Waller extends React.Component {
 			<View style={styles.my_wallet}>
 				<TouchableOpacity style={styles.my_wallet_chunk}>
 					<Text style={styles.my_wallet_chunk_top}>{userDetail.role === 3 ? '****' : orderTotalMoney}</Text>
-					<Text style={styles.my_wallet_chunk_bottom}>店铺总收入</Text>
+					<Text style={styles.my_wallet_chunk_bottom}>总收入</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.my_wallet_chunk}>
 					<Text style={styles.my_wallet_chunk_top}>{userDetail.role === 3 ? '****' : orderTotalNum}</Text>
-					<Text style={styles.my_wallet_chunk_bottom}>店铺交易量</Text>
+					<Text style={styles.my_wallet_chunk_bottom}>订单总量</Text>
 				</TouchableOpacity>
 			</View>
 		);
