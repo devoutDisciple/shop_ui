@@ -136,6 +136,8 @@ const TabNavigator = createBottomTabNavigator(
 			inactiveTintColor: '#8a8a8a', // 当前未选中的tab bar的文本颜色和图标颜色
 			activeBackgroundColor: '#fff', // 当前选中的tab bar的背景色
 			inactiveBackgroundColor: '#fff', //当前未选中的tab bar的背景色
+			headerTitleAllowFontScaling: false,
+			allowFontScaling: false,
 			// labelStyle: {
 			//     color: 'orange',
 			// },
