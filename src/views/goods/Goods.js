@@ -52,7 +52,6 @@ export default class Goods extends React.Component {
 	// 选择衣物分类
 	onSelectClothingType(selectId) {
 		let { data } = this.state;
-		console.log(data, 111);
 		data.forEach(item => {
 			console.log(item.typeid, selectId);
 			item.show = item.typeid === selectId;

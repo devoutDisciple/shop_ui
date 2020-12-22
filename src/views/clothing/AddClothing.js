@@ -18,7 +18,25 @@ export default class Goods extends React.Component {
 			name: '',
 			price: 0,
 			sort: 1,
+			typeName: '',
 		};
+	}
+
+	componentDidMount() {
+		this.getClothingType();
+	}
+
+	// 获取衣物分类
+	async getClothingType() {
+		let shop = await storageUtil.get('shop');
+		let res = await Request.get('/clothing_type/getByShopid', { shopid: shop.id });
+		let tabList = res.data || [];
+		let { navigation } = this.props;
+		let typeid = navigation.getParam('typeid');
+		let list = tabList.filter(item => item.id === typeid);
+		if (list && list.length !== 0) {
+			this.setState({ typeName: list[0].name });
+		}
 	}
 
 	inputChange(key, value) {
@@ -33,13 +51,21 @@ export default class Goods extends React.Component {
 		try {
 			this.setState({ loadingVisible: true });
 			let { name, price, sort } = this.state;
-			let params = { shopid: shop.id, name, price, sort, create_time: moment().format('YYYY-MM-DD HH:mm:ss') };
+			let typeid = navigation.getParam('typeid');
+			let params = {
+				shopid: shop.id,
+				name,
+				price,
+				sort,
+				typeid,
+				create_time: moment().format('YYYY-MM-DD HH:mm:ss'),
+			};
 			let res = await Request.post('/clothing/add', params);
 			if (res && res.code === 200 && res.data === 'success') {
 				Toast.success('新增成功');
 				this.setState({ loadingVisible: false });
 				navigation.state.params.onSearchClothings();
-				this.props.navigation.goBack();
+				navigation.goBack();
 			}
 		} catch (error) {
 			this.setState({ loadingVisible: false });
@@ -49,7 +75,7 @@ export default class Goods extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
-		let { loadingVisible } = this.state;
+		let { loadingVisible, typeName } = this.state;
 		return (
 			<View style={styles.container}>
 				<CommonHeader title="新增衣物" navigation={navigation} />
@@ -104,6 +130,14 @@ export default class Goods extends React.Component {
 							/>
 						</View>
 					</View>
+					<View style={styles.input}>
+						<View style={styles.input_label}>
+							<Text style={styles.input_label_text}>所属分类:</Text>
+						</View>
+						<View style={styles.input_type}>
+							<Text style={styles.input_type_text}>{typeName}</Text>
+						</View>
+					</View>
 				</View>
 				<TouchableOpacity style={styles.footer} onPress={this.addClothing.bind(this)}>
 					<Text style={styles.footer_text}>确定</Text>
@@ -131,15 +165,23 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	input_label: {
-		width: 60,
+		width: 80,
 		paddingTop: 26,
 		alignItems: 'flex-end',
 	},
 	input_label_text: {
-		fontSize: 18,
+		fontSize: 16,
 	},
 	input_content: {
 		flex: 1,
+	},
+	input_type: {
+		flex: 1,
+		paddingTop: 26,
+	},
+	input_type_text: {
+		fontSize: 16,
+		marginLeft: 30,
 	},
 
 	footer: {

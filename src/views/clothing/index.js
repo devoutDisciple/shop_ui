@@ -6,32 +6,63 @@ import storageUtil from '@/util/Storage';
 import Request from '@/util/Request';
 import Loading from '@/component/Loading';
 import SafeViewComponent from '@/component/SafeViewComponent';
+import SelectTab from '../goods/SelectTab';
 
 export default class Goods extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			clothingDetail: [],
+			data: [],
 			loadingVisible: false,
 			refreshLoadingVisible: false,
+			tabList: [],
+			selectId: '',
 		};
 	}
 
 	async componentDidMount() {
-		await this.onSearchClothings();
+		await this.getClothingType();
+	}
+
+	// 获取衣物分类
+	async getClothingType() {
+		let shop = await storageUtil.get('shop');
+		let res = await Request.get('/clothing_type/getByShopid', { shopid: shop.id });
+		let tabList = res.data || [],
+			{ selectId } = this.state;
+		if (tabList && tabList[0] && tabList[0].id && !selectId) {
+			selectId = tabList[0].id;
+		}
+		this.setState({ tabList: tabList || [], selectId }, () => {
+			this.onSearchClothings(selectId);
+		});
+	}
+
+	// 选择衣物分类
+	onSelectClothingType(selectId) {
+		let { data } = this.state;
+		data.forEach(item => {
+			item.show = item.typeid === selectId;
+		});
+		this.setState({ data: data || [], selectId });
 	}
 
 	// 获取店铺衣物
-	async onSearchClothings() {
+	async onSearchClothings(selectId) {
 		this.setState({ loadingVisible: true });
 		let shop = await storageUtil.get('shop');
 		let res = await Request.get('/clothing/getAllByShopid', { shopid: shop.id });
-		this.setState({ clothingDetail: res.data || [], loadingVisible: false });
+		let data = res.data || [];
+		data.forEach(item => {
+			item.show = item.typeid === selectId;
+		});
+		this.setState({ data: data, loadingVisible: false });
 	}
 
 	render() {
 		const { navigation } = this.props;
-		let { clothingDetail, loadingVisible, refreshLoadingVisible } = this.state;
+		let { data, loadingVisible, refreshLoadingVisible, tabList, selectId } = this.state;
+
 		return (
 			<SafeViewComponent>
 				<View style={styles.container}>
@@ -42,24 +73,31 @@ export default class Goods extends React.Component {
 						refreshControl={
 							<RefreshControl
 								refreshing={refreshLoadingVisible}
-								onRefresh={this.onSearchClothings.bind(this)}
+								onRefresh={this.onSearchClothings.bind(this, selectId)}
 							/>
 						}
 					>
 						<View style={styles.content_title}>
 							<Text>衣物清洗费用管理</Text>
 						</View>
+						<SelectTab
+							tabList={tabList}
+							selectId={selectId}
+							onSelectClothingType={this.onSelectClothingType.bind(this)}
+						/>
 						<View style={styles.content_clothing}>
-							{clothingDetail &&
-								clothingDetail.map((item, index) => {
-									return (
-										<GoodsItem
-											key={index}
-											data={item}
-											navigation={navigation}
-											onSearchClothings={this.onSearchClothings.bind(this)}
-										/>
-									);
+							{data &&
+								data.map(item => {
+									if (item.show) {
+										return (
+											<GoodsItem
+												key={item.id}
+												data={item}
+												navigation={navigation}
+												onSearchClothings={this.getClothingType.bind(this)}
+											/>
+										);
+									}
 								})}
 						</View>
 					</ScrollView>
@@ -67,7 +105,8 @@ export default class Goods extends React.Component {
 						style={styles.footer}
 						onPress={() =>
 							this.props.navigation.navigate('AddClothingScreen', {
-								onSearchClothings: this.onSearchClothings.bind(this),
+								onSearchClothings: this.getClothingType.bind(this),
+								typeid: selectId,
 							})
 						}
 					>

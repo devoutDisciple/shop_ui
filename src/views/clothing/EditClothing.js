@@ -104,8 +104,8 @@ export default class Goods extends React.Component {
 								iconName="flag"
 								{...commonInputParams}
 								label="请输入衣物权重"
-								value={clothingDetail.sortNum}
-								onChangeText={this.inputChange.bind(this, 'sortNum')}
+								value={clothingDetail.sort}
+								onChangeText={this.inputChange.bind(this, 'sort')}
 								keyboardType="number-pad"
 								returnKeyType="done"
 								selectionColor={baseColor.fontColor}

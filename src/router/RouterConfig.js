@@ -155,6 +155,16 @@ const finnalApp = createStackNavigator(
 		// 	},
 		// },
 
+		// 衣物管理页面
+		ClothingScreen: {
+			screen: ClothingScreen,
+			navigationOptions: {
+				headerShown: false,
+				headerBackTitle: '返回',
+				headerBackAllowFontScaling: false,
+			},
+		},
+
 		// 广告页面
 		AdvertisementScreen: {
 			screen: AdvertisementScreen,
@@ -277,16 +287,6 @@ const finnalApp = createStackNavigator(
 		// 洗衣柜页面 CabinetScreen
 		CabinetScreen: {
 			screen: CabinetScreen,
-			navigationOptions: {
-				headerShown: false,
-				headerBackTitle: '返回',
-				headerBackAllowFontScaling: false,
-			},
-		},
-
-		// 衣物管理页面
-		ClothingScreen: {
-			screen: ClothingScreen,
 			navigationOptions: {
 				headerShown: false,
 				headerBackTitle: '返回',
