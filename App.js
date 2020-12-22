@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -11,7 +10,7 @@ import React from 'react';
 import RouterConfig from './src/router/RouterConfig';
 
 export default class App extends React.Component {
-    render() {
-        return <RouterConfig />;
-    }
+	render() {
+		return <RouterConfig />;
+	}
 }

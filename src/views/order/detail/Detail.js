@@ -60,7 +60,7 @@ export default class OrderScreen extends React.Component {
 							<DetailSave orderDetail={orderDetail} type={type} />
 						</>
 					)}
-					<DetailPrint orderid={orderDetail.id} />
+					<DetailPrint orderid={orderDetail.id} navigation={navigation} />
 				</ScrollView>
 				<Loading visible={loadingVisible} />
 			</View>
