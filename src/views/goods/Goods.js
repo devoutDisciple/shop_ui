@@ -53,7 +53,6 @@ export default class Goods extends React.Component {
 	onSelectClothingType(selectId) {
 		let { data } = this.state;
 		data.forEach(item => {
-			console.log(item.typeid, selectId);
 			item.show = item.typeid === selectId;
 		});
 		this.setState({ data: data || [], selectId });
@@ -146,7 +145,6 @@ export default class Goods extends React.Component {
 		let num = 10,
 			data = [],
 			{ discountText } = this.state;
-		console.log(discountText, 888);
 		for (let i = 0; i < 20; i++) {
 			let text = num - 0.5 * i + '折';
 			data.push(text);
@@ -162,7 +160,6 @@ export default class Goods extends React.Component {
 			pickerData: data,
 			selectedValue: [discountText],
 			onPickerConfirm: res => {
-				console.log(res, 999);
 				this.setState({ discountText: res[0] }, () => {
 					this.onCountPrice();
 				});
