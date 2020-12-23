@@ -3,6 +3,9 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import CommonHeader from '@/component/CommonHeader';
 import { baseColor, commonInputParams } from './commonParams';
 import Request from '@/util/Request';
+import storageUtil from '@/util/Storage';
+import Picker from 'react-native-picker';
+import Config from '@/config/config';
 import { Kohana } from 'react-native-textinput-effects';
 import Loading from '@/component/Loading';
 import Toast from '@/component/Toast';
@@ -16,6 +19,8 @@ export default class Goods extends React.Component {
 			name: '',
 			price: 0,
 			sort: 1,
+			typeName: '',
+			tabList: [],
 		};
 	}
 
@@ -32,6 +37,43 @@ export default class Goods extends React.Component {
 		let result = await Request.get('/clothing/getDetailById', { id });
 		let clothingDetail = result.data || {};
 		this.setState({ clothingDetail, loadingVisible: false });
+		this.getClothingType(clothingDetail.typeid);
+	}
+
+	// 获取衣物分类
+	async getClothingType(typeid) {
+		let shop = await storageUtil.get('shop');
+		let res = await Request.get('/clothing_type/getByShopid', { shopid: shop.id });
+		let tabList = res.data || [];
+		console.log(tabList, 999);
+		console.log(typeid, 888);
+		let list = tabList.filter(item => item.id === typeid);
+		if (list && list.length !== 0) {
+			this.setState({ tabList, typeName: list[0].name });
+		}
+	}
+
+	// 选择衣服分类
+	selectType() {
+		let { tabList } = this.state;
+		let pickerData = [];
+		tabList.forEach(item => pickerData.push(item.name));
+		Picker.init({
+			...Config.pickCommonConfig,
+			pickerData,
+			selectedValue: [25],
+			onPickerConfirm: res => {
+				let name = (res && res[0]) || '';
+				this.setState({ typeName: name });
+			},
+			onPickerCancel: res => {
+				console.log(res);
+			},
+			onPickerSelect: res => {
+				console.log(res);
+			},
+		});
+		Picker.show();
 	}
 
 	inputChange(key, value) {
@@ -40,8 +82,19 @@ export default class Goods extends React.Component {
 		this.setState({ clothingDetail });
 	}
 
+	getSelectTypeid() {
+		let { typeName, tabList } = this.state;
+		let typeid = '';
+		let currentItem = tabList.filter(item => item.name === typeName);
+		if (currentItem && currentItem[0]) {
+			typeid = currentItem[0].id;
+		}
+		return typeid;
+	}
+
 	async updateClothing() {
 		let { clothingDetail } = this.state;
+		clothingDetail.typeid = this.getSelectTypeid();
 		let { navigation } = this.props;
 		this.setState({ loadingVisible: true });
 		let res = await Request.post('/clothing/updateClothing', { data: clothingDetail });
@@ -55,7 +108,7 @@ export default class Goods extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
-		let { loadingVisible, clothingDetail } = this.state;
+		let { loadingVisible, clothingDetail, typeName } = this.state;
 		return (
 			<View style={styles.container}>
 				<CommonHeader title="衣物编辑" navigation={navigation} />
@@ -113,6 +166,14 @@ export default class Goods extends React.Component {
 							/>
 						</View>
 					</View>
+					<View style={styles.input}>
+						<View style={styles.input_label}>
+							<Text style={styles.input_label_text}>分类:</Text>
+						</View>
+						<TouchableOpacity style={styles.input_type} onPress={this.selectType.bind(this)}>
+							<Text style={styles.input_type_text}>{typeName}</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
 				<TouchableOpacity style={styles.footer} onPress={this.updateClothing.bind(this)}>
 					<Text style={styles.footer_text}>确定</Text>
@@ -149,6 +210,16 @@ const styles = StyleSheet.create({
 	},
 	input_content: {
 		flex: 1,
+	},
+
+	input_type: {
+		flex: 1,
+		paddingTop: 26,
+	},
+	input_type_text: {
+		fontSize: 16,
+		marginLeft: 30,
+		marginTop: 1,
 	},
 
 	footer: {

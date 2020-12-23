@@ -1,12 +1,14 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
+import Picker from 'react-native-picker';
 import CommonHeader from '@/component/CommonHeader';
 import storageUtil from '@/util/Storage';
 import { baseColor, commonInputParams } from './commonParams';
 import Request from '@/util/Request';
 import { Kohana } from 'react-native-textinput-effects';
 import Loading from '@/component/Loading';
+import Config from '@/config/config';
 import Toast from '@/component/Toast';
 
 export default class Goods extends React.Component {
@@ -19,6 +21,7 @@ export default class Goods extends React.Component {
 			price: 0,
 			sort: 1,
 			typeName: '',
+			tabList: [],
 		};
 	}
 
@@ -35,8 +38,31 @@ export default class Goods extends React.Component {
 		let typeid = navigation.getParam('typeid');
 		let list = tabList.filter(item => item.id === typeid);
 		if (list && list.length !== 0) {
-			this.setState({ typeName: list[0].name });
+			this.setState({ tabList, typeName: list[0].name });
 		}
+	}
+
+	// 选择衣服分类
+	selectType() {
+		let { tabList } = this.state;
+		let pickerData = [];
+		tabList.forEach(item => pickerData.push(item.name));
+		Picker.init({
+			...Config.pickCommonConfig,
+			pickerData,
+			selectedValue: [25],
+			onPickerConfirm: res => {
+				let name = (res && res[0]) || '';
+				this.setState({ typeName: name });
+			},
+			onPickerCancel: res => {
+				console.log(res);
+			},
+			onPickerSelect: res => {
+				console.log(res);
+			},
+		});
+		Picker.show();
 	}
 
 	inputChange(key, value) {
@@ -45,13 +71,25 @@ export default class Goods extends React.Component {
 		this.setState(params);
 	}
 
+	getSelectTypeid() {
+		let { navigation } = this.props;
+		let { typeName, tabList } = this.state;
+		let typeid = navigation.getParam('typeid');
+		let currentItem = tabList.filter(item => item.name === typeName);
+		if (currentItem && currentItem[0]) {
+			typeid = currentItem[0].id;
+		}
+		return typeid;
+	}
+
 	async addClothing() {
 		let shop = await storageUtil.get('shop');
 		let { navigation } = this.props;
 		try {
 			this.setState({ loadingVisible: true });
 			let { name, price, sort } = this.state;
-			let typeid = navigation.getParam('typeid');
+			let typeid = this.getSelectTypeid();
+			console.log(typeid, 111);
 			let params = {
 				shopid: shop.id,
 				name,
@@ -68,6 +106,7 @@ export default class Goods extends React.Component {
 				navigation.goBack();
 			}
 		} catch (error) {
+			console.log(error);
 			this.setState({ loadingVisible: false });
 			navigation.state.params.onSearchClothings();
 		}
@@ -132,11 +171,11 @@ export default class Goods extends React.Component {
 					</View>
 					<View style={styles.input}>
 						<View style={styles.input_label}>
-							<Text style={styles.input_label_text}>所属分类:</Text>
+							<Text style={styles.input_label_text}>分类:</Text>
 						</View>
-						<View style={styles.input_type}>
+						<TouchableOpacity style={styles.input_type} onPress={this.selectType.bind(this)}>
 							<Text style={styles.input_type_text}>{typeName}</Text>
-						</View>
+						</TouchableOpacity>
 					</View>
 				</View>
 				<TouchableOpacity style={styles.footer} onPress={this.addClothing.bind(this)}>
@@ -165,7 +204,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	input_label: {
-		width: 80,
+		width: 60,
 		paddingTop: 26,
 		alignItems: 'flex-end',
 	},
@@ -182,6 +221,7 @@ const styles = StyleSheet.create({
 	input_type_text: {
 		fontSize: 16,
 		marginLeft: 30,
+		marginTop: 1,
 	},
 
 	footer: {

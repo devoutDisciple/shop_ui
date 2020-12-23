@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "baseUrl": ".",
+      "experimentalDecorators": true,
+      "jsx": "react",
+      "newLine": "lf",
+      "outDir": "dist",
+      "paths": {
+        "@/components": ["src/components"],
+        "@/components/*": ["src/components/*"],
+        "@/config": ["src/config"],
+        "@/config/*": ["src/config/*"],
+        "@/utils": ["src/utils"],
+        "@/utils/*": ["src/utils/*"],
+        "@/views": ["src/views"],
+        "@/views/*": ["src/views/*"],
+      }
+    }
+  }
