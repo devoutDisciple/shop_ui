@@ -193,7 +193,7 @@ export default class AllOrder extends React.Component {
 
 	render() {
 		const { goods, detail } = this.props;
-		const { id, shopName, create_time, cabinetAdderss, cabinetName, urgency, status } = detail;
+		const { id, code, create_time, cabinetAdderss, cabinetName, urgency, status } = detail;
 		return (
 			<View style={styles.order_item}>
 				<View style={styles.order_item_left}>
@@ -205,7 +205,7 @@ export default class AllOrder extends React.Component {
 				<View style={styles.order_item_right}>
 					<View style={styles.order_item_right_title}>
 						<View style={styles.order_item_right_title_left}>
-							<Text style={styles.font_title_style}>{shopName}</Text>
+							<Text style={styles.font_title_style}>{code}</Text>
 						</View>
 						<View style={styles.order_item_right_title_right}>
 							<Text style={styles.font_title_style}>{FilterStatus.filterOrderStatus(status)}</Text>
