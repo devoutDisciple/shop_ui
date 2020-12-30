@@ -45,8 +45,6 @@ export default class Goods extends React.Component {
 		let shop = await storageUtil.get('shop');
 		let res = await Request.get('/clothing_type/getByShopid', { shopid: shop.id });
 		let tabList = res.data || [];
-		console.log(tabList, 999);
-		console.log(typeid, 888);
 		let list = tabList.filter(item => item.id === typeid);
 		if (list && list.length !== 0) {
 			this.setState({ tabList, typeName: list[0].name });

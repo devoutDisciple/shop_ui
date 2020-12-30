@@ -89,7 +89,6 @@ export default class Goods extends React.Component {
 			this.setState({ loadingVisible: true });
 			let { name, price, sort } = this.state;
 			let typeid = this.getSelectTypeid();
-			console.log(typeid, 111);
 			let params = {
 				shopid: shop.id,
 				name,
