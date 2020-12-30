@@ -56,9 +56,6 @@ export default class SettingScreen extends React.Component {
 
 	// 确认订单
 	async onSureOrder() {
-		// let keys = await StorageUtil.getAllKeys();
-		// let res = await StorageUtil.multiGet(keys);
-		// console.log('StorageUtil: ', res);
 		try {
 			let user = await StorageUtil.get('user');
 			let shop = await StorageUtil.get('shop');
@@ -79,7 +76,6 @@ export default class SettingScreen extends React.Component {
 				desc: orderDetail.desc,
 				urgency: urgency,
 				userid: user.id, // 是谁录入的
-				is_sure: 2,
 			});
 			this.setState({ loadingVisible: false });
 			if (result.data === 'success') {

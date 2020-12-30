@@ -87,9 +87,9 @@ export default class AllOrder extends React.Component {
 		);
 
 		// 设置金额
-		const clearSucessBtn = (
+		const setMoneyBtn = (
 			<TouchableOpacity
-				key="clearSucessBtn"
+				key="setMoneyBtn"
 				style={styles.order_item_right_bottom_btn}
 				onPress={() => this.props.navigation.navigate('GoodsScreen', { orderId: id })}
 			>
@@ -121,10 +121,12 @@ export default class AllOrder extends React.Component {
 		if (status === 5) {
 			actionBtn = [connectBtn];
 		}
+		// 设置金额，完成清洗
 		if (status === 2) {
-			actionBtn = [connectBtn, clearSucessBtn];
+			actionBtn = [connectBtn, setMoneyBtn];
 			is_sure === 2 && actionBtn.push(complateClear);
 		}
+		// 用户去店内取衣，完成洗衣
 		if (status === 3 || status === 4) {
 			actionBtn = [connectBtn, sendSuccessBtn];
 		}

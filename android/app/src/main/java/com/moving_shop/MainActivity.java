@@ -25,13 +25,4 @@ public class MainActivity extends ReactActivity {
     };
   }
 
-   // 禁止字体缩放
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        Configuration config=new Configuration();
-        config.setToDefaults();
-        res.updateConfiguration(config,res.getDisplayMetrics());
-        return res;
-    }
 }

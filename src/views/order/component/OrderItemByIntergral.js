@@ -53,7 +53,7 @@ export default class AllOrder extends React.Component {
 	finishOrder() {
 		Message.confirm('请确认', '兑换商品已送到用户', async () => {
 			this.props.setLoading(true);
-			await this.updateOrderStatus();
+			await this.updateOrderStatus(5);
 			this.props.setLoading(false);
 			Toast.success('已完成兑换');
 			this.props.onSearch();

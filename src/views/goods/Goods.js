@@ -78,12 +78,12 @@ export default class Goods extends React.Component {
 			let data = res.data || [];
 			if (Array.isArray(data) && data.length !== 0) {
 				data.forEach(item => {
+					item.num = 0;
+					item.show = item.typeid === selectId;
 					let currentSelectGoods = goods.filter(good => good.id === item.id);
 					if (currentSelectGoods && currentSelectGoods.length) {
 						return (item.num = currentSelectGoods[0].num);
 					}
-					item.num = 0;
-					item.show = item.typeid === selectId;
 				});
 			}
 			if (Array.isArray(goods) && Array.isArray(data)) {
